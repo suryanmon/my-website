@@ -1,186 +1,112 @@
-/* Basic Reset */
-* {
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    background-color: #f4f4f4;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #000;
-    color: #fff;
-    overflow-x: hidden;
-}
-
+/* Header Styles */
 header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 10;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 20px 0;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
     text-align: center;
 }
 
-header nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 20px;
-    font-size: 16px;
-    letter-spacing: 1px;
-    font-weight: bold;
-    transition: color 0.3s ease;
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
-header nav a:hover {
-    color: #f44336; /* Highlight color on hover */
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Mobile Menu */
+.menu-toggle {
+    display: none;
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    #nav-list {
+        display: none;
+    }
+
+    #nav-list.show {
+        display: block;
+    }
 }
 
 /* Hero Section */
 .hero {
-    background: url('path_to_hero_image.jpg') no-repeat center center/cover;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    background-color: #444;
+    color: white;
+    padding: 50px 20px;
     text-align: center;
-    position: relative;
-}
-
-.hero:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6); /* Dark overlay */
 }
 
 .hero h1 {
-    font-size: 5rem;
-    color: #fff;
-    letter-spacing: 2px;
-    z-index: 1;
+    font-size: 48px;
+    margin-bottom: 10px;
 }
 
 .hero p {
-    font-size: 1.5rem;
-    margin-top: 20px;
-    color: #fff;
-    z-index: 1;
+    font-size: 20px;
 }
 
+/* Section Styles */
 section {
-    padding: 100px 50px;
+    padding: 40px 20px;
     text-align: center;
 }
 
 section h2 {
-    font-size: 3rem;
-    color: #fff;
+    font-size: 32px;
     margin-bottom: 20px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
 }
 
 section p {
-    font-size: 1.25rem;
-    line-height: 1.8;
-    color: #ccc;
-    max-width: 800px;
-    margin: 0 auto;
+    font-size: 18px;
+    line-height: 1.6;
 }
 
-/* About Section */
-#about {
-    background-color: #111;
-    padding: 100px 0;
-}
-
-#about h2 {
-    color: #f44336; /* Accent color */
-}
-
-/* Gallery Section */
-#gallery {
-    padding: 50px 0;
-    background-color: #222;
-}
-
+/* Gallery */
 .gallery {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 20px;
 }
 
-.gallery img {
-    width: 300px;
-    height: 200px;
+.gallery-item {
+    width: 200px;
+    height: 150px;
     object-fit: cover;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.gallery img:hover {
+.gallery-item:hover {
     transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
-}
-
-/* Contact Section */
-#contact {
-    padding: 50px 0;
-    background-color: #111;
-}
-
-#contact a {
-    color: #f44336;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-}
-
-#contact a:hover {
-    color: #fff;
 }
 
 /* Footer */
 footer {
-    background-color: #000;
-    padding: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
     text-align: center;
-}
-
-footer p {
-    font-size: 0.9rem;
-    color: #777;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .hero h1 {
-        font-size: 3rem;
-    }
-
-    .hero p {
-        font-size: 1.2rem;
-    }
-
-    .gallery img {
-        width: 100%;
-        height: auto;
-    }
-
-    header nav a {
-        margin: 0 10px;
-        font-size: 14px;
-    }
-
-    section h2 {
-        font-size: 2.5rem;
-    }
-
-    section p {
-        font-size: 1rem;
-    }
 }
