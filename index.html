@@ -3,128 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Unknown - A thrilling adventure and horror game with combat and survival mechanics.">
-    <title>Unknown - Adventure & Horror Indie Game</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Unknown - Indie Game Studio</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* Basic reset */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #1b1b1b;
-            color: #f2f2f2;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
         header {
-            background-color: #292929;
-            padding: 20px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
             text-align: center;
         }
-        header h1 {
-            margin: 0;
-            font-size: 2.5em;
+
+        header nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 16px;
+            letter-spacing: 1px;
+            font-weight: bold;
         }
-        main {
-            padding: 20px;
+
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
         }
-        .section-title {
+
+        .hero {
+            background: url('path_to_hero_image.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            margin-top: 40px;
         }
-        .description {
-            max-width: 800px;
-            margin: 20px auto;
-            font-size: 1.2em;
-            line-height: 1.6em;
+
+        .hero h1 {
+            font-size: 5rem;
+            color: #fff;
+            letter-spacing: 2px;
         }
-        .gallery, .videos {
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        .content {
+            padding: 50px;
+            text-align: center;
+        }
+
+        .content h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-size: 1.25rem;
+            line-height: 1.8;
+        }
+
+        .gallery {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 20px;
         }
-        .gallery img, .videos video {
-            max-width: 100%;
+
+        .gallery img {
+            width: 300px;
             height: auto;
-            border-radius: 10px;
+            margin: 10px;
+            transition: transform 0.3s ease;
         }
-        .contact {
-            text-align: center;
-            margin-top: 40px;
+
+        .gallery img:hover {
+            transform: scale(1.1);
         }
+
         footer {
-            background-color: #292929;
+            background-color: #111;
             padding: 20px;
             text-align: center;
-            color: #f2f2f2;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+            color: #999;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Unknown</h1>
-    <p>A Thrilling Adventure & Horror Game</p>
-</header>
+    <!-- Header / Navigation -->
+    <header>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
 
-<main>
-    <section>
-        <div class="section-title">
-            <h2>About the Game</h2>
-        </div>
-        <div class="description">
-            <p><strong>Unknown</strong> is an adventurous and horror-filled game, where players will experience intense combat and survival mechanics. 
-            The game includes an advanced aim system for an immersive experience.</p>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div>
+            <h1>Unknown</h1>
+            <p>An Adventurous and Horror Game</p>
         </div>
     </section>
 
-    <section>
-        <div class="section-title">
-            <h2>Game Features</h2>
-        </div>
-        <div class="description">
-            <ul>
-                <li>Adventure and Horror elements combined</li>
-                <li>Engaging combat system</li>
-                <li>Survival mechanics with limited resources</li>
-                <li>Aim system for precision combat</li>
-            </ul>
-        </div>
+    <!-- About Section -->
+    <section id="about" class="content">
+        <h2>About Our Game</h2>
+        <p>Unknown is an adventurous and horror game where players engage in combat and survival mechanics, using an advanced aim system to navigate the dangers ahead.</p>
     </section>
 
-    <section>
-        <div class="section-title">
-            <h2>Screenshots & Concept Art</h2>
-        </div>
+    <!-- Gallery Section -->
+    <section id="gallery" class="content">
+        <h2>Gallery</h2>
         <div class="gallery">
-            <!-- Placeholder for your images -->
-            <img src="path-to-image1.jpg" alt="Concept Art 1">
-            <img src="path-to-image2.jpg" alt="Concept Art 2">
-            <img src="path-to-image3.jpg" alt="Gameplay Screenshot">
+            <!-- Placeholder for images -->
+            <img src="path_to_image1.jpg" alt="Screenshot 1">
+            <img src="path_to_image2.jpg" alt="Screenshot 2">
+            <img src="path_to_image3.jpg" alt="Screenshot 3">
         </div>
     </section>
 
-    <section>
-        <div class="section-title">
-            <h2>Development Videos</h2>
-        </div>
-        <div class="videos">
-            <!-- Placeholder for your video -->
-            <video src="path-to-your-video.mp4" controls></video>
-            <video src="path-to-another-video.mp4" controls></video>
-        </div>
+    <!-- Contact Section -->
+    <section id="contact" class="content">
+        <h2>Contact Us</h2>
+        <p>For any inquiries, please email us at: <a href="mailto:sales@edwydenny.com">sales@edwydenny.com</a></p>
     </section>
 
-    <section>
-        <div class="contact">
-            <h2>Contact Us</h2>
-            <p>Email us at <a href="mailto:sales@edwydenny.com">sales@edwydenny.com</a></p>
-        </div>
-    </section>
-</main>
-
-<footer>
-    <p>&copy; 2024 Unknown Game. All Rights Reserved.</p>
-</footer>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Unknown Game Studio. All Rights Reserved.</p>
+    </footer>
 
 </body>
 </html>
