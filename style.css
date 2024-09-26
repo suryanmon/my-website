@@ -1,104 +1,169 @@
-/* General Body Styling */
-body {
-    background-color: #121212; /* Dark background */
-    color: #f4f4f4; /* Light text color for readability */
-    font-family: 'Arial', sans-serif;
+/* Reset some basic elements for consistent styling */
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+}
+
+/* Overall body style */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e; /* Dark background to match the Heishenhua style */
+    color: #fff;
+    line-height: 1.6;
 }
 
 /* Header Styling */
 header {
-    background-color: #1e1e1e; /* Slightly lighter dark for the header */
+    display: flex;
+    justify-content: space-between; /* Align left and right elements */
+    align-items: center;
+    background-color: #333; /* Darker color for header */
     padding: 20px;
-    text-align: center;
 }
 
-header h1 {
-    color: #f4f4f4; /* Light grey for the title */
-    font-size: 36px;
-    margin: 0;
-    text-transform: uppercase;
+.header-left h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
 }
 
-header p {
-    color: #cfcfcf; /* Light grey for subtitle */
-    font-size: 18px;
-    margin: 5px 0;
+.header-left p {
+    font-size: 1.2em;
+    color: #ccc; /* Lighter gray for contrast */
 }
 
-/* Navigation Menu Styling */
+.header-right {
+    text-align: right;
+}
+
+.logo {
+    width: 100px; /* Adjust this size as needed */
+    height: auto;
+}
+
+/* Navigation Bar */
 nav {
-    background-color: #1a1a1a; /* Darker navigation bar */
-    padding: 15px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    background-color: #333;
+    padding: 10px 0;
 }
 
-nav a {
-    color: #f4f4f4; /* Light grey links */
-    font-size: 16px;
-    margin: 0 15px;
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
     text-decoration: none;
-    text-transform: uppercase;
+    font-size: 1.2em;
 }
 
-nav a:hover {
-    color: #ff4b2b; /* Bright hover effect */
+nav ul li a:hover {
+    color: #ffcc00; /* Highlight link on hover */
 }
 
-/* Section Styling */
-section {
-    background-color: #1a1a1a; /* Darker background for content sections */
-    padding: 60px 20px;
-}
-
-h2 {
-    color: #f4f4f4;
-    font-size: 30px;
+/* About Section */
+section#about {
     text-align: center;
+    padding: 60px 0;
+    background-color: #2b2b2b;
 }
 
-p {
-    color: #d3d3d3;
-    line-height: 1.6;
-    font-size: 16px;
-    margin: 20px 0;
-    text-align: center;
+section#about h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+
+section#about p {
+    font-size: 1.2em;
+    max-width: 800px;
+    margin: 0 auto;
+    color: #ddd;
 }
 
 /* Gallery Section */
-.gallery {
+section#gallery {
+    text-align: center;
+    padding: 60px 0;
+    background-color: #2e2e2e;
+}
+
+section#gallery h2 {
+    font-size: 2.5em;
+    margin-bottom: 40px;
+}
+
+.gallery-images {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 30px;
 }
 
-.gallery-item {
-    width: 300px;
+.gallery-images img {
+    width: 300px; /* Adjust image size */
     height: auto;
-    border: 2px solid #444; /* Dark border for images */
-    padding: 5px;
-    background-color: #1e1e1e; /* Darker background around the image */
+    border-radius: 10px;
+    transition: transform 0.3s ease;
 }
 
-.gallery-item:hover {
-    transform: scale(1.05);
-    transition: 0.3s;
+.gallery-images img:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
 }
 
-/* Footer Styling */
-footer {
-    background-color: #1a1a1a;
-    color: #ffffff;
-    padding: 20px;
+/* Contact Section */
+section#contact {
     text-align: center;
+    padding: 40px 0;
+    background-color: #2b2b2b;
 }
 
-footer a {
-    color: #ff4b2b; /* Bright footer link */
-    text-decoration: none;
+section#contact h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
-footer a:hover {
-    text-decoration: underline;
+section#contact p {
+    font-size: 1.2em;
+    color: #ccc;
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    padding: 20px 0;
+    text-align: center;
+    color: #fff;
+    font-size: 1em;
+    position: relative;
+}
+
+footer p {
+    margin-bottom: 5px;
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    nav ul li {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    .gallery-images {
+        flex-direction: column;
+    }
+
+    .header-right {
+        margin-top: 20px;
+    }
 }
