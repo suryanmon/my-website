@@ -1,7 +1,7 @@
 /* General Body Styling */
 body {
     background-color: #121212; /* Dark background */
-    color: #FFFFFF; /* White text for contrast */
+    color: #f4f4f4; /* Light text color for readability */
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
@@ -19,6 +19,12 @@ header h1 {
     font-size: 36px;
     margin: 0;
     text-transform: uppercase;
+}
+
+header p {
+    color: #cfcfcf; /* Light grey for subtitle */
+    font-size: 18px;
+    margin: 5px 0;
 }
 
 /* Navigation Menu Styling */
@@ -42,6 +48,7 @@ nav a:hover {
 
 /* Section Styling */
 section {
+    background-color: #1a1a1a; /* Darker background for content sections */
     padding: 60px 20px;
 }
 
