@@ -1,169 +1,74 @@
-/* Reset some basic elements for consistent styling */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Overall body style */
 body {
+    background-color: #2c2c2c; /* Dark background */
+    color: white; /* Default text color */
     font-family: Arial, sans-serif;
-    background-color: #1e1e1e; /* Dark background to match the Heishenhua style */
-    color: #fff;
-    line-height: 1.6;
 }
 
-/* Header Styling */
 header {
-    display: flex;
-    justify-content: space-between; /* Align left and right elements */
-    align-items: center;
-    background-color: #333; /* Darker color for header */
+    background-color: #333; /* Header background */
     padding: 20px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.header-left h1 {
-    font-size: 3em;
-    margin-bottom: 10px;
+header h1 {
+    font-size: 36px;
+    color: white; /* Title color */
 }
 
-.header-left p {
-    font-size: 1.2em;
-    color: #ccc; /* Lighter gray for contrast */
-}
-
-.header-right {
-    text-align: right;
+header p {
+    font-size: 14px;
+    color: #ccc; /* Subtitle color */
 }
 
 .logo {
-    width: 100px; /* Adjust this size as needed */
+    width: 100px; /* Adjust as necessary */
     height: auto;
 }
 
-/* Navigation Bar */
-nav {
+section {
+    background-color: #444; /* Section background */
+    padding: 50px; /* Spacing inside sections */
+    margin: 20px 0; /* Margin between sections */
+}
+
+section h2 {
+    font-size: 28px; /* Subheading size */
+    margin-bottom: 20px; /* Spacing below subheadings */
+}
+
+section p {
+    font-size: 16px; /* Text size */
+    line-height: 1.6; /* Line height for readability */
+}
+
+#gallery {
     display: flex;
-    justify-content: center;
-    background-color: #333;
-    padding: 10px 0;
+    flex-wrap: wrap; /* Allow images to wrap */
+    justify-content: center; /* Center gallery items */
 }
 
-nav ul {
-    list-style: none;
+#gallery img {
+    width: 200px; /* Image width */
+    height: auto; /* Maintain aspect ratio */
+    margin: 10px; /* Space around images */
+    border-radius: 5px; /* Rounded corners for images */
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 20px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2em;
-}
-
-nav ul li a:hover {
-    color: #ffcc00; /* Highlight link on hover */
-}
-
-/* About Section */
-section#about {
-    text-align: center;
-    padding: 60px 0;
-    background-color: #2b2b2b;
-}
-
-section#about h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-section#about p {
-    font-size: 1.2em;
-    max-width: 800px;
-    margin: 0 auto;
-    color: #ddd;
-}
-
-/* Gallery Section */
-section#gallery {
-    text-align: center;
-    padding: 60px 0;
-    background-color: #2e2e2e;
-}
-
-section#gallery h2 {
-    font-size: 2.5em;
-    margin-bottom: 40px;
-}
-
-.gallery-images {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-}
-
-.gallery-images img {
-    width: 300px; /* Adjust image size */
-    height: auto;
-    border-radius: 10px;
-    transition: transform 0.3s ease;
-}
-
-.gallery-images img:hover {
-    transform: scale(1.05); /* Slight zoom on hover */
-}
-
-/* Contact Section */
-section#contact {
-    text-align: center;
-    padding: 40px 0;
-    background-color: #2b2b2b;
-}
-
-section#contact h2 {
-    font-size: 2.5em;
-    margin-bottom: 20px;
-}
-
-section#contact p {
-    font-size: 1.2em;
-    color: #ccc;
-}
-
-/* Footer */
 footer {
-    background-color: #333;
-    padding: 20px 0;
-    text-align: center;
-    color: #fff;
-    font-size: 1em;
-    position: relative;
-}
-
-footer p {
-    margin-bottom: 5px;
-}
-
-/* Mobile Responsive Adjustments */
-@media (max-width: 768px) {
-    header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    nav ul li {
-        display: block;
-        margin-bottom: 10px;
-    }
-
-    .gallery-images {
-        flex-direction: column;
-    }
-
-    .header-right {
-        margin-top: 20px;
-    }
+    background-color: #333; /* Footer background */
+    color: white; /* Footer text color */
+    text-align: center; /* Centered footer text */
+    padding: 10px; /* Spacing inside footer */
+    position: relative; /* Allows for better positioning */
+    bottom: 0; /* Sticks to the bottom */
+    width: 100%; /* Full width footer */
 }
