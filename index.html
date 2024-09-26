@@ -1,155 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><link rel="icon" href="/favicon.png" type="image/png">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Showcasing our Indie Game Development Progress. Stay updated with images, videos, and updates.">
-    <title>Indie Game - [Your Game Name]</title>
-    <!-- Add your website's favicon here -->
-    <link rel="icon" href="/favicon.png" type="image/png">
+    <meta name="description" content="Unknown - A thrilling adventure and horror game with combat and survival mechanics.">
+    <title>Unknown - Adventure & Horror Indie Game</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #222;
-            color: #f4f4f4;
+            background-color: #1b1b1b;
+            color: #f2f2f2;
         }
         header {
-            background-color: #28a745;
+            background-color: #292929;
             padding: 20px;
             text-align: center;
         }
         header h1 {
             margin: 0;
+            font-size: 2.5em;
         }
-        nav {
-            text-align: center;
-            margin: 20px 0;
-        }
-        nav a {
-            margin: 0 15px;
-            text-decoration: none;
-            color: white;
-            font-size: 18px;
-        }
-        nav a:hover {
-            color: #ff9900;
-        }
-        .container {
-            max-width: 1200px;
-            margin: auto;
+        main {
             padding: 20px;
         }
-        section {
-            margin-bottom: 40px;
+        .section-title {
+            text-align: center;
+            margin-top: 40px;
         }
-        h2 {
-            color: #ff9900;
+        .description {
+            max-width: 800px;
+            margin: 20px auto;
+            font-size: 1.2em;
+            line-height: 1.6em;
         }
-        .video, .gallery, .devlog {
+        .gallery, .videos {
             display: flex;
+            justify-content: center;
             flex-wrap: wrap;
-            justify-content: space-around;
+            gap: 20px;
         }
-        .video iframe, .gallery img {
+        .gallery img, .videos video {
             max-width: 100%;
-            margin: 10px;
             height: auto;
+            border-radius: 10px;
+        }
+        .contact {
+            text-align: center;
+            margin-top: 40px;
         }
         footer {
-            background-color: #333;
-            color: #999;
-            text-align: center;
+            background-color: #292929;
             padding: 20px;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
-        .btn {
-            background-color: #ff9900;
-            padding: 10px 20px;
-            color: #222;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            margin: 20px 0;
-        }
-        .btn:hover {
-            background-color: #e68a00;
+            text-align: center;
+            color: #f2f2f2;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>Welcome to [Your Indie Game Name]</h1>
-    <p>Your Journey in Indie Game Development</p>
+    <h1>Unknown</h1>
+    <p>A Thrilling Adventure & Horror Game</p>
 </header>
 
-<nav>
-    <a href="#about">About</a>
-    <a href="#videos">Videos</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#devlog">Devlog</a>
-    <a href="#contact">Contact Us</a>
-</nav>
-
-<div class="container">
-
-    <!-- About Section -->
-    <section id="about">
-        <h2>About the Game</h2>
-        <p>[Describe your game here. Explain its concept, storyline, features, genre, etc. This is where you sell your vision to your audience.]</p>
-        <p><strong>Features:</strong></p>
-        <ul>
-            <li>Unique gameplay mechanics.</li>
-            <li>Beautifully crafted levels.</li>
-            <li>Immersive storyline.</li>
-            <li>Innovative combat system (for example, slingshot combat).</li>
-        </ul>
-    </section>
-
-    <!-- Videos Section -->
-    <section id="videos">
-        <h2>Game Development Videos</h2>
-        <div class="video">
-            <!-- Add embedded YouTube video links or video files -->
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/sample-video-1" frameborder="0" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/sample-video-2" frameborder="0" allowfullscreen></iframe>
+<main>
+    <section>
+        <div class="section-title">
+            <h2>About the Game</h2>
+        </div>
+        <div class="description">
+            <p><strong>Unknown</strong> is an adventurous and horror-filled game, where players will experience intense combat and survival mechanics. 
+            The game includes an advanced aim system for an immersive experience.</p>
         </div>
     </section>
 
-    <!-- Gallery Section -->
-    <section id="gallery">
-        <h2>Game Screenshots & Concept Art</h2>
+    <section>
+        <div class="section-title">
+            <h2>Game Features</h2>
+        </div>
+        <div class="description">
+            <ul>
+                <li>Adventure and Horror elements combined</li>
+                <li>Engaging combat system</li>
+                <li>Survival mechanics with limited resources</li>
+                <li>Aim system for precision combat</li>
+            </ul>
+        </div>
+    </section>
+
+    <section>
+        <div class="section-title">
+            <h2>Screenshots & Concept Art</h2>
+        </div>
         <div class="gallery">
-            <!-- Add game screenshots or concept art images -->
-            <img src="your-game-screenshot1.png" alt="Screenshot 1" width="300">
-            <img src="your-game-screenshot2.png" alt="Screenshot 2" width="300">
-            <img src="your-game-screenshot3.png" alt="Screenshot 3" width="300">
+            <!-- Placeholder for your images -->
+            <img src="path-to-image1.jpg" alt="Concept Art 1">
+            <img src="path-to-image2.jpg" alt="Concept Art 2">
+            <img src="path-to-image3.jpg" alt="Gameplay Screenshot">
         </div>
     </section>
 
-    <!-- Devlog Section -->
-    <section id="devlog">
-        <h2>Development Blog (Devlog)</h2>
-        <div class="devlog">
-            <p>[Write about your game's development process. Share updates, challenges faced, milestones achieved, and insights into the journey. This is where players can see the progress and evolution of your game.]</p>
+    <section>
+        <div class="section-title">
+            <h2>Development Videos</h2>
+        </div>
+        <div class="videos">
+            <!-- Placeholder for your video -->
+            <video src="path-to-your-video.mp4" controls></video>
+            <video src="path-to-another-video.mp4" controls></video>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Contact Us</h2>
-        <p>Got any questions or feedback? Reach out to us at:</p>
-        <p>Email: <a href="mailto:sales@edwydenny.com">sales@edwydenny.com</a></p>
+    <section>
+        <div class="contact">
+            <h2>Contact Us</h2>
+            <p>Email us at <a href="mailto:sales@edwydenny.com">sales@edwydenny.com</a></p>
+        </div>
     </section>
-
-</div>
+</main>
 
 <footer>
-    <p>© [Year] [Your Indie Game Name]. All Rights Reserved.</p>
+    <p>&copy; 2024 Unknown Game. All Rights Reserved.</p>
 </footer>
 
 </body>
