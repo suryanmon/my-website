@@ -3,164 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Edwy Denny Game Studio</title>
+    <title>Unknown - Indie Game Studio</title>
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Basic reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            z-index: 10;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 15px;
-            text-align: center;
-        }
-
-        header nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 20px;
-            font-size: 16px;
-            letter-spacing: 1px;
-            font-weight: bold;
-        }
-
-        section {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-        }
-
-        .hero {
-            background: url('path_to_hero_image.jpg') no-repeat center center/cover;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 5rem;
-            color: #fff;
-            letter-spacing: 2px;
-        }
-
-        .hero p {
-            font-size: 1.5rem;
-            margin-top: 20px;
-            color: #fff;
-        }
-
-        .content {
-            padding: 50px;
-            text-align: center;
-        }
-
-        .content h2 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-
-        .content p {
-            font-size: 1.25rem;
-            line-height: 1.8;
-        }
-
-        .gallery {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .gallery img {
-            width: 300px;
-            height: auto;
-            margin: 10px;
-            transition: transform 0.3s ease;
-        }
-
-        .gallery img:hover {
-            transform: scale(1.1);
-        }
-
-        footer {
-            background-color: #111;
-            padding: 20px;
-            text-align: center;
-        }
-
-        footer p {
-            font-size: 0.9rem;
-            color: #999;
-        }
-    </style>
+    <script defer src="script.js"></script>
 </head>
 <body>
-
-    <!-- Header / Navigation -->
+    <!-- Header -->
     <header>
         <nav>
-            <a href="#home">Home</a>
-            <a href="#about">About Us</a>
-            <a href="#gallery">Gallery</a>
-            <a href="#contact">Contact</a>
+            <div class="menu-toggle" id="menu-toggle">&#9776;</div>
+            <ul id="nav-list">
+                <li><a href="#about">About</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div>
-            <h1>Unknown</h1>
-            <p>An Adventurous and Horror Game</p>
-        </div>
+    <section class="hero">
+        <h1>Unknown</h1>
+        <p>An adventurous and horror game with combat and survival mechanics, featuring a precise aim system.</p>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="content">
+    <section id="about">
         <h2>About Our Game</h2>
-        <p>Unknown is an adventurous and horror game where players engage in combat and survival mechanics, using an advanced aim system to navigate the dangers ahead.</p>
+        <p>Our game, "Unknown," combines elements of adventure and horror, requiring players to use both combat and survival tactics with a unique aim system. We are working on character modeling, rigging, and an enemy creature model.</p>
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="content">
+    <section id="gallery">
         <h2>Gallery</h2>
+        <p>Stay tuned for updates! We will showcase in-game images and models soon.</p>
         <div class="gallery">
             <!-- Placeholder for images -->
-            <img src="path_to_image1.jpg" alt="Screenshot 1">
-            <img src="path_to_image2.jpg" alt="Screenshot 2">
-            <img src="path_to_image3.jpg" alt="Screenshot 3">
+            <img src="placeholder1.jpg" class="gallery-item" alt="Placeholder 1">
+            <img src="placeholder2.jpg" class="gallery-item" alt="Placeholder 2">
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="content">
+    <section id="contact">
         <h2>Contact Us</h2>
-        <p>For any inquiries, please email us at: <a href="mailto:sales@edwydenny.com">sales@edwydenny.com</a></p>
+        <p>Have any questions? Feel free to reach out via <a href="mailto:sales@edwydenny.com">sales@edwydenny.com</a>.</p>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Unknown Game Studio. All Rights Reserved.</p>
+        <p>&copy; 2024 Unknown Game Studio. All rights reserved.</p>
     </footer>
-
 </body>
 </html>
