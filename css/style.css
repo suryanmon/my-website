@@ -634,6 +634,8 @@ a:focus {
 
 .blog_section .box .img-box img {
   width: 100%;
+  height: 100%; /* Ensure image fills the frame */
+  object-fit: cover; /* Make image fit within the container without distortion */
 }
 
 .blog_section .box .detail-box {
