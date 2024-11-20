@@ -368,7 +368,6 @@ a:focus {
   color: #000000;
 }
 
-<!-- The boxe of image -->
 .shop_section .box .img-box {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -382,7 +381,7 @@ a:focus {
   padding: 15px 30px;
   height: 245px;
 }
-<!-- The Image -->
+
 .shop_section .box .img-box img {
   max-width: 100%;
   max-height: 145px;
