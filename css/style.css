@@ -358,10 +358,13 @@ a:focus {
 }
 
 .shop_section .box {
-  background-color: #eeeeee;  <! -- Background of image -->
+  <! -- Background of image -->
+  background-color: #eeeeee;  
   position: relative;
-  padding: 10px; <! -- Space area Around image -->
-  margin-top: 25px; <! -- Top Space area of Padding -->
+  <! -- Space area Around image -->
+  padding: 10px; 
+  <! -- Top Space area of Padding -->
+  margin-top: 25px; 
 }
 
 .shop_section .box a {
