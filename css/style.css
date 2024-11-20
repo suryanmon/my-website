@@ -360,8 +360,8 @@ a:focus {
 .shop_section .box {
   background-color: #eeeeee;  <! -- Background of image -->
   position: relative;
-  padding: 10px;
-  margin-top: 25px;
+  padding: 10px; <! -- Space area Around image -->
+  margin-top: 25px; <! -- Top Space area of Padding -->
 }
 
 .shop_section .box a {
