@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap");
 /* fonts import */
 @import url("../fonts/octin_sports_rg.ttf");
+
 body {
   font-family: "Poppins", sans-serif;
   color: #0c0c0c;
@@ -8,6 +9,30 @@ body {
   overflow-x: hidden;
 }
 
+/* Title Section */
+.title-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  position: absolute;
+  top: 15%;
+  left: 5%;
+}
+
+.title-container img {
+  width: 120px; /* Adjust image size */
+  margin-right: 15px;
+}
+
+.title-text {
+  font-size: 2.5rem; /* Adjust title size */
+  font-family: 'Playfair Display', serif;
+  font-weight: bold;
+  color: white;
+  text-align: left;
+}
+
+/* Layout */
 .layout_padding {
   padding: 90px 0;
 }
@@ -39,17 +64,11 @@ body {
   padding-right: 15px;
 }
 
+/* Headings */
 .heading_container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: start;
-      -ms-flex-align: start;
-          align-items: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
   font-family: 'Playfair Display', serif;
 }
 
@@ -61,9 +80,7 @@ body {
 }
 
 .heading_container.heading_center {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  align-items: center;
   text-align: center;
 }
 
@@ -72,7 +89,7 @@ h2 {
   font-family: 'Playfair Display', serif;
 }
 
-/*header section*/
+/* Header */
 .header_section {
   position: absolute;
   top: 0;
@@ -91,7 +108,6 @@ h2 {
 
 .header_section.innerpage_header {
   position: relative;
-  background: -webkit-gradient(linear, left top, right top, from(#160e0b), to(#160e0b));
   background: linear-gradient(to right, #160e0b, #160e0b);
   padding: 10px 0;
 }
@@ -101,6 +117,7 @@ h2 {
   padding-right: 0;
 }
 
+/* Menu Button */
 .custom_menu-btn {
   position: fixed;
   right: 25px;
@@ -117,11 +134,9 @@ h2 {
   width: 100%;
   height: 100%;
   background-color: white;
-  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
-          box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.07);
   z-index: 7;
   border-radius: 100%;
-  -webkit-transition: all .3s;
   transition: all .3s;
 }
 
@@ -129,8 +144,7 @@ h2 {
   width: 100vh;
   height: 100vh;
   background-color: #160e0b;
-  -webkit-transform: scale(5);
-          transform: scale(5);
+  transform: scale(5);
   border-radius: 0;
 }
 
@@ -140,19 +154,10 @@ h2 {
   outline: none;
   border: none;
   border-radius: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: transparent;
   position: relative;
   z-index: 999;
@@ -165,13 +170,11 @@ h2 {
   height: 3px;
   background-color: #000000;
   margin: 2.5px 0;
-  -webkit-transition: all 0.3s;
   transition: all 0.3s;
   border-radius: 15px;
 }
 
 .custom_menu-btn .s-2 {
-  -webkit-transition: all 0.1s;
   transition: all 0.1s;
 }
 
@@ -180,20 +183,18 @@ h2 {
 }
 
 .menu_btn-style button .s-1 {
-  -webkit-transform: rotate(45deg) translate(6px, 6px);
-          transform: rotate(45deg) translate(6px, 6px);
+  transform: rotate(45deg) translate(6px, 6px);
 }
 
 .menu_btn-style button .s-2 {
-  -webkit-transform: translateX(100px);
-          transform: translateX(100px);
+  transform: translateX(100px);
 }
 
 .menu_btn-style button .s-3 {
-  -webkit-transform: rotate(-45deg) translate(5px, -5px);
-          transform: rotate(-45deg) translate(5px, -5px);
+  transform: rotate(-45deg) translate(5px, -5px);
 }
 
+/* Overlay */
 .overlay {
   height: 100%;
   width: 0;
@@ -201,7 +202,6 @@ h2 {
   top: 0;
   left: 0;
   overflow-x: hidden;
-  -webkit-transition: 0.5s;
   transition: 0.5s;
   z-index: 9;
 }
@@ -219,7 +219,6 @@ h2 {
   font-size: 22px;
   color: #ffffff;
   display: block;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
   margin-bottom: 15px;
   text-transform: uppercase;
@@ -262,8 +261,7 @@ a:focus {
 .btn,
 .btn:focus {
   outline: none !important;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+  box-shadow: none;
 }
 
 .navbar-brand {
