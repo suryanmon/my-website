@@ -1,7 +1,7 @@
 @charset "utf-8";
 /*
 /*	Copyright (c) 2025 EdwyDenny
-/*	Author: Edwy
+/*	Author: Marketify
 /*	This file is made for CURRENT TEMPLATE
 
 
@@ -37,8 +37,8 @@ body{
 	letter-spacing: 1px;
 	word-wrap: break-word;
 	font-weight: 400;
-	background-color: #fff;
-	color: #767676;
+	background-color: #000000;
+	color: #000000;
 }
 svg{
 	fill: currentcolor;
