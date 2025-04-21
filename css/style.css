@@ -10,7 +10,7 @@
 03) GRAX MOBILE MENU
 04) GRAX HERO
 05) GRAX ABOUT
-06) GRAX development
+06) GRAX PORTFOLIO
 07) GRAX TALK
 08) GRAX NEWS
 09) GRAX CONTACT
@@ -836,7 +836,7 @@ h6 { font-size: 16px; }
 @keyframes wow {0%{ width:0%; } 100%{ width:100%; }}
 
 /*---------------------------------------------------*/
-/*	06) GRAX development
+/*	06) GRAX PORTFOLIO
 /*---------------------------------------------------*/
 
 .grax_tm_title_holder{
@@ -852,7 +852,7 @@ h6 { font-size: 16px; }
 	letter-spacing: 10px;
 	
 }
-.grax_tm_development{
+.grax_tm_portfolio{
 	width: 100%;
 	height: auto;
 	clear: both;
@@ -860,24 +860,24 @@ h6 { font-size: 16px; }
 	padding: 140px 0px 100px 0px;
 	background-color: #f9f9f9;
 }
-.grax_tm_development .development_list{
+.grax_tm_portfolio .portfolio_list{
 	width: 100%;
 	height: auto;
 	clear: both;
 	float: left;
 	padding-top: 90px;
 }
-.grax_tm_development ul{
+.grax_tm_portfolio ul{
 	margin: 0px 0px 0px -50px;
 	list-style-type: none;
 }
-.grax_tm_development ul li{
+.grax_tm_portfolio ul li{
 	margin: 0px 0px 50px 0px;
 	float: left;
 	width: 33.3333%;
 	padding-left: 50px;
 }
-.grax_tm_development ul li .list_inner{
+.grax_tm_portfolio ul li .list_inner{
 	width: 100%;
 	height: auto;
 	clear: both;
@@ -886,12 +886,12 @@ h6 { font-size: 16px; }
 	border-radius: 5px;
 	overflow: hidden;
 }
-.grax_tm_development .image{position: relative;}
-.grax_tm_development .image img{
+.grax_tm_portfolio .image{position: relative;}
+.grax_tm_portfolio .image img{
 	min-width: 100%;
 	opacity: 0;
 }
-.grax_tm_development .image .main{
+.grax_tm_portfolio .image .main{
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
@@ -902,7 +902,7 @@ h6 { font-size: 16px; }
 	background-position: center;
 	border-radius: 5px;
 }
-.grax_tm_development .overlay{
+.grax_tm_portfolio .overlay{
 	position: absolute;
 	top: 0px;
 	bottom: 0px;
@@ -921,11 +921,11 @@ h6 { font-size: 16px; }
 	     -o-transition: all .3s ease;
 	        transition: all .3s ease;
 }
-.grax_tm_development ul li .list_inner:hover .overlay{
+.grax_tm_portfolio ul li .list_inner:hover .overlay{
 	opacity: 1;
 	visibility: visible;
 }
-.grax_tm_development .details{
+.grax_tm_portfolio .details{
 	position: absolute;
 	bottom: 20px;
 	left: 30px;
@@ -940,13 +940,13 @@ h6 { font-size: 16px; }
 	     -o-transition: all .3s ease;
 	        transition: all .3s ease;
 }
-.grax_tm_development ul li .list_inner:hover .details{
+.grax_tm_portfolio ul li .list_inner:hover .details{
 	opacity: 1;
 	visibility: visible;
 	bottom: 30px;
 }
-.grax_tm_development .details span{font-family: "Poppins";}
-.grax_tm_development .details h3{
+.grax_tm_portfolio .details span{font-family: "Poppins";}
+.grax_tm_portfolio .details h3{
 	font-size: 18px;
 	font-weight: 600;
 }
@@ -1013,6 +1013,124 @@ h6 { font-size: 16px; }
   100% {
     transform: translateX(100%);
   }
+}
+
+/*---------------------------------------------------*/
+/*	07) GRAX TALK
+/*---------------------------------------------------*/
+
+.grax_tm_talk{
+	width: 100%;
+	height: auto;
+	clear: both;
+	float: left;
+	padding: 102px 20px 105px 20px;
+	position: relative;
+}
+.grax_tm_talk:before{
+	position: absolute;
+    content: "";
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;  
+    background-image: url(..//img/patterns/inspiration-geometry.png);
+    background-repeat: repeat;
+    opacity: 1; /**  If you choose lighter pattern image as background please Decrease opacity  **/
+    z-index: 2;
+}
+.grax_tm_talk:after{
+	position: absolute;
+    content: "";
+    top: 0px;
+   	bottom: 0px;
+   	left: 0px;
+   	right: 0px;
+   	background-color: #000;
+   	z-index: 1;
+}
+.grax_tm_talk .talk_inner{
+	width: 100%;
+	height: auto;
+	clear: both;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	position: relative;
+	z-index: 3;
+}
+.grax_tm_talk .text{padding-right: 20px;}
+.grax_tm_talk .text h3{
+	font-weight: 600;
+	color: #fff;
+}
+.grax_tm_talk .text h3 span{position: relative;}
+.grax_tm_talk .text h3 span:before{
+	position: absolute;
+	content: "";
+	width: 20px;
+	height: 4px;
+	background-color: #fff;
+	bottom: 11px;
+	left: 100%;
+	opacity: 1;
+	animation: myAnim 0.9s infinite;
+    -moz-animation: myAnim 0.9s infinite;
+	-webkit-animation: myAnim 0.9s infinite;
+}
+@keyframes myAnim{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-webkit-keyframes myAnim{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+@-moz-keyframes myAnim{
+    0% { opacity:1; }
+    50% { opacity:0; }
+    100% { opacity:1; }
+}
+.grax_tm_talk .text p{
+	font-family: "Poppins";
+}
+
+.grax_tm_talk .button a{
+	color: #fff;
+	text-decoration: none;
+	font-family: "Poppins";
+	font-weight: 600;
+	position: relative;
+	display: inline-block;
+}
+
+.grax_tm_talk .button a:before{
+	content: '';
+    width: 100%;
+    height: 2px;
+    position: absolute;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,.2);
+}
+.grax_tm_talk .button a:after{
+	content: '';
+    width: 0;
+    height: 1px;
+    position: absolute;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    transition: width .6s cubic-bezier(.25,.8,.25,1) 0s;
+    background: currentColor;
+}
+.grax_tm_talk .button a:hover:after{
+	width:100%;
+	left:0;
+	right:auto;
 }
 
 /*---------------------------------------------------*/
@@ -2211,8 +2329,8 @@ body.dark .grax_tm_settings .cursor li .svg,
 	.grax_tm_about .about_inner{display: block;}
 	.grax_tm_about .left{padding-right: 0px;width: 100%;margin-bottom: 40px;}
 	.grax_tm_about .right{padding-left: 0px;width: 100%;}
-	.grax_tm_development ul{margin-left: -20px;}
-	.grax_tm_development ul li{padding-left: 20px;margin-bottom: 20px;}
+	.grax_tm_portfolio ul{margin-left: -20px;}
+	.grax_tm_portfolio ul li{padding-left: 20px;margin-bottom: 20px;}
 	.grax_tm_news .news_list ul{margin-left: -30px;}
 	.grax_tm_news .news_list ul li{padding-left: 30px;margin-bottom: 30px;}
 }
@@ -2222,7 +2340,7 @@ body.dark .grax_tm_settings .cursor li .svg,
 	.grax_tm_hero .job{font-size: 17px;}
 	.grax_tm_about .right .list ul{margin: 0px;}
 	.grax_tm_about .right .list ul li{width: 100%;padding-left: 0px;}
-	.grax_tm_development ul li{width: 50%;}
+	.grax_tm_portfolio ul li{width: 50%;}
 	.grax_tm_progress_part .part_inner{display: block;}
 	.grax_tm_progress_part .left{width: 100%;padding-right: 0px;float: left;margin-bottom: 20px;}
 	.grax_tm_progress_part .right{width: 100%;padding-left: 0px;}
@@ -2248,8 +2366,8 @@ body.dark .grax_tm_settings .cursor li .svg,
 @media (max-width: 480px) {
 	.grax_tm_hero .name{font-size: 30px;}
 	.grax_tm_hero .job{font-size: 15px;}
-	.grax_tm_development ul{margin: 0px;}
-	.grax_tm_development ul li{width: 100%;padding-left: 0px;}
+	.grax_tm_portfolio ul{margin: 0px;}
+	.grax_tm_portfolio ul li{width: 100%;padding-left: 0px;}
 	.grax_tm_news .news_list ul{margin: 0px;}
 	.grax_tm_news .news_list ul li{width: 100%;padding-left: 0px;}
 }
