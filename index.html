@@ -20,9 +20,66 @@
     <link rel="stylesheet" type="text/css" href="css/colors.css">
     <link rel="stylesheet" type="text/css" href="css/darkMode.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <style>
+        /* Dark Theme Styles */
+        body.dark-mode {
+            background-color: #121212 !important;
+            color: #ffffff !important;
+        }
+        body.dark-mode .grax_tm_all_wrap {
+            background-color: #121212 !important;
+        }
+        body.dark-mode .grax_tm_hero .name,
+        body.dark-mode .grax_tm_hero .job {
+            color: #ffffff !important;
+        }
+        body.dark-mode .grax_tm_section {
+            background-color: #1e1e1e !important;
+        }
+        body.dark-mode .trailer-title {
+            color: #ffffff !important;
+        }
+        body.dark-mode .grax_tm_topbar.animate {
+            background-color: #1e1e1e !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
+        }
+        body.dark-mode .grax_tm_topbar .menu ul li a {
+            color: #ffffff !important;
+        }
+        
+        /* Video Section Specific */
+        #trailer {
+            background-color: #1e1e1e !important;
+            padding: 100px 0 !important;
+        }
+        .trailer-title {
+            color: #ffffff !important;
+            font-size: 30px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 10px !important;
+            margin-bottom: 30px !important;
+            text-align: center !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-weight: 700 !important;
+            font-family: 'Poppins', sans-serif !important;
+        }
+        .trailer-title span {
+            color: #e54b4b !important;
+        }
+        .video-container {
+            margin-top: 50px;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+    </style>
 </head>
 
-<body>
+<body class="dark-mode"> <!-- Added dark-mode class to body -->
     <!-- PRELOADER -->
     <div id="preloader">
         <div class="loader_line"></div>
@@ -91,9 +148,9 @@
                 <div class="container">
                     <div class="details" data-animation="toTop">
                         <h3 class="fn_animation name">The Sling and The Stone</h3>
-                        <span class="fn_animation job">Action-Adventure</span>
+                        <span class="fn_animation job">Action Adventure</span>
                     </div>
-                    <div class="grax_tm_down" data-skin="light">
+                    <div class="grax_tm_down" data-skin="dark"> <!-- Changed to dark -->
                         <div class="line_wrapper">
                             <div class="line"></div>
                         </div>
@@ -104,17 +161,18 @@
         <!-- /HERO -->
         
         <!-- GAMEPLAY TRAILER SECTION -->
-        <div class="grax_tm_section" id="trailer" style="padding: 100px 0; background-color: #f9f9f9;">
+        <div class="grax_tm_section" id="trailer">
             <div class="container">
                 <div class="grax_tm_title_holder">
-                    <h3>Gameplay <span>Trailer</span></h3>
+                    <h3 class="trailer-title">GAMEPLAY <span>TRAILER</span></h3>
                 </div>
-                <div style="padding:56.25% 0 0 0;position:relative;margin-top:50px;">
+                <div class="video-container">
                     <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
                             frameborder="0" 
                             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
                             style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-                            title="The Sling and The Stone Gameplay Trailer"></iframe>
+                            title="The Sling and The Stone Gameplay Trailer">
+                    </iframe>
                 </div>
             </div>
         </div>
@@ -140,6 +198,9 @@
         setTimeout(function(){
             $("#preloader").fadeOut("slow");
         }, 3000);
+
+        // Force dark mode (optional)
+        document.body.classList.add('dark-mode');
     </script>
 </body>
 </html>
