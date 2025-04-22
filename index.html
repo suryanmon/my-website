@@ -37,7 +37,8 @@
         body.dark-mode .grax_tm_section {
             background-color: #1e1e1e !important;
         }
-        body.dark-mode .trailer-title {
+        body.dark-mode .trailer-title,
+        body.dark-mode .contact-title {
             color: #ffffff !important;
         }
         body.dark-mode .grax_tm_topbar.animate {
@@ -48,12 +49,12 @@
             color: #ffffff !important;
         }
         
-        /* Video Section Specific */
+        /* Video Section Specific - FIXED */
         #trailer {
             background-color: #1e1e1e !important;
             padding: 100px 0 !important;
         }
-        .trailer-title {
+        .trailer-title, .contact-title {
             color: #ffffff !important;
             font-size: 30px !important;
             text-transform: uppercase !important;
@@ -65,21 +66,51 @@
             font-weight: 700 !important;
             font-family: 'Poppins', sans-serif !important;
         }
-        .trailer-title span {
+        .trailer-title span, .contact-title span {
             color: #e54b4b !important;
         }
         .video-container {
-            margin-top: 50px;
+            margin: 50px auto 0;
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
+            max-width: 900px;
             background: #000;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Contact Section */
+        #contact {
+            padding: 100px 0;
+            background-color: #1e1e1e;
+        }
+        .contact-info {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .contact-email {
+            font-size: 22px;
+            color: #e54b4b;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .contact-email:hover {
+            color: #ffffff;
         }
     </style>
 </head>
 
-<body class="dark-mode"> <!-- Added dark-mode class to body -->
+<body class="dark-mode">
     <!-- PRELOADER -->
     <div id="preloader">
         <div class="loader_line"></div>
@@ -100,6 +131,7 @@
                         <ul class="anchor_nav">
                             <li class="current"><a href="#home">Home</a></li>
                             <li><a href="#trailer">Trailer</a></li>
+                            <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -131,6 +163,7 @@
                         <ul class="anchor_nav">
                             <li><a href="#home">Home</a></li>
                             <li><a href="#trailer">Trailer</a></li>
+                            <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
                 </div>
@@ -150,7 +183,7 @@
                         <h3 class="fn_animation name">The Sling and The Stone</h3>
                         <span class="fn_animation job">Action Adventure</span>
                     </div>
-                    <div class="grax_tm_down" data-skin="dark"> <!-- Changed to dark -->
+                    <div class="grax_tm_down" data-skin="dark">
                         <div class="line_wrapper">
                             <div class="line"></div>
                         </div>
@@ -160,7 +193,7 @@
         </div>
         <!-- /HERO -->
         
-        <!-- GAMEPLAY TRAILER SECTION -->
+        <!-- GAMEPLAY TRAILER SECTION - FIXED VIDEO EMBED -->
         <div class="grax_tm_section" id="trailer">
             <div class="container">
                 <div class="grax_tm_title_holder">
@@ -170,13 +203,27 @@
                     <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
                             frameborder="0" 
                             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            allowfullscreen
                             title="The Sling and The Stone Gameplay Trailer">
                     </iframe>
                 </div>
             </div>
         </div>
         <!-- /GAMEPLAY TRAILER SECTION -->
+        
+        <!-- CONTACT SECTION -->
+        <div class="grax_tm_section" id="contact">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="contact-title">CONTACT <span>US</span></h3>
+                </div>
+                <div class="contact-info">
+                    <p>For business inquiries:</p>
+                    <a href="mailto:sales@edwydenny.com" class="contact-email">sales@edwydenny.com</a>
+                </div>
+            </div>
+        </div>
+        <!-- /CONTACT SECTION -->
     </div>
     <!-- /WRAPPER ALL -->
 
@@ -201,6 +248,13 @@
 
         // Force dark mode (optional)
         document.body.classList.add('dark-mode');
+        
+        // Initialize Vimeo player
+        var iframe = document.querySelector('iframe');
+        var player = new Vimeo.Player(iframe);
+        player.on('play', function() {
+            console.log('Video is playing');
+        });
     </script>
 </body>
 </html>
