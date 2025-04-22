@@ -24,7 +24,7 @@
     <style>
         /* Dark Theme Styles */
         body.dark-mode {
-            background-color: #000000 !important;
+            background-color: #121212 !important;
             color: #ffffff !important;
         }
         body.dark-mode .grax_tm_all_wrap {
@@ -35,26 +35,25 @@
             color: #ffffff !important;
         }
         body.dark-mode .grax_tm_section {
-            background-color: #000000 !important;
+            background-color: #1e1e1e !important;
         }
-        body.dark-mode .trailer-title,
-        body.dark-mode .contact-title {
+        body.dark-mode .trailer-title {
             color: #ffffff !important;
         }
         body.dark-mode .grax_tm_topbar.animate {
-            background-color: #000000 !important;
+            background-color: #1e1e1e !important;
             box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
         }
         body.dark-mode .grax_tm_topbar .menu ul li a {
             color: #ffffff !important;
         }
-
+        
         /* Video Section Specific */
         #trailer {
-            background-color: #000000 !important;
+            background-color: #1e1e1e !important;
             padding: 100px 0 !important;
         }
-        .trailer-title, .contact-title {
+        .trailer-title {
             color: #ffffff !important;
             font-size: 30px !important;
             text-transform: uppercase !important;
@@ -66,7 +65,7 @@
             font-weight: 700 !important;
             font-family: 'Poppins', sans-serif !important;
         }
-        .trailer-title span, .contact-title span {
+        .trailer-title span {
             color: #e54b4b !important;
         }
         .video-container {
@@ -77,41 +76,16 @@
             overflow: hidden;
             background: #000;
         }
-
-        /* Contact Section Styles */
-        #contact {
-            padding: 100px 0;
-            background-color: #121212;
-        }
-        .contact-info {
-            text-align: center;
-            margin-top: 40px;
-        }
-        .contact-email {
-            font-size: 24px;
-            color: #e54b4b;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            transition: all 0.3s ease;
-        }
-        .contact-email:hover {
-            color: #ffffff;
-        }
-        .contact-text {
-            font-size: 18px;
-            margin-bottom: 30px;
-            color: #aaa;
-        }
     </style>
 </head>
 
-<body class="dark-mode">
+<body class="dark-mode"> <!-- Added dark-mode class to body -->
     <!-- PRELOADER -->
     <div id="preloader">
         <div class="loader_line"></div>
     </div>
     <!-- /PRELOADER -->
-
+    
     <!-- WRAPPER ALL -->
     <div class="grax_tm_all_wrap" data-magic-cursor="" data-color="crimson">
         <!-- TOPBAR -->
@@ -126,14 +100,13 @@
                         <ul class="anchor_nav">
                             <li class="current"><a href="#home">Home</a></li>
                             <li><a href="#trailer">Trailer</a></li>
-                            <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
         <!-- /TOPBAR -->
-
+        
         <!-- MOBILE MENU -->
         <div class="grax_tm_mobile_menu">
             <div class="topbar_inner">
@@ -158,14 +131,13 @@
                         <ul class="anchor_nav">
                             <li><a href="#home">Home</a></li>
                             <li><a href="#trailer">Trailer</a></li>
-                            <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
         <!-- /MOBILE MENU -->
-
+        
         <!-- HERO -->
         <div class="grax_tm_hero" id="home">
             <div class="bg">
@@ -174,11 +146,11 @@
             </div>
             <div class="content">
                 <div class="container">
-                    <div class="title-image-wrapper">
-                        <img src="logo/title_sling.png" alt="The Sling and The Stone" class="title-image">
-                        <span class="fn_animation job">Action-Adventure</span>
+                    <div class="details" data-animation="toTop">
+                        <h3 class="fn_animation name">The Sling and The Stone</h3>
+                        <span class="fn_animation job">Action Adventure</span>
                     </div>
-                    <div class="grax_tm_down" data-skin="dark">
+                    <div class="grax_tm_down" data-skin="dark"> <!-- Changed to dark -->
                         <div class="line_wrapper">
                             <div class="line"></div>
                         </div>
@@ -187,9 +159,14 @@
             </div>
         </div>
         <!-- /HERO -->
-
+        
         <!-- GAMEPLAY TRAILER SECTION -->
-                        <div class="video-container">
+        <div class="grax_tm_section" id="trailer">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="trailer-title">GAMEPLAY <span>TRAILER</span></h3>
+                </div>
+                <div class="video-container">
                     <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
                             frameborder="0" 
                             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
@@ -200,20 +177,6 @@
             </div>
         </div>
         <!-- /GAMEPLAY TRAILER SECTION -->
-
-        <!-- CONTACT SECTION -->
-        <div class="grax_tm_section" id="contact">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3 class="contact-title">CONTACT <span>US</span></h3>
-                </div>
-                <div class="contact-info">
-                    <p class="contact-text">For business inquiries and support, please reach out to us at:</p>
-                    <a href="mailto:sales@edwydenny.com" class="contact-email">sales@edwydenny.com</a>
-                </div>
-            </div>
-        </div>
-        <!-- /CONTACT SECTION -->
     </div>
     <!-- /WRAPPER ALL -->
 
@@ -222,7 +185,7 @@
     <script src="js/plugins.js"></script>
     <script src="js/init.js"></script>
     <script src="https://player.vimeo.com/api/player.js"></script>
-
+    
     <!-- Preloader Removal Script -->
     <script>
         // Wait for window load
