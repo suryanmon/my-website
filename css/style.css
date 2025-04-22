@@ -471,6 +471,18 @@ h6 { font-size: 16px; }
 	     -o-transition: all .3s ease;
 	        transition: all .3s ease;
 }
+.title-image-wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.title-image {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    animation: fadeInDown 1s ease both;
+}
 .grax_tm_hero.creative{clip-path: none;}
 .grax_tm_hero.creative.shape{clip-path:none;}
 .grax_tm_hero.shape{clip-path: polygon(0 0, 100% 0, 100% 83%, 25% 100%, 0 83%);}
