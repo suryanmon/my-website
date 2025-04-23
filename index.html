@@ -172,22 +172,29 @@
         <!-- /HERO -->
         
         <!-- GAMEPLAY TRAILER SECTION - Fixed height issue -->
-        <div class="grax_tm_section trailer-section" id="trailer">
+        <div class="grax_tm_section trailer-section" id="trailer" style="padding: 100px 0;">
             <div class="container">
                 <div class="grax_tm_title_holder">
                     <h3 class="trailer-title">GAMEPLAY <span>TRAILER</span></h3>
-                </div>
-                <div class="video-container">
-                    <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
-                            frameborder="0" 
-                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-                            title="The Sling and The Stone Gameplay Trailer"
-                            loading="lazy">
-                    </iframe>
-                </div>
+            </div>
+            <div class="video-container" style="
+                position: relative;
+                padding-bottom: 56.25%; /* 16:9 aspect ratio */
+                height: 0;
+                margin: 50px auto;
+                max-width: 900px;
+                background: #000;
+            ">
+                <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                        title="The Sling and The Stone Gameplay Trailer"
+                        loading="lazy">
+                </iframe>
             </div>
         </div>
+    </div>
         <!-- /GAMEPLAY TRAILER SECTION -->
         
         <!-- CONTACT SECTION -->
@@ -289,10 +296,12 @@
     
     <!-- Style fixes for the trailer section -->
     <style>
-        /* Trailer Section Fixes */
+        /* Trailer Section Fixes - More space guaranteed */
         .trailer-section {
-            padding: 80px 0;
-            min-height: 0; /* Remove any fixed height */
+            padding: 100px 0 !important;
+            min-height: 80vh !important; /* Ensures enough vertical space */
+            display: flex;
+            align-items: center;
         }
         
         .video-container {
@@ -300,9 +309,12 @@
             padding-bottom: 56.25%; /* 16:9 aspect ratio */
             height: 0;
             overflow: hidden;
-            margin: 30px auto 0;
+            margin: 50px auto !important; /* More margin around video */
             max-width: 900px;
+            width: 90%;
             background: #000;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
         .video-container iframe {
@@ -314,6 +326,22 @@
             border: none;
         }
         
+        /* Ensure title has proper spacing */
+        .trailer-title {
+            margin-bottom: 50px !important;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .trailer-section {
+                padding: 70px 0 !important;
+                min-height: auto !important;
+            }
+            .video-container {
+                margin: 30px auto !important;
+                width: 95%;
+            }
+        }
         /* Dark Theme Styles (non-critical) */
         body.dark-mode .grax_tm_all_wrap {
             background-color: #121212 !important;
