@@ -49,7 +49,7 @@
             color: #ffffff !important;
         }
         
-        /* Video Section Specific - FIXED */
+        /* Video Section Specific */
         #trailer {
             background-color: #1e1e1e !important;
             padding: 100px 0 !important;
@@ -70,13 +70,9 @@
             color: #e54b4b !important;
         }
         .video-container {
-            margin: 50px auto 0;
+            padding: 56.25% 0 0 0;
             position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            max-width: 900px;
-            background: #000;
+            margin-top: 50px;
         }
         .video-container iframe {
             position: absolute;
@@ -106,6 +102,16 @@
         }
         .contact-email:hover {
             color: #ffffff;
+        }
+        
+        /* Footer */
+        .copyright-footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #000;
+            color: #777;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -193,14 +199,14 @@
         </div>
         <!-- /HERO -->
         
-        <!-- GAMEPLAY TRAILER SECTION - FIXED VIDEO EMBED -->
+        <!-- GAMEPLAY TRAILER SECTION -->
         <div class="grax_tm_section" id="trailer">
             <div class="container">
                 <div class="video-container">
                     <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
                             frameborder="0" 
                             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                            allowfullscreen
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
                             title="The Sling and The Stone Gameplay Trailer">
                     </iframe>
                 </div>
@@ -216,11 +222,19 @@
                 </div>
                 <div class="contact-info">
                     <p>For business inquiries:</p>
-                    <a href="mailto:sales@edwydenny.com" class="contact-email">sales@edwydenny.com © 2025 EdwyDenny. The Sling and the Stone ™. All rights reserved.</a>
+                    <a href="mailto:sales@edwydenny.com" class="contact-email">sales@edwydenny.com</a>
                 </div>
             </div>
         </div>
         <!-- /CONTACT SECTION -->
+        
+        <!-- COPYRIGHT FOOTER -->
+        <div class="copyright-footer">
+            <div class="container">
+                <p>© 2025 EdwyDenny. The Sling and the Stone ™. All rights reserved.</p>
+            </div>
+        </div>
+        <!-- /COPYRIGHT FOOTER -->
     </div>
     <!-- /WRAPPER ALL -->
 
