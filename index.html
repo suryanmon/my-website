@@ -12,108 +12,80 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="img/favicon.png">
 
-    <!-- Fonts -->
+    <!-- Preload critical resources -->
+    <link rel="preload" href="img/slider/2.jpg" as="image">
+    <link rel="preload" href="img/logo/dark.png" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Optimized Font Loading -->
     <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-    <!-- CSS -->
-    <link rel="stylesheet" type="text/css" href="css/plugins.css">
-    <link rel="stylesheet" type="text/css" href="css/colors.css">
-    <link rel="stylesheet" type="text/css" href="css/darkMode.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <!-- CSS with load optimization -->
+    <link rel="stylesheet" href="css/plugins.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/colors.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/darkMode.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
 
+    <!-- Inline Critical CSS -->
     <style>
-        /* Dark Theme Styles */
-        body.dark-mode {
-            background-color: #121212 !important;
-            color: #ffffff !important;
-        }
-        body.dark-mode .grax_tm_all_wrap {
-            background-color: #121212 !important;
-        }
-        body.dark-mode .grax_tm_hero .name,
-        body.dark-mode .grax_tm_hero .job {
-            color: #ffffff !important;
-        }
-        body.dark-mode .grax_tm_section {
-            background-color: #1e1e1e !important;
-        }
-        body.dark-mode .trailer-title,
-        body.dark-mode .contact-title {
-            color: #ffffff !important;
-        }
-        body.dark-mode .grax_tm_topbar.animate {
-            background-color: #1e1e1e !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
-        }
-        body.dark-mode .grax_tm_topbar .menu ul li a {
-            color: #ffffff !important;
-        }
-        
-        /* Video Section Specific */
-        #trailer {
-            background-color: #1e1e1e !important;
-            padding: 100px 0 !important;
-        }
-        .trailer-title, .contact-title {
-            color: #ffffff !important;
-            font-size: 30px !important;
-            text-transform: uppercase !important;
-            letter-spacing: 10px !important;
-            margin-bottom: 30px !important;
-            text-align: center !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            font-weight: 700 !important;
-            font-family: 'Poppins', sans-serif !important;
-        }
-        .trailer-title span, .contact-title span {
-            color: #e54b4b !important;
-        }
-        .video-container {
-            padding: 56.25% 0 0 0;
-            position: relative;
-            margin-top: 50px;
-        }
-        .video-container iframe {
-            position: absolute;
+        /* Minimal critical CSS for above-the-fold content */
+        #preloader {
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: #121212;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loader_line {
+            width: 100px;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .loader_line:before {
+            content: "";
+            position: absolute;
+            left: -50px;
+            height: 3px;
+            width: 40px;
+            background-color: #e54b4b;
+            animation: lineAnim 1s linear infinite;
+        }
+        @keyframes lineAnim {
+            0% { left: -40px; }
+            100% { left: 100px; }
         }
         
-        /* Contact Section */
-        #contact {
-            padding: 100px 0;
-            background-color: #1e1e1e;
-        }
-        .contact-info {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .contact-email {
-            font-size: 22px;
-            color: #e54b4b;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            transition: color 0.3s ease;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .contact-email:hover {
+        /* Dark Mode Base Styles */
+        body.dark-mode {
+            background-color: #121212;
             color: #ffffff;
         }
         
-        /* Footer */
-        .copyright-footer {
-            text-align: center;
-            padding: 30px 0;
-            background-color: #000;
-            color: #777;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
+        /* Ensure content is visible while CSS loads */
+        .grax_tm_all_wrap {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .css-loaded .grax_tm_all_wrap {
+            opacity: 1;
         }
     </style>
+    
+    <!-- Non-critical CSS -->
+    <noscript>
+        <link rel="stylesheet" href="css/plugins.css">
+        <link rel="stylesheet" href="css/colors.css">
+        <link rel="stylesheet" href="css/darkMode.css">
+        <link rel="stylesheet" href="css/style.css">
+    </noscript>
 </head>
 
 <body class="dark-mode">
@@ -130,8 +102,8 @@
             <div class="container">
                 <div class="topbar_inner">
                     <div class="logo">
-                        <a class="dark" href="#"><img src="img/logo/dark.png" alt="Game Logo"></a> 
-                        <a class="light" href="#"><img src="img/logo/logo.png" alt="Game Logo"></a>  
+                        <a class="dark" href="#"><img src="img/logo/dark.png" alt="Game Logo" loading="lazy"></a> 
+                        <a class="light" href="#"><img src="img/logo/logo.png" alt="Game Logo" loading="lazy"></a>  
                     </div>
                     <div class="menu">
                         <ul class="anchor_nav">
@@ -151,7 +123,7 @@
                 <div class="container bigger">
                     <div class="topbar_in">
                         <div class="logo">
-                            <a href="#"><img src="img/logo/dark.png" alt="Mobile Logo"></a>
+                            <a href="#"><img src="img/logo/dark.png" alt="Mobile Logo" loading="lazy"></a>
                         </div>
                         <div class="my_trigger">
                             <div class="hamburger hamburger--collapse-r">
@@ -199,15 +171,19 @@
         </div>
         <!-- /HERO -->
         
-        <!-- GAMEPLAY TRAILER SECTION -->
-        <div class="grax_tm_section" id="trailer">
+        <!-- GAMEPLAY TRAILER SECTION - Fixed height issue -->
+        <div class="grax_tm_section trailer-section" id="trailer">
             <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="trailer-title">GAMEPLAY <span>TRAILER</span></h3>
+                </div>
                 <div class="video-container">
                     <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
                             frameborder="0" 
                             allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
                             style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-                            title="The Sling and The Stone Gameplay Trailer">
+                            title="The Sling and The Stone Gameplay Trailer"
+                            loading="lazy">
                     </iframe>
                 </div>
             </div>
@@ -238,34 +214,172 @@
     </div>
     <!-- /WRAPPER ALL -->
 
-    <!-- JavaScript -->
+    <!-- Deferred JavaScript -->
     <script src="js/jquery.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/init.js"></script>
-    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="js/plugins.js" defer></script>
+    <script src="js/init.js" defer></script>
     
-    <!-- Preloader Removal Script -->
+    <!-- Optimized Script -->
     <script>
-        // Wait for window load
-        $(window).on("load", function() {
-            // Animate loader off screen
-            $("#preloader").fadeOut("slow");
-        });
+        // Mark CSS as loaded
+        document.documentElement.classList.add('css-loaded');
         
-        // Fallback in case load event doesn't fire
-        setTimeout(function(){
-            $("#preloader").fadeOut("slow");
-        }, 3000);
-
-        // Force dark mode (optional)
-        document.body.classList.add('dark-mode');
-        
-        // Initialize Vimeo player
-        var iframe = document.querySelector('iframe');
-        var player = new Vimeo.Player(iframe);
-        player.on('play', function() {
-            console.log('Video is playing');
+        // Preloader removal
+        document.addEventListener('DOMContentLoaded', function() {
+            var preloader = document.getElementById('preloader');
+            if (preloader) {
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        preloader.style.transition = 'opacity 0.5s';
+                        preloader.style.opacity = '0';
+                        setTimeout(function() {
+                            preloader.style.display = 'none';
+                        }, 500);
+                    }, 500);
+                });
+                
+                // Fallback
+                setTimeout(function() {
+                    if (preloader.style.opacity !== '0') {
+                        preloader.style.display = 'none';
+                    }
+                }, 3000);
+            }
+            
+            // Lazy load Vimeo player when trailer section is in view
+            function loadVimeoPlayer() {
+                var iframe = document.querySelector('#trailer iframe');
+                if (iframe && !window.Vimeo) {
+                    var script = document.createElement('script');
+                    script.src = 'https://player.vimeo.com/api/player.js';
+                    script.async = true;
+                    document.body.appendChild(script);
+                    
+                    script.onload = function() {
+                        new Vimeo.Player(iframe);
+                    };
+                }
+            }
+            
+            // Check if element is in viewport
+            function isElementInViewport(el) {
+                var rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Initial check
+            var trailerSection = document.getElementById('trailer');
+            if (trailerSection && isElementInViewport(trailerSection)) {
+                loadVimeoPlayer();
+            }
+            
+            // Scroll listener for lazy loading
+            var scrollHandler = function() {
+                if (trailerSection && isElementInViewport(trailerSection)) {
+                    loadVimeoPlayer();
+                    window.removeEventListener('scroll', scrollHandler);
+                }
+            };
+            window.addEventListener('scroll', scrollHandler, { passive: true });
         });
     </script>
+    
+    <!-- Style fixes for the trailer section -->
+    <style>
+        /* Trailer Section Fixes */
+        .trailer-section {
+            padding: 80px 0;
+            min-height: 0; /* Remove any fixed height */
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            margin: 30px auto 0;
+            max-width: 900px;
+            background: #000;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Dark Theme Styles (non-critical) */
+        body.dark-mode .grax_tm_all_wrap {
+            background-color: #121212 !important;
+        }
+        body.dark-mode .grax_tm_hero .name,
+        body.dark-mode .grax_tm_hero .job {
+            color: #ffffff !important;
+        }
+        body.dark-mode .grax_tm_section {
+            background-color: #1e1e1e !important;
+        }
+        .trailer-title,
+        .contact-title {
+            color: #ffffff !important;
+            font-size: 30px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 10px !important;
+            margin-bottom: 30px !important;
+            text-align: center !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-weight: 700 !important;
+            font-family: 'Poppins', sans-serif !important;
+        }
+        .trailer-title span, 
+        .contact-title span {
+            color: #e54b4b !important;
+        }
+        body.dark-mode .grax_tm_topbar.animate {
+            background-color: #1e1e1e !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
+        }
+        body.dark-mode .grax_tm_topbar .menu ul li a {
+            color: #ffffff !important;
+        }
+        
+        /* Contact Section */
+        #contact {
+            padding: 100px 0;
+        }
+        .contact-info {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .contact-email {
+            font-size: 22px;
+            color: #e54b4b;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .contact-email:hover {
+            color: #ffffff;
+        }
+        
+        /* Footer */
+        .copyright-footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #000;
+            color: #777;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+    </style>
 </body>
 </html>
