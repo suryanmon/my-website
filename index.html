@@ -97,7 +97,7 @@
     
     <!-- WRAPPER ALL -->
     <div class="grax_tm_all_wrap" data-magic-cursor="" data-color="crimson">
-        <!-- TOPBAR -->
+        <!-- TOPBAR - Updated with Careers and News links -->
         <div class="grax_tm_topbar">
             <div class="container">
                 <div class="topbar_inner">
@@ -108,8 +108,10 @@
                     <div class="menu">
                         <ul class="anchor_nav">
                             <li class="current"><a href="#home">Home</a></li>
-                            <li><a href="#trailer">Trailer</a></li>
                             <li><a href="#about">About</a></li>
+                            <li><a href="#trailer">Trailer</a></li>
+                            <li><a href="#news">News</a></li>
+                            <li><a href="#careers">Careers</a></li>
                             <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
@@ -118,7 +120,7 @@
         </div>
         <!-- /TOPBAR -->
         
-        <!-- MOBILE MENU -->
+        <!-- MOBILE MENU - Updated with Careers and News links -->
         <div class="grax_tm_mobile_menu">
             <div class="topbar_inner">
                 <div class="container bigger">
@@ -141,8 +143,10 @@
                     <div class="dropdown_inner">
                         <ul class="anchor_nav">
                             <li><a href="#home">Home</a></li>
-                            <li><a href="#trailer">Trailer</a></li>
                             <li><a href="#about">About</a></li>
+                            <li><a href="#trailer">Trailer</a></li>
+                            <li><a href="#news">News</a></li>
+                            <li><a href="#careers">Careers</a></li>
                             <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
@@ -163,12 +167,12 @@
                         <!-- Replaced text with image -->
                         <img src="logo/title_sling.png" alt="The Sling and The Stone" class="game-title-image" style="
                             max-width: 40%;
-                            height: 50;
+                            height: auto;
                             margin-left: 0;
-                            margin-top: 20;
+                            margin-top: 20px;
                             display: block;
                         ">
-                        <span class="fn_animation job">       Action-Adventure Windows/VR</span>
+                        <span class="fn_animation job">Action-Adventure Windows/VR</span>
                     </div>
                     <div class="grax_tm_down" data-skin="dark">
                         <div class="line_wrapper">
@@ -185,25 +189,25 @@
             <div class="container">
                 <div class="grax_tm_title_holder">
                     <h3 class="trailer-title">GAMEPLAY <span>TRAILER</span></h3>
-            </div>
-            <div class="video-container" style="
-                position: relative;
-                padding-bottom: 56.25%; /* 16:9 aspect ratio */
-                height: 0;
-                margin: 50px auto;
-                max-width: 900px;
-                background: #000;
-            ">
-                <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
-                        frameborder="0" 
-                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
-                        style="position:absolute;top:0;left:0;width:100%;height:100%;" 
-                        title="The Sling and The Stone™ Gameplay Trailer"
-                        loading="lazy">
-                </iframe>
+                </div>
+                <div class="video-container" style="
+                    position: relative;
+                    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+                    height: 0;
+                    margin: 50px auto;
+                    max-width: 900px;
+                    background: #000;
+                ">
+                    <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            title="The Sling and The Stone™ Gameplay Trailer"
+                            loading="lazy">
+                    </iframe>
+                </div>
             </div>
         </div>
-    </div>
         <!-- /GAMEPLAY TRAILER SECTION -->
 
         <!-- NEW ABOUT SECTION -->
@@ -221,7 +225,68 @@
                 </div>
             </div>
         </div>
-        <!-- NEW ABOUT SECTION -->
+        <!-- /ABOUT SECTION -->
+        
+        <!-- NEWS SECTION -->
+        <div class="grax_tm_section" id="news">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="news-title">NEWS <span>& UPDATES</span></h3>
+                </div>
+                <div class="under-construction">
+                    <img src="https://cdn.pixabay.com/photo/2017/06/20/08/12/maintenance-2422173_640.png" alt="Under Construction" style="max-width: 300px; margin: 0 auto 30px; display: block;">
+                    <h4 style="text-align: center; color: #e54b4b; font-family: 'Poppins', sans-serif;">News Section Coming Soon!</h4>
+                    <p style="text-align: center; max-width: 600px; margin: 0 auto; font-family: 'Mulish', sans-serif;">
+                        We're working hard to bring you the latest news and updates about The Sling and The Stone.
+                        Check back soon for exciting announcements!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- /NEWS SECTION -->
+        
+        <!-- CAREERS SECTION -->
+        <div class="grax_tm_section" id="careers">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="careers-title">JOIN <span>OUR TEAM</span></h3>
+                </div>
+                <div class="careers-content">
+                    <p style="text-align: center; margin-bottom: 40px; font-family: 'Mulish', sans-serif;">
+                        We're always looking for talented individuals to join our team. Submit your information below and we'll contact you about opportunities.
+                    </p>
+                    
+                    <form id="careers-form" class="grax_tm_contact_form" action="https://formspree.io/f/sales@edwydenny.com" method="POST">
+                        <div class="fields">
+                            <div class="first">
+                                <ul>
+                                    <li>
+                                        <input id="name" name="name" type="text" placeholder="Your Name" required>
+                                    </li>
+                                    <li>
+                                        <input id="email" name="email" type="email" placeholder="Your Email" required>
+                                    </li>
+                                    <li>
+                                        <input id="position" name="position" type="text" placeholder="Position you're interested in">
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="last">
+                                <textarea id="message" name="message" placeholder="Tell us about your skills and experience"></textarea>
+                                <div class="grax_tm_button">
+                                    <button type="submit" class="submit-form">Submit Application</button>
+                                </div>
+                                <div class="empty_notice" style="display: none;">
+                                    <span class="error_message">Please fill all required fields</span>
+                                </div>
+                                <div class="returnmessage" data-success="Your application has been submitted! We'll contact you soon."></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /CAREERS SECTION -->
         
         <!-- CONTACT SECTION -->
         <div class="grax_tm_section" id="contact">
@@ -317,10 +382,58 @@
                 }
             };
             window.addEventListener('scroll', scrollHandler, { passive: true });
+
+            // Careers form submission
+            const careersForm = document.getElementById('careers-form');
+            if (careersForm) {
+                careersForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Validate form
+                    const name = document.getElementById('name');
+                    const email = document.getElementById('email');
+                    const emptyNotice = document.querySelector('.empty_notice');
+                    const returnMessage = document.querySelector('.returnmessage');
+                    
+                    if (name.value === '' || email.value === '') {
+                        emptyNotice.style.display = 'block';
+                        return false;
+                    }
+                    
+                    emptyNotice.style.display = 'none';
+                    
+                    // Submit form via Formspree
+                    fetch(careersForm.action, {
+                        method: 'POST',
+                        body: new FormData(careersForm),
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            returnMessage.innerHTML = returnMessage.dataset.success;
+                            returnMessage.style.display = 'block';
+                            careersForm.reset();
+                            
+                            // Hide message after 5 seconds
+                            setTimeout(() => {
+                                returnMessage.style.display = 'none';
+                            }, 5000);
+                        } else {
+                            throw new Error('Form submission failed');
+                        }
+                    })
+                    .catch(error => {
+                        returnMessage.innerHTML = 'There was a problem submitting your application. Please try again.';
+                        returnMessage.style.display = 'block';
+                    });
+                });
+            }
         });
     </script>
     
-    <!-- Style fixes for the trailer section -->
+    <!-- Style fixes for all sections -->
     <style>
         /* Trailer Section Fixes - More space guaranteed */
         .trailer-section {
@@ -357,17 +470,6 @@
             margin-bottom: 50px !important;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .trailer-section {
-                padding: 70px 0 !important;
-                min-height: auto !important;
-            }
-            .video-container {
-                margin: 30px auto !important;
-                width: 95%;
-            }
-        }
         /* Dark Theme Styles (non-critical) */
         body.dark-mode .grax_tm_all_wrap {
             background-color: #121212 !important;
@@ -380,7 +482,10 @@
             background-color: #1e1e1e !important;
         }
         .trailer-title,
-        .contact-title {
+        .contact-title,
+        .about-title,
+        .news-title,
+        .careers-title {
             color: #ffffff !important;
             font-size: 30px !important;
             text-transform: uppercase !important;
@@ -393,7 +498,10 @@
             font-family: 'Poppins', sans-serif !important;
         }
         .trailer-title span, 
-        .contact-title span {
+        .contact-title span,
+        .about-title span,
+        .news-title span,
+        .careers-title span {
             color: #e54b4b !important;
         }
         body.dark-mode .grax_tm_topbar.animate {
@@ -403,25 +511,11 @@
         body.dark-mode .grax_tm_topbar .menu ul li a {
             color: #ffffff !important;
         }
+        
         /* About Section Styles */
         .about-section {
             padding: 100px 0;
             background-color: #1e1e1e;
-        }
-        
-        .about-title {
-            color: #ffffff !important;
-            font-size: 30px !important;
-            text-transform: uppercase !important;
-            letter-spacing: 10px !important;
-            margin-bottom: 50px !important;
-            text-align: center !important;
-            font-weight: 700 !important;
-            font-family: 'Poppins', sans-serif !important;
-        }
-        
-        .about-title span {
-            color: #e54b4b !important;
         }
         
         .about-content {
@@ -438,21 +532,73 @@
             margin-bottom: 30px;
         }
         
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .about-section {
-                padding: 70px 0;
-            }
-            
-            .about-title {
-                font-size: 24px !important;
-                letter-spacing: 5px !important;
-            }
-            
-            .about-content {
-                font-size: 16px;
-                padding: 0 20px;
-            }
+        /* News Section Styles */
+        .under-construction {
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        /* Careers Section Styles */
+        .careers-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Form Styles */
+        .grax_tm_contact_form input,
+        .grax_tm_contact_form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background-color: rgba(0,0,0,0.2);
+            color: #fff;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-family: 'Mulish', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .grax_tm_contact_form input:focus,
+        .grax_tm_contact_form textarea:focus {
+            border-color: #e54b4b;
+            outline: none;
+        }
+        
+        .grax_tm_contact_form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-form {
+            background-color: #e54b4b;
+            color: #fff;
+            border: 2px solid #e54b4b;
+            padding: 12px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .submit-form:hover {
+            background-color: transparent;
+            color: #e54b4b;
+        }
+        
+        .error_message {
+            color: #e54b4b;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .returnmessage {
+            color: #4bb543;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 15px;
+            display: none;
         }
         
         /* Contact Section */
@@ -484,6 +630,55 @@
             color: #777;
             font-family: 'Poppins', sans-serif;
             font-size: 14px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .trailer-section,
+            .about-section,
+            #news,
+            #careers,
+            #contact {
+                padding: 70px 0 !important;
+            }
+            
+            .trailer-title,
+            .about-title,
+            .news-title,
+            .careers-title,
+            .contact-title {
+                font-size: 24px !important;
+                letter-spacing: 5px !important;
+            }
+            
+            .about-content,
+            .careers-content {
+                padding: 0 20px;
+            }
+            
+            .grax_tm_contact_form input,
+            .grax_tm_contact_form textarea {
+                padding: 10px 12px;
+            }
+            
+            .game-title-image {
+                max-width: 60% !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .trailer-title,
+            .about-title,
+            .news-title,
+            .careers-title,
+            .contact-title {
+                font-size: 20px !important;
+                letter-spacing: 3px !important;
+            }
+            
+            .game-title-image {
+                max-width: 80% !important;
+            }
         }
     </style>
 </body>
