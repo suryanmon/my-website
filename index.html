@@ -267,7 +267,14 @@
                                         <input id="email" name="email" type="email" placeholder="Your Email" required>
                                     </li>
                                     <li>
-                                        <input id="position" name="position" type="text" placeholder="Position you're interested in">
+                                        <select id="position" name="position" required>
+    <option value="">Select a Position</option>
+    <option value="character-modeller">Character Modeller</option>
+    <option value="environment-artist">Environment Artist</option>
+    <option value="3d-animator">3D Animator</option>
+    <option value="rigging-artist">Rigging Artist</option>
+    <option value="unreal-engine-programmer">Unreal Engine Programmer</option>
+</select>
                                     </li>
                                 </ul>
                             </div>
@@ -543,11 +550,13 @@
         .careers-content {
             max-width: 800px;
             margin: 0 auto;
+            margin-bottom: 50px;
         }
-        
+
         /* Form Styles */
         .grax_tm_contact_form input,
-        .grax_tm_contact_form textarea {
+        .grax_tm_contact_form textarea,
+        .grax_tm_contact_form select {
             width: 100%;
             padding: 12px 15px;
             border: 1px solid rgba(255,255,255,0.1);
@@ -557,19 +566,27 @@
             border-radius: 5px;
             font-family: 'Mulish', sans-serif;
             transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
         }
-        
+
         .grax_tm_contact_form input:focus,
-        .grax_tm_contact_form textarea:focus {
+        .grax_tm_contact_form textarea:focus,
+        .grax_tm_contact_form select:focus {
             border-color: #e54b4b;
             outline: none;
         }
-        
+
         .grax_tm_contact_form textarea {
             height: 150px;
             resize: vertical;
         }
-        
+
         .submit-form {
             background-color: #e54b4b;
             color: #ffffff;
@@ -584,24 +601,23 @@
             font-size: 14px;
             transition: all 0.3s ease;
         }
-        
+
         .submit-form:hover {
             background-color: transparent;
             color: #e54b4b;
         }
-        
+
         .error_message {
             color: #e54b4b;
             font-family: 'Poppins', sans-serif;
         }
-        
+
         .returnmessage {
             color: #4bb543;
             font-family: 'Poppins', sans-serif;
             margin-top: 15px;
             display: none;
-        }
-        
+        }        
         /* Contact Section */
         #contact {
             padding: 100px 0;
