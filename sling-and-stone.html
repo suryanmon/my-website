@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta name="description" content="The Sling and The Stone - Action Adventure Game">
-    <meta name="author" content="Marketify">
+    <meta name="author" content="EdwyDenny">
 
     <title>The Sling and The Stone Game</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    <!-- Favicon linking to index.html -->
+    <link rel="icon" type="image/png" href="img/favicon.png" onclick="window.location.href='index.html'; return false;" style="cursor:pointer">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="img/slider/2.jpg" as="image">
@@ -102,8 +102,8 @@
             <div class="container">
                 <div class="topbar_inner">
                     <div class="logo">
-                        <a class="dark" href="#"><img src="img/logo/dark.png" alt="Game Logo" loading="lazy"></a> 
-                        <a class="light" href="#"><img src="img/logo/logo.png" alt="Game Logo" loading="lazy"></a>  
+                        <a class="dark" href="index.html"><img src="img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a> 
+                        <a class="light" href="index.html"><img src="img/logo/logo.png" alt="EdwyDenny Logo" loading="lazy"></a>  
                     </div>
                     <div class="menu">
                         <ul class="anchor_nav">
@@ -408,7 +408,14 @@
                     }
                     
                     emptyNotice.style.display = 'none';
-                    
+                    // Make favicon clickable
+                    const favicon = document.querySelector('link[rel="icon"]');
+                    if (favicon) {
+                        favicon.onclick = function(e) {
+                            e.preventDefault();
+                            window.location.href = 'index.html';
+                        };
+                    }
                     // Submit form via Formspree
                     fetch(careersForm.action, {
                         method: 'POST',
