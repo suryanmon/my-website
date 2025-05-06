@@ -22,7 +22,27 @@
 /*---------------------------------------------------*/
 /*	01) GRAX BASE
 /*---------------------------------------------------*/
+/* Force white text in dark sections */
+[style*="background-color: #1e1e1e"],
+[style*="background-color: #000"],
+.dark-mode .section-title,
+.dark-mode .about-content,
+.dark-mode ul,
+.dark-mode li,
+.dark-mode p,
+.dark-mode h2,
+.dark-mode h3 {
+    color: #fff !important;
+}
 
+/* Specific title fix */
+.section-title {
+    color: #fff !important;
+}
+
+.section-title span {
+    color: #ff6b00 !important;
+}
 html {
 	overflow-x: hidden;
 	padding: 0px;
