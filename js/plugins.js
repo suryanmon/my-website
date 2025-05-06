@@ -1,13 +1,3 @@
-/*
- * Copyright (c) 2022 Marketify
- * Author: Marketify
- * This file is made for CURRENT TEMPLATE
-*/
-
-/*------------------------------------------------------------------*/
-/*	02) NICESCROLL
-/*------------------------------------------------------------------*/
-
 /* jquery.nicescroll 3.2.0 InuYaksa*2013 MIT http://areaaperta.com/nicescroll */
 (function(e){var y=!1,D=!1,J=5E3,K=2E3,x=0,L=function(){var e=document.getElementsByTagName("script"),e=e[e.length-1].src.split("?")[0];return 0<e.split("/").length?e.split("/").slice(0,-1).join("/")+"/":""}();Array.prototype.forEach||(Array.prototype.forEach=function(e,c){for(var h=0,l=this.length;h<l;++h)e.call(c,this[h],h,this)});var v=window.requestAnimationFrame||!1,w=window.cancelAnimationFrame||!1;["ms","moz","webkit","o"].forEach(function(e){v||(v=window[e+"RequestAnimationFrame"]);w||(w=
 window[e+"CancelAnimationFrame"]||window[e+"CancelRequestAnimationFrame"])});var z=window.MutationObserver||window.WebKitMutationObserver||!1,F={zindex:"auto",cursoropacitymin:0,cursoropacitymax:1,cursorcolor:"#424242",cursorwidth:"5px",cursorborder:"1px solid #fff",cursorborderradius:"5px",scrollspeed:60,mousescrollstep:24,touchbehavior:!1,hwacceleration:!0,usetransition:!0,boxzoom:!1,dblclickzoom:!0,gesturezoom:!0,grabcursorenabled:!0,autohidemode:!0,background:"",iframeautoresize:!0,cursorminheight:32,
