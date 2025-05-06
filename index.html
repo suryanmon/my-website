@@ -14,7 +14,7 @@
 
     <!-- Preload resources -->
     <link rel="preload" href="img/slider/hub-bg.jpg" as="image">
-    <link rel="preload" href="img/logo/logo.png" as="image">
+    <link rel="preload" href="img/logo/dark.png" as="image">
     <link rel="preload" href="logo/title_sling.png" as="image">
     <link rel="preload" href="logo/title-gorilla.png" as="image">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,25 +73,114 @@
             color: #ffffff;
         }
         
-        /* Game Hub Specific */
-        .game-hub-hero .bg .image {
-            background-image: url('img/slider/hub-bg.jpg') !important;
+        /* Game Cards */
+        .game-grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 60px;
+            margin: 50px auto;
+            max-width: 800px;
+        }
+        
+        .game-card {
+            width: 100%;
+            background: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s;
+            border-left: 5px solid;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+        
+        .sling-card {
+            border-left-color: #4a90e2;
+        }
+        
+        .gorilla-card {
+            border-left-color: #ff6b00;
+        }
+        
+        .game-title-image {
+            max-width: 300px;
+            height: auto;
+            margin: 0 auto 20px;
+            display: block;
         }
         
         .game-platform {
             font-size: 16px;
             text-transform: uppercase;
             letter-spacing: 3px;
-            margin-top: 10px;
+            margin-bottom: 20px;
             display: block;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
         }
         
         .pc-platform {
-            color: #4a90e2; /* Sling blue */
+            color: #4a90e2;
         }
         
         .mobile-platform {
-            color: #ff6b00; /* Gorilla orange */
+            color: #ff6b00;
+        }
+        
+        .game-description {
+            font-size: 18px;
+            line-height: 1.6;
+            font-family: 'Mulish', sans-serif;
+            text-align: center;
+        }
+        
+        /* Section Styling */
+        .games-section {
+            padding: 100px 0;
+            background-color: #121212;
+        }
+        
+        .section-title {
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        
+        .section-subtitle {
+            font-size: 18px;
+            color: #aaa;
+            text-align: center;
+            margin-bottom: 50px;
+            font-family: 'Mulish', sans-serif;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            padding: 150px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .studio-logo {
+            max-width: 200px;
+            margin-bottom: 30px;
+        }
+        
+        .studio-title {
+            font-size: 42px;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .studio-tagline {
+            font-size: 18px;
+            color: #aaa;
+            font-family: 'Mulish', sans-serif;
         }
     </style>
 </head>
@@ -103,14 +192,13 @@
     </div>
     
     <!-- WRAPPER ALL -->
-    <div class="grax_tm_all_wrap" data-magic-cursor="" data-color="crimson">
+    <div class="grax_tm_all_wrap">
         <!-- TOPBAR -->
         <div class="grax_tm_topbar">
             <div class="container">
                 <div class="topbar_inner">
                     <div class="logo">
-                        <a class="dark" href="#"><img src="img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a>
-                        <a class="light" href="#"><img src="img/logo/logo.png" alt="EdwyDenny Logo" loading="lazy"></a>
+                        <a href="index.html"><img src="img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a>
                     </div>
                     <div class="menu">
                         <ul class="anchor_nav">
@@ -124,64 +212,51 @@
             </div>
         </div>
         
-        <!-- HERO -->
-        <div class="grax_tm_hero game-hub-hero" id="home">
+        <!-- HERO SECTION -->
+        <div class="grax_tm_hero hero-section" id="home">
             <div class="bg">
                 <div class="image" data-img-url="img/slider/hub-bg.jpg"></div>
                 <div class="overlay"></div>
             </div>
             <div class="content">
                 <div class="container">
-                    <div class="details" data-animation="toTop">
-                        <img src="img/logo/logo.png" alt="EdwyDenny" style="max-width: 200px; margin-bottom: 30px;">
-                        <h1 style="font-size: 42px; letter-spacing: 5px; margin-bottom: 20px;">GAME STUDIO</h1>
-                        <span class="fn_animation job">Creating immersive gaming experiences</span>
-                    </div>
-                    <div class="grax_tm_down" data-skin="dark">
-                        <div class="line_wrapper">
-                            <div class="line"></div>
-                        </div>
-                    </div>
+                    <img src="img/logo/logo.png" alt="EdwyDenny" class="studio-logo">
+                    <h1 class="studio-title">GAME STUDIO</h1>
+                    <p class="studio-tagline">Creating immersive gaming experiences</p>
                 </div>
             </div>
         </div>
         
         <!-- GAMES SECTION -->
-        <div class="grax_tm_section" id="games" style="padding: 100px 0; background-color: #1e1e1e;">
+        <div class="grax_tm_section games-section" id="games">
             <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>OUR <span>GAMES</span></h3>
-                    <p>Explore our current game portfolio</p>
-                </div>
+                <h2 class="section-title">OUR GAMES</h2>
+                <p class="section-subtitle">Explore our current game portfolio</p>
                 
-                <div class="game-grid" style="display: flex; justify-content: center; flex-wrap: wrap; gap: 50px; margin-top: 70px;">
+                <div class="game-grid">
                     <!-- The Sling and The Stone Card -->
-                    <div class="game-card" style="width: 400px; text-align: center;">
-                        <a href="sling-and-stone.html" style="text-decoration: none; color: inherit;">
-                            <div style="background: #121212; padding: 30px; border-radius: 10px; transition: transform 0.3s; border-bottom: 3px solid #4a90e2;">
-                                <img src="logo/title_sling.png" alt="The Sling and The Stone" style="max-width: 100%; height: auto;">
-                                <span class="game-platform pc-platform">PC Game</span>
-                                <p style="margin-top: 20px; line-height: 1.6;">An action-survival game set in a mystical desert world where you battle demons with sacred sling powers.</p>
-                            </div>
-                        </a>
+                    <div class="game-card sling-card">
+                        <img src="logo/title_sling.png" alt="The Sling and The Stone" class="game-title-image">
+                        <span class="game-platform pc-platform">PC GAME</span>
+                        <p class="game-description">
+                            An action-survival game set in a mystical desert world where you battle demons with sacred sling powers.
+                        </p>
                     </div>
                     
                     <!-- Gorilla vs 100 Card -->
-                    <div class="game-card" style="width: 400px; text-align: center;">
-                        <a href="gorilla-vs-100.html" style="text-decoration: none; color: inherit;">
-                            <div style="background: #121212; padding: 30px; border-radius: 10px; transition: transform 0.3s; border-bottom: 3px solid #ff6b00;">
-                                <img src="logo/title-gorilla.png" alt="Gorilla vs 100" style="max-width: 100%; height: auto;">
-                                <span class="game-platform mobile-platform">Mobile Game</span>
-                                <p style="margin-top: 20px; line-height: 1.6;">A brutal survival battle where you play as a colossal gorilla fighting waves of soldiers in a destructible city.</p>
-                            </div>
-                        </a>
+                    <div class="game-card gorilla-card">
+                        <img src="logo/title-gorilla.png" alt="Gorilla vs 100" class="game-title-image">
+                        <span class="game-platform mobile-platform">MOBILE GAME</span>
+                        <p class="game-description">
+                            A brutal survival battle where you play as a colossal gorilla fighting waves of soldiers in a destructible city.
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- ABOUT SECTION -->
-        <div class="grax_tm_section" id="about" style="padding: 100px 0;">
+        <div class="grax_tm_section" id="about" style="padding: 100px 0; background-color: #1e1e1e;">
             <div class="container">
                 <div class="grax_tm_title_holder">
                     <h3>ABOUT <span>EDWYDENNY</span></h3>
@@ -191,16 +266,12 @@
                         EdwyDenny is an independent game studio dedicated to creating immersive gaming experiences. 
                         Founded in 2023, we specialize in action-packed games with unique mechanics and compelling narratives.
                     </p>
-                    <p style="line-height: 1.8; font-size: 18px; margin-top: 20px;">
-                        Our team combines technical expertise with artistic vision to deliver memorable gaming moments 
-                        across PC and mobile platforms.
-                    </p>
                 </div>
             </div>
         </div>
         
         <!-- CONTACT SECTION -->
-        <div class="grax_tm_section" id="contact" style="padding: 100px 0; background-color: #1e1e1e;">
+        <div class="grax_tm_section" id="contact" style="padding: 100px 0; background-color: #121212;">
             <div class="container">
                 <div class="grax_tm_title_holder">
                     <h3>CONTACT <span>US</span></h3>
@@ -212,7 +283,7 @@
             </div>
         </div>
         
-        <!-- FOOTER -->
+        <!-- COPYRIGHT FOOTER -->
         <div class="copyright-footer" style="text-align: center; padding: 30px 0; background-color: #000; color: #777;">
             <div class="container">
                 <p>© 2025 EdwyDenny. All rights reserved.</p>
@@ -239,18 +310,14 @@
                         }, 500);
                     }, 500);
                 });
+                
+                // Fallback
+                setTimeout(function() {
+                    if (preloader.style.opacity !== '0') {
+                        preloader.style.display = 'none';
+                    }
+                }, 3000);
             }
-            
-            // Game card hover effects
-            var gameCards = document.querySelectorAll('.game-card > a > div');
-            gameCards.forEach(function(card) {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-10px)';
-                });
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
         });
     </script>
 </body>

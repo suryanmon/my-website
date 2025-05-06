@@ -9,8 +9,8 @@
 
     <title>Gorilla Vs 100 | Mobile Game</title>
 
-    <!-- Favicon linking to index.html -->
-    <link rel="icon" type="image/png" href="img/favicon.png" onclick="window.location.href='index.html'; return false;" style="cursor:pointer">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
 
     <!-- Preload critical resources -->
     <link rel="preload" href="slider/3.jpg" as="image">
@@ -29,7 +29,7 @@
 
     <!-- Inline Critical CSS -->
     <style>
-        /* Minimal critical CSS for above-the-fold content */
+        /* Preloader */
         #preloader {
             position: fixed;
             top: 0;
@@ -63,97 +63,56 @@
             100% { left: 100px; }
         }
         
-        /* Dark Mode Base Styles */
+        /* Dark Mode */
         body.dark-mode {
             background-color: #121212;
             color: #ffffff;
         }
         
-        /* Ensure content is visible while CSS loads */
-        .grax_tm_all_wrap {
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        .css-loaded .grax_tm_all_wrap {
-            opacity: 1;
-        }
-
-        /* Legal Sections Styling */
-        .legal-section {
-            padding: 80px 0;
-            background-color: #1e1e1e;
-        }
-        .legal-container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .legal-title {
-            color: #ffffff;
-            font-size: 30px;
-            text-transform: uppercase;
-            letter-spacing: 10px;
-            margin-bottom: 50px;
-            text-align: center;
-            font-weight: 700;
-            font-family: 'Poppins', sans-serif;
-        }
-        .legal-title span {
-            color: #e54b4b;
-        }
-        .legal-content {
-            font-family: 'Mulish', sans-serif;
-            line-height: 1.8;
-            color: #dddddd;
-        }
-        .legal-content h2 {
-            color: #e54b4b;
-            margin-top: 40px;
-            font-size: 22px;
-            font-weight: 600;
-        }
-        .legal-content h3 {
-            color: #ffffff;
-            margin-top: 30px;
-            font-size: 18px;
-            font-weight: 500;
-        }
-        .legal-content p, .legal-content ul {
-            margin-bottom: 20px;
-        }
-        .legal-content ul {
-            padding-left: 20px;
-        }
-        .legal-content li {
-            margin-bottom: 10px;
-        }
-        .legal-divider {
-            border-top: 1px solid #333;
-            margin: 50px 0;
-            text-align: center;
-        }
-        .legal-divider span {
-            background: #1e1e1e;
-            padding: 0 20px;
-            position: relative;
-            top: -12px;
-            color: #777;
-        }
-
-        /* GORILLA VS 100 SPECIFIC STYLES */
+        /* Gorilla Specific Styles */
         .gorilla-hero .bg .image {
             background-image: url('slider/3.jpg') !important;
         }
-        .gorilla-title {
-            color: #ff6b00; /* Orange accent for Gorilla */
-        }
+        
         .gorilla-title span {
-            color: #8b0000; /* Dark red */
+            color: #ff6b00;
         }
         
-        /* Override any conflicting styles from shared CSS */
-        body.gorilla-page .grax_tm_topbar.animate {
-            background-color: #1a1a1a !important;
+        .contact-email {
+            color: #ff6b00;
+        }
+        
+        /* Section Styling */
+        .section-title {
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        
+        .section-title span {
+            color: #ff6b00;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Mulish', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            margin: 50px auto;
+            max-width: 900px;
+            background: #000;
         }
     </style>
     
@@ -171,7 +130,6 @@
     <div id="preloader">
         <div class="loader_line"></div>
     </div>
-    <!-- /PRELOADER -->
     
     <!-- WRAPPER ALL -->
     <div class="grax_tm_all_wrap" data-magic-cursor="" data-color="crimson">
@@ -180,8 +138,7 @@
             <div class="container">
                 <div class="topbar_inner">
                     <div class="logo">
-                        <a class="dark" href="index.html"><img src="img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a>
-                        <a class="light" href="index.html"><img src="img/logo/logo.png" alt="EdwyDenny Logo" loading="lazy"></a>
+                        <a href="index.html"><img src="img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a>
                     </div>
                     <div class="menu">
                         <ul class="anchor_nav">
@@ -196,42 +153,6 @@
                 </div>
             </div>
         </div>
-        <!-- /TOPBAR -->
-        
-        <!-- MOBILE MENU -->
-        <div class="grax_tm_mobile_menu">
-            <div class="topbar_inner">
-                <div class="container bigger">
-                    <div class="topbar_in">
-                        <div class="logo">
-                            <a href="index.html"><img src="img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a>
-                        </div>
-                        <div class="my_trigger">
-                            <div class="hamburger hamburger--collapse-r">
-                                <div class="hamburger-box">
-                                    <div class="hamburger-inner"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="dropdown">
-                <div class="container">
-                    <div class="dropdown_inner">
-                        <ul class="anchor_nav">
-                            <li><a href="#home">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#trailer">Trailer</a></li>
-                            <li><a href="#eula">EULA</a></li>
-                            <li><a href="#privacy">Privacy</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /MOBILE MENU -->
         
         <!-- HERO -->
         <div class="grax_tm_hero gorilla-hero" id="home">
@@ -241,172 +162,137 @@
             </div>
             <div class="content">
                 <div class="container">
-                    <div class="details" data-animation="toTop">
-                        <img src="logo/title-gorilla.png" alt="Gorilla Vs 100" class="game-title-image" style="
-                            max-width: 40%;
-                            height: auto;
-                            margin-left: 0;
-                            margin-top: 20px;
-                            display: block;
-                        ">
+                    <div class="details">
+                        <img src="logo/title-gorilla.png" alt="Gorilla Vs 100" style="max-width: 40%; margin-top: 20px;">
                         <span class="fn_animation job">Mobile Action Game</span>
                     </div>
-                    <div class="grax_tm_down" data-skin="dark">
-                        <div class="line_wrapper">
-                            <div class="line"></div>
-                        </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- ABOUT SECTION -->
+        <div class="grax_tm_section" id="about" style="padding: 100px 0; background-color: #1e1e1e;">
+            <div class="container">
+                <h2 class="section-title">ABOUT <span>THE GAME</span></h2>
+                <div class="about-content">
+                    <p>In Gorilla vs 100, you play as a colossal gorilla fighting against waves of 100 soldiers in a destructible urban environment. Use brute strength, environmental weapons, and primal rage to survive as the military throws everything they have at you.</p>
+                    <p>Features include realistic destruction physics, dynamic combat with climbing and throwing mechanics, and progressive difficulty across multiple battle zones.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- TRAILER SECTION -->
+        <div class="grax_tm_section" id="trailer" style="padding: 100px 0;">
+            <div class="container">
+                <h2 class="section-title">GAMEPLAY <span>TRAILER</span></h2>
+                <div class="video-container">
+                    <div class="about-content">
+                        <p>Coming Soon!</p>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- /HERO -->
         
-        <!-- GAMEPLAY TRAILER SECTION -->
-        <div class="grax_tm_section trailer-section" id="trailer" style="padding: 100px 0;">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3 class="trailer-title gorilla-title">GAMEPLAY <span>TRAILER</span></h3>
-                </div>
-                <div class="video-container" style="
-                    position: relative;
-                    padding-bottom: 56.25%;
-                    height: 0;
-                    margin: 50px auto;
-                    max-width: 900px;
-                    background: #000;
-                ">
-                <div class="about-content">
-                    <p>Coming Soon!</p>
-                </div>
-            </div>
-        </div>
-        <!-- /GAMEPLAY TRAILER SECTION -->
-
-        <!-- ABOUT SECTION -->
-        <div class="grax_tm_section about-section" id="about">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3 class="about-title gorilla-title">ABOUT <span>THE GAME</span></h3>
-                </div>
-                <div class="about-content">
-                    <p>In Gorilla vs 100, you play as a colossal gorilla fighting against waves of 100 soldiers in a destructible urban environment. Use brute strength, environmental weapons, and primal rage to survive as the military throws everything they have at you.</p>
-                    <p>Features include realistic destruction physics, dynamic combat with climbing and throwing mechanics, and progressive difficulty across multiple battle zones. Upgrade your abilities and unlock powerful rage modes as you progress through the game.</p>
-                </div>
-            </div>
-        </div>
-        <!-- /ABOUT SECTION -->
-
         <!-- EULA SECTION -->
-        <div class="grax_tm_section legal-section" id="eula">
-            <div class="legal-container">
-                <h3 class="legal-title gorilla-title">END USER LICENSE <span>AGREEMENT</span></h3>
-                <div class="legal-content">
+        <div class="grax_tm_section" id="eula" style="padding: 100px 0; background-color: #1e1e1e;">
+            <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+                <h2 class="section-title">END USER LICENSE <span>AGREEMENT</span></h2>
+                <div class="about-content">
                     <p><strong>Last updated:</strong> 6th May 2025</p>
                     <p>This End User License Agreement ("Agreement") is a legal agreement between you (the "User") and EdwyDenny Studio ("Developer") for the use of the mobile game Gorilla vs 100 ("Software").</p>
 
-                    <h2>1. License Grant</h2>
+                    <h3 style="color: #ff6b00; margin-top: 40px;">1. License Grant</h3>
                     <p>EdwyDenny grants you a non-exclusive, non-transferable, revocable license to use the Software for personal, non-commercial use on your mobile device.</p>
 
-                    <h2>2. Ownership</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">2. Ownership</h3>
                     <p>All rights, title, and interest in and to the Software remain with EdwyDenny. This includes all code, graphics, music, and design.</p>
 
-                    <h2>3. Restrictions</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">3. Restrictions</h3>
                     <p>You agree not to:</p>
-                    <ul>
+                    <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
                         <li>Modify, reverse engineer, or decompile the Software.</li>
                         <li>Use the Software for any commercial purposes without permission.</li>
                         <li>Distribute or make copies of the Software.</li>
                     </ul>
 
-                    <h2>4. Termination</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">4. Termination</h3>
                     <p>This Agreement is effective until terminated. Your rights under this Agreement will terminate automatically without notice if you fail to comply with any term(s). Upon termination, you must delete all copies of the Software.</p>
 
-                    <h2>5. Disclaimer</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">5. Disclaimer</h3>
                     <p>The Software is provided "as is" without warranties of any kind. EdwyDenny is not liable for any damages or loss resulting from your use of the Software.</p>
 
-                    <h2>6. Governing Law</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">6. Governing Law</h3>
                     <p>This Agreement shall be governed by and construed in accordance with the laws of India.</p>
                 </div>
             </div>
         </div>
-        <!-- /EULA SECTION -->
-
-        <!-- PRIVACY POLICY SECTION -->
-        <div class="grax_tm_section legal-section" id="privacy">
-            <div class="legal-container">
-                <h3 class="legal-title gorilla-title">PRIVACY <span>POLICY</span></h3>
-                <div class="legal-content">
+        
+        <!-- PRIVACY SECTION -->
+        <div class="grax_tm_section" id="privacy" style="padding: 100px 0;">
+            <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+                <h2 class="section-title">PRIVACY <span>POLICY</span></h2>
+                <div class="about-content">
                     <p><strong>Last updated:</strong> 6th May 2025</p>
                     <p>At EdwyDenny Studio, we value your privacy. This policy explains how we collect and use your information when you use our game Gorilla vs 100.</p>
 
-                    <h2>1. Information We Collect</h2>
+                    <h3 style="color: #ff6b00; margin-top: 40px;">1. Information We Collect</h3>
                     <p>We may collect:</p>
-                    <ul>
+                    <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
                         <li>Device information (model, OS, unique ID)</li>
                         <li>Game usage data (level progress, crashes)</li>
                         <li>Ads data (only if ads are served)</li>
                     </ul>
                     <p>We do not collect personal information such as name, email, or location unless explicitly provided.</p>
 
-                    <h2>2. How We Use Data</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">2. How We Use Data</h3>
                     <p>We use the data to:</p>
-                    <ul>
+                    <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
                         <li>Improve gameplay experience</li>
                         <li>Analyze crashes and bugs</li>
                         <li>Show personalized ads (if applicable)</li>
                     </ul>
 
-                    <h2>3. Third-Party Services</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">3. Third-Party Services</h3>
                     <p>We may use third-party services such as Google AdMob or Unity Ads, which may collect data in accordance with their privacy policies.</p>
 
-                    <h2>4. Children's Privacy</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">4. Children's Privacy</h3>
                     <p>Our game is not intended for children under the age of 13 without parental supervision. We do not knowingly collect personal data from children.</p>
 
-                    <h2>5. Contact</h2>
+                    <h3 style="color: #ff6b00; margin-top: 30px;">5. Contact</h3>
                     <p>If you have any questions, contact us at:</p>
-                    <ul>
+                    <ul style="text-align: left; max-width: 600px; margin: 0 auto;">
                         <li>📧 <a href="mailto:sales@edwydenny.com" style="color: #ff6b00;">sales@edwydenny.com</a></li>
                         <li>🌐 <a href="https://www.edwydenny.com" style="color: #ff6b00;" target="_blank">www.edwydenny.com</a></li>
                     </ul>
                 </div>
             </div>
         </div>
-        <!-- /PRIVACY POLICY SECTION -->
         
         <!-- CONTACT SECTION -->
-        <div class="grax_tm_section" id="contact">
+        <div class="grax_tm_section" id="contact" style="padding: 100px 0; background-color: #1e1e1e;">
             <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3 class="contact-title gorilla-title">CONTACT <span>US</span></h3>
-                </div>
-                <div class="contact-info">
+                <h2 class="section-title">CONTACT <span>US</span></h2>
+                <div style="text-align: center; margin-top: 30px;">
                     <p>For business inquiries:</p>
-                    <a href="mailto:sales@edwydenny.com" class="contact-email" style="color: #ff6b00;">sales@edwydenny.com</a>
+                    <a href="mailto:sales@edwydenny.com" class="contact-email" style="font-size: 22px; text-decoration: none; font-family: 'Poppins', sans-serif;">sales@edwydenny.com</a>
                 </div>
             </div>
         </div>
-        <!-- /CONTACT SECTION -->
         
         <!-- COPYRIGHT FOOTER -->
-        <div class="copyright-footer">
+        <div class="copyright-footer" style="text-align: center; padding: 30px 0; background-color: #000; color: #777;">
             <div class="container">
                 <p>© 2025 EdwyDenny. Gorilla Vs 100™. All rights reserved.</p>
             </div>
         </div>
-        <!-- /COPYRIGHT FOOTER -->
     </div>
-    <!-- /WRAPPER ALL -->
 
-    <!-- Deferred JavaScript -->
+    <!-- Scripts -->
     <script src="js/jquery.js"></script>
     <script src="js/plugins.js" defer></script>
     <script src="js/init.js" defer></script>
     
-    <!-- Optimized Script -->
     <script>
-        // Mark CSS as loaded
-        document.documentElement.classList.add('css-loaded');
-        
         // Preloader removal
         document.addEventListener('DOMContentLoaded', function() {
             var preloader = document.getElementById('preloader');
@@ -428,169 +314,7 @@
                     }
                 }, 3000);
             }
-            
-            // Make favicon clickable (fallback)
-            const favicon = document.querySelector('link[rel="icon"]');
-            if (favicon) {
-                favicon.onclick = function(e) {
-                    e.preventDefault();
-                    window.location.href = 'index.html';
-                };
-            }
         });
     </script>
-    
-    <!-- Style fixes for all sections -->
-    <style>
-        /* Trailer Section Fixes */
-        .trailer-section {
-            padding: 100px 0 !important;
-            min-height: 80vh !important;
-            display: flex;
-            align-items: center;
-        }
-        
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            margin: 50px auto !important;
-            max-width: 900px;
-            width: 90%;
-            background: #000;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        
-        /* Dark Theme Styles */
-        body.dark-mode .grax_tm_all_wrap {
-            background-color: #121212 !important;
-        }
-        body.dark-mode .grax_tm_hero .name,
-        body.dark-mode .grax_tm_hero .job {
-            color: #ffffff !important;
-        }
-        body.dark-mode .grax_tm_section {
-            background-color: #1e1e1e !important;
-        }
-        .trailer-title,
-        .contact-title,
-        .about-title {
-            color: #ffffff !important;
-            font-size: 30px !important;
-            text-transform: uppercase !important;
-            letter-spacing: 10px !important;
-            margin-bottom: 30px !important;
-            text-align: center !important;
-            opacity: 1 !important;
-            visibility: visible !important;
-            font-weight: 700 !important;
-            font-family: 'Poppins', sans-serif !important;
-        }
-        .trailer-title span, 
-        .contact-title span,
-        .about-title span {
-            color: #e54b4b !important;
-        }
-        body.dark-mode .grax_tm_topbar.animate {
-            background-color: #1e1e1e !important;
-            box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
-        }
-        body.dark-mode .grax_tm_topbar .menu ul li a {
-            color: #ffffff !important;
-        }
-        
-        /* About Section Styles */
-        .about-section {
-            padding: 100px 0;
-            background-color: #1e1e1e;
-        }
-        
-        .about-content {
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-            font-family: 'Mulish', sans-serif;
-            font-size: 18px;
-            line-height: 1.8;
-            color: #dddddd;
-        }
-        
-        /* Contact Section */
-        #contact {
-            padding: 100px 0;
-        }
-        .contact-info {
-            text-align: center;
-            margin-top: 30px;
-        }
-        .contact-email {
-            font-size: 22px;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            transition: color 0.3s ease;
-            display: inline-block;
-            margin-top: 20px;
-        }
-        .contact-email:hover {
-            color: #ffffff !important;
-        }
-        
-        /* Footer */
-        .copyright-footer {
-            text-align: center;
-            padding: 30px 0;
-            background-color: #000;
-            color: #777;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .trailer-section,
-            .about-section,
-            .legal-section,
-            #contact {
-                padding: 70px 0 !important;
-            }
-            
-            .trailer-title,
-            .about-title,
-            .legal-title,
-            .contact-title {
-                font-size: 24px !important;
-                letter-spacing: 5px !important;
-            }
-            
-            .about-content,
-            .legal-container {
-                padding: 0 20px;
-            }
-            
-            .game-title-image {
-                max-width: 60% !important;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .trailer-title,
-            .about-title,
-            .legal-title,
-            .contact-title {
-                font-size: 20px !important;
-                letter-spacing: 3px !important;
-            }
-            
-            .game-title-image {
-                max-width: 80% !important;
-            }
-            
-            .legal-content h2 {
-                font-size: 18px;
-            }
-        }
-    </style>
 </body>
 </html>
