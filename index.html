@@ -1,42 +1,152 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Our Games</title>
+    <!-- METADATA (same as before) -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="EdwyDenny Game Collection - Play The Sling and The Stone and Gorilla vs 100">
+    <meta name="author" content="Marketify">
+
+    <title>EdwyDenny Games</title>
+
+    <!-- FAVICON, PRELOADS, FONTS (same as before) -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;900&family=Poppins:wght@300;900&display=swap" rel="stylesheet">
+
+    <!-- CSS (same as before) -->
+    <link rel="stylesheet" href="css/plugins.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="css/style.css"></noscript>
+
+    <!-- CRITICAL CSS (simplified for a menu) -->
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        #preloader { /* (keep your existing preloader styles) */ }
+        body.dark-mode { background: #121212; color: #fff; }
+        .game-menu { 
+            padding: 100px 0;
             text-align: center;
-            padding: 50px;
         }
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
+        .game-card {
+            display: inline-block;
+            width: 400px;
+            margin: 30px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+        .game-card img {
             width: 100%;
-            height: 100%;
-            background: #121212;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            height: 200px;
+            object-fit: cover;
         }
-        .game-link {
-            display: block;
-            margin: 20px;
+        .game-card h3 {
+            font-family: 'Poppins', sans-serif;
+            padding: 20px;
             font-size: 24px;
-            color: blue;
-            text-decoration: none;
+            margin: 0;
         }
-        .game-link:hover {
-            color: red;
+        .game-card a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
         }
     </style>
 </head>
-<body>
-    <h1>Our Games</h1>
-    <h2> - </h2>
-    
-    <a href="sling-and-stone.html" class="game-link">PC - The Sling and The Stone</a>
-    <a href="gorilla-vs-100.html" class="game-link">Mobile - Gorilla vs 100</a>
+
+<body class="dark-mode">
+    <!-- PRELOADER (same) -->
+    <div id="preloader"><div class="loader_line"></div></div>
+
+    <!-- WRAPPER (simplified for menu) -->
+    <div class="grax_tm_all_wrap">
+        <!-- TOPBAR (same logo/links) -->
+        <div class="grax_tm_topbar">
+            <div class="container">
+                <div class="topbar_inner">
+                    <div class="logo">
+                        <a href="#"><img src="img/logo/dark.png" alt="EdwyDenny Games" loading="lazy"></a>
+                    </div>
+                    <div class="menu">
+                        <ul class="anchor_nav">
+                            <li class="current"><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#games">Games</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HERO SECTION (updated for game selection) -->
+        <div class="grax_tm_hero" id="home">
+            <div class="bg">
+                <div class="image" data-img-url="img/slider/game-hub-bg.jpg"></div>
+                <div class="overlay"></div>
+            </div>
+            <div class="content">
+                <div class="container">
+                    <div class="details">
+                        <img src="img/logo/edwydenny-logo.png" alt="EdwyDenny Games" style="max-width: 300px;">
+                        <span class="fn_animation job">Game Collection</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- GAME SELECTION SECTION -->
+        <div class="grax_tm_section game-menu" id="games">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3>OUR <span>GAMES</span></h3>
+                </div>
+                <div class="game-list">
+                    <!-- Sling and the Stone Card -->
+                    <div class="game-card">
+                        <a href="sling-and-stone.html">
+                            <img src="img/games/sling-preview.jpg" alt="The Sling and The Stone" loading="lazy">
+                            <h3>The Sling and The Stone</h3>
+                        </a>
+                    </div>
+                    <!-- Gorilla vs 100 Card -->
+                    <div class="game-card">
+                        <a href="gorilla-vs-100.html">
+                            <img src="img/games/gorilla-preview.jpg" alt="Gorilla vs 100" loading="lazy">
+                            <h3>Gorilla vs 100</h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER (same) -->
+        <div class="copyright-footer">
+            <div class="container">
+                <p>© 2025 EdwyDenny. All rights reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS (same) -->
+    <script src="js/jquery.js"></script>
+    <script src="js/plugins.js" defer></script>
+    <script>
+        // Minimal JS for menu functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Preloader removal (same as before)
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    document.getElementById('preloader').style.opacity = '0';
+                }, 500);
+            });
+        });
+    </script>
 </body>
 </html>
