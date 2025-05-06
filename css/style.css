@@ -2256,6 +2256,26 @@ body.dark .grax_tm_settings .cursor li .svg,
 	        transition: all 0.2s;	
 		
 }
+/* Hover effects for game cards */
+.game-card {
+    transition: all 0.3s ease;
+}
+
+.game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+/* Cursor indication */
+.game-card {
+    cursor: pointer;
+}
+
+/* Remove default link styling */
+.game-grid a {
+    text-decoration: none;
+    color: inherit;
+}
 
 @-webkit-keyframes myAnimPrice {
     0% {
