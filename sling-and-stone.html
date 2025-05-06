@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="The Sling and The Stone - Action Adventure Game">
+    <meta name="author" content="Marketify">
+
+    <title>The Sling and The Stone Game</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="img/favicon.png">
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="img/slider/2.jpg" as="image">
+    <link rel="preload" href="img/logo/dark.png" as="image">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Optimized Font Loading -->
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+    <!-- CSS with load optimization -->
+    <link rel="stylesheet" href="css/plugins.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/colors.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/darkMode.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
+
+    <!-- Inline Critical CSS -->
+    <style>
+        /* Minimal critical CSS for above-the-fold content */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #121212;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .loader_line {
+            width: 100px;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .loader_line:before {
+            content: "";
+            position: absolute;
+            left: -50px;
+            height: 3px;
+            width: 40px;
+            background-color: #e54b4b;
+            animation: lineAnim 1s linear infinite;
+        }
+        @keyframes lineAnim {
+            0% { left: -40px; }
+            100% { left: 100px; }
+        }
+        
+        /* Dark Mode Base Styles */
+        body.dark-mode {
+            background-color: #121212;
+            color: #ffffff;
+        }
+        
+        /* Ensure content is visible while CSS loads */
+        .grax_tm_all_wrap {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .css-loaded .grax_tm_all_wrap {
+            opacity: 1;
+        }
+    </style>
+    
+    <!-- Non-critical CSS -->
+    <noscript>
+        <link rel="stylesheet" href="css/plugins.css">
+        <link rel="stylesheet" href="css/colors.css">
+        <link rel="stylesheet" href="css/darkMode.css">
+        <link rel="stylesheet" href="css/style.css">
+    </noscript>
+</head>
+
+<body class="dark-mode">
+    <!-- PRELOADER -->
+    <div id="preloader">
+        <div class="loader_line"></div>
+    </div>
+    <!-- /PRELOADER -->
+    
+    <!-- WRAPPER ALL -->
+    <div class="grax_tm_all_wrap" data-magic-cursor="" data-color="crimson">
+        <!-- TOPBAR - Updated with Careers and News links -->
+        <div class="grax_tm_topbar">
+            <div class="container">
+                <div class="topbar_inner">
+                    <div class="logo">
+                        <a class="dark" href="#"><img src="img/logo/dark.png" alt="Game Logo" loading="lazy"></a> 
+                        <a class="light" href="#"><img src="img/logo/logo.png" alt="Game Logo" loading="lazy"></a>  
+                    </div>
+                    <div class="menu">
+                        <ul class="anchor_nav">
+                            <li class="current"><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#trailer">Trailer</a></li>
+                            <li><a href="#news">News</a></li>
+                            <li><a href="#careers">Careers</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /TOPBAR -->
+        
+        <!-- MOBILE MENU - Updated with Careers and News links -->
+        <div class="grax_tm_mobile_menu">
+            <div class="topbar_inner">
+                <div class="container bigger">
+                    <div class="topbar_in">
+                        <div class="logo">
+                            <a href="#"><img src="img/logo/dark.png" alt="Mobile Logo" loading="lazy"></a>
+                        </div>
+                        <div class="my_trigger">
+                            <div class="hamburger hamburger--collapse-r">
+                                <div class="hamburger-box">
+                                    <div class="hamburger-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <div class="container">
+                    <div class="dropdown_inner">
+                        <ul class="anchor_nav">
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#trailer">Trailer</a></li>
+                            <li><a href="#news">News</a></li>
+                            <li><a href="#careers">Careers</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /MOBILE MENU -->
+        
+        <!-- HERO -->
+        <div class="grax_tm_hero" id="home">
+            <div class="bg">
+                <div class="image" data-img-url="img/slider/2.jpg"></div>
+                <div class="overlay"></div>
+            </div>
+            <div class="content">
+                <div class="container">
+                    <div class="details" data-animation="toTop">
+                        <!-- Replaced text with image -->
+                        <img src="logo/title_sling.png" alt="The Sling and The Stone" class="game-title-image" style="
+                            max-width: 40%;
+                            height: auto;
+                            margin-left: 0;
+                            margin-top: 20px;
+                            display: block;
+                        ">
+                        <span class="fn_animation job">    Action-Adventure Windows/VR</span>
+                    </div>
+                    <div class="grax_tm_down" data-skin="dark">
+                        <div class="line_wrapper">
+                            <div class="line"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /HERO -->
+        
+        <!-- GAMEPLAY TRAILER SECTION - Fixed height issue -->
+        <div class="grax_tm_section trailer-section" id="trailer" style="padding: 100px 0;">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="trailer-title">GAMEPLAY <span>TRAILER</span></h3>
+                </div>
+                <div class="video-container" style="
+                    position: relative;
+                    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+                    height: 0;
+                    margin: 50px auto;
+                    max-width: 900px;
+                    background: #000;
+                ">
+                    <iframe src="https://player.vimeo.com/video/1077281449?h=6e80b32994&badge=0&autopause=0&player_id=0&app_id=58479" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media" 
+                            style="position:absolute;top:0;left:0;width:100%;height:100%;" 
+                            title="The Sling and The Stone™ Gameplay Trailer"
+                            loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </div>
+        <!-- /GAMEPLAY TRAILER SECTION -->
+
+        <!-- NEW ABOUT SECTION -->
+        <div class="grax_tm_section about-section" id="about">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="about-title">ABOUT <span>THE GAME</span></h3>
+                </div>
+                <div class="about-content">
+                    <p>A village boy, Jacob single handedly faces an Army of Demons. With the help of God, he prepares to save all his captivated villagers with his Sling, which is first mistaken for a normal sling. He must make his stones wisely to take down the demons and eventually rise as a Leader by guiding all his people to a new world.</p>
+                    <p>Players explore in third or first person, craft stones like a bone-piercing stone and one that summons an angel, and fight with a sling in fast, skill-based combat. Light puzzles open paths.</p>
+                    <p>The Sling and the Stone is an Unreal Engine indie desert game where players step into a mystical, storm-swept world to battle demons and uncover ancient powers. In this action-packed journey, you'll use your wits and your weapon of choice—a sacred sling—to overcome brutal enemies and unlock powerful abilities.</p>
+                    <p>Featuring intense, skill-based combat and atmospheric exploration, Sling and the Stone gameplay combines fast reflexes with clever strategy. Set in a hauntingly beautiful desert environment, the game challenges you to craft special stones, solve light-based puzzles, and uncover secrets buried beneath the sand.</p>
+                    <p>Whether you're searching for the next great indie experience or just heard about The Sling and the Stone game, this adventure will pull you deep into a world unlike any other. Get ready to explore the unknown in the ultimate Sling and the Stone desert game.</p>
+                </div>
+            </div>
+        </div>
+        <!-- /ABOUT SECTION -->
+        
+        <!-- NEWS SECTION -->
+        <div class="grax_tm_section" id="news">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="news-title">NEWS <span>& UPDATES</span></h3>
+                </div>
+                <div class="under-construction">
+                    <img src="https://cdn.pixabay.com/photo/2017/06/20/08/12/maintenance-2422173_640.png" alt="Under Construction" style="max-width: 300px; margin: 0 auto 30px; display: block;">
+                    <h4 style="text-align: center; color: #e54b4b; font-family: 'Poppins', sans-serif;">News Section Coming Soon!</h4>
+                    <p style="text-align: center; max-width: 600px; margin: 0 auto; font-family: 'Mulish', sans-serif;">
+                        We're working hard to bring you the latest news and updates about The Sling and The Stone.
+                        Check back soon for exciting announcements!
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- /NEWS SECTION -->
+        
+        <!-- CAREERS SECTION -->
+        <div class="grax_tm_section" id="careers">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="careers-title">JOIN <span>OUR TEAM</span></h3>
+                </div>
+                <div class="careers-content">
+                    <p style="text-align: center; margin-bottom: 40px; font-family: 'Mulish', sans-serif;">
+                        We're always looking for talented individuals to join our team. Submit your information below and we'll contact you about opportunities.
+                    </p>
+                    
+                    <form id="careers-form" class="grax_tm_contact_form" action="https://formspree.io/f/sales@edwydenny.com" method="POST">
+                        <div class="fields">
+                            <div class="first">
+                                <ul>
+                                    <li>
+                                        <input id="name" name="name" type="text" placeholder="Your Name" required>
+                                    </li>
+                                    <li>
+                                        <input id="email" name="email" type="email" placeholder="Your Email" required>
+                                    </li>
+                                    <li>
+                                        <select id="position" name="position" required>
+    <option value="">Select a Position</option>
+    <option value="character-modeller">Character Modeller</option>
+    <option value="environment-artist">Environment Artist</option>
+    <option value="3d-animator">3D Animator</option>
+    <option value="rigging-artist">Rigging Artist</option>
+    <option value="unreal-engine-programmer">Unreal Engine Programmer</option>
+</select>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="last">
+                                <textarea id="message" name="message" placeholder="Tell us about your skills and experience"></textarea>
+                                <div class="grax_tm_button">
+                                    <button type="submit" class="submit-form">Submit Application</button>
+                                </div>
+                                <div class="empty_notice" style="display: none;">
+                                    <span class="error_message">Please fill all required fields</span>
+                                </div>
+                                <div class="returnmessage" data-success="Your application has been submitted! We'll contact you soon."></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- /CAREERS SECTION -->
+        
+        <!-- CONTACT SECTION -->
+        <div class="grax_tm_section" id="contact">
+            <div class="container">
+                <div class="grax_tm_title_holder">
+                    <h3 class="contact-title">CONTACT <span>US</span></h3>
+                </div>
+                <div class="contact-info">
+                    <p>For business inquiries:</p>
+                    <a href="mailto:sales@edwydenny.com" class="contact-email">sales@edwydenny.com</a>
+                </div>
+            </div>
+        </div>
+        <!-- /CONTACT SECTION -->
+        
+        <!-- COPYRIGHT FOOTER -->
+        <div class="copyright-footer">
+            <div class="container">
+                <p>© 2025 EdwyDenny. The Sling and the Stone™. All rights reserved.</p>
+            </div>
+        </div>
+        <!-- /COPYRIGHT FOOTER -->
+    </div>
+    <!-- /WRAPPER ALL -->
+
+    <!-- Deferred JavaScript -->
+    <script src="js/jquery.js"></script>
+    <script src="js/plugins.js" defer></script>
+    <script src="js/init.js" defer></script>
+    
+    <!-- Optimized Script -->
+    <script>
+        // Mark CSS as loaded
+        document.documentElement.classList.add('css-loaded');
+        
+        // Preloader removal
+        document.addEventListener('DOMContentLoaded', function() {
+            var preloader = document.getElementById('preloader');
+            if (preloader) {
+                window.addEventListener('load', function() {
+                    setTimeout(function() {
+                        preloader.style.transition = 'opacity 0.5s';
+                        preloader.style.opacity = '0';
+                        setTimeout(function() {
+                            preloader.style.display = 'none';
+                        }, 500);
+                    }, 500);
+                });
+                
+                // Fallback
+                setTimeout(function() {
+                    if (preloader.style.opacity !== '0') {
+                        preloader.style.display = 'none';
+                    }
+                }, 3000);
+            }
+            
+            // Lazy load Vimeo player when trailer section is in view
+            function loadVimeoPlayer() {
+                var iframe = document.querySelector('#trailer iframe');
+                if (iframe && !window.Vimeo) {
+                    var script = document.createElement('script');
+                    script.src = 'https://player.vimeo.com/api/player.js';
+                    script.async = true;
+                    document.body.appendChild(script);
+                    
+                    script.onload = function() {
+                        new Vimeo.Player(iframe);
+                    };
+                }
+            }
+            
+            // Check if element is in viewport
+            function isElementInViewport(el) {
+                var rect = el.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Initial check
+            var trailerSection = document.getElementById('trailer');
+            if (trailerSection && isElementInViewport(trailerSection)) {
+                loadVimeoPlayer();
+            }
+            
+            // Scroll listener for lazy loading
+            var scrollHandler = function() {
+                if (trailerSection && isElementInViewport(trailerSection)) {
+                    loadVimeoPlayer();
+                    window.removeEventListener('scroll', scrollHandler);
+                }
+            };
+            window.addEventListener('scroll', scrollHandler, { passive: true });
+
+            // Careers form submission
+            const careersForm = document.getElementById('careers-form');
+            if (careersForm) {
+                careersForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Validate form
+                    const name = document.getElementById('name');
+                    const email = document.getElementById('email');
+                    const emptyNotice = document.querySelector('.empty_notice');
+                    const returnMessage = document.querySelector('.returnmessage');
+                    
+                    if (name.value === '' || email.value === '') {
+                        emptyNotice.style.display = 'block';
+                        return false;
+                    }
+                    
+                    emptyNotice.style.display = 'none';
+                    
+                    // Submit form via Formspree
+                    fetch(careersForm.action, {
+                        method: 'POST',
+                        body: new FormData(careersForm),
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            returnMessage.innerHTML = returnMessage.dataset.success;
+                            returnMessage.style.display = 'block';
+                            careersForm.reset();
+                            
+                            // Hide message after 5 seconds
+                            setTimeout(() => {
+                                returnMessage.style.display = 'none';
+                            }, 5000);
+                        } else {
+                            throw new Error('Form submission failed');
+                        }
+                    })
+                    .catch(error => {
+                        returnMessage.innerHTML = 'There was a problem submitting your application. Please try again.';
+                        returnMessage.style.display = 'block';
+                    });
+                });
+            }
+        });
+    </script>
+    
+    <!-- Style fixes for all sections -->
+    <style>
+        /* Trailer Section Fixes - More space guaranteed */
+        .trailer-section {
+            padding: 100px 0 !important;
+            min-height: 80vh !important; /* Ensures enough vertical space */
+            display: flex;
+            align-items: center;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            height: 0;
+            overflow: hidden;
+            margin: 50px auto !important; /* More margin around video */
+            max-width: 900px;
+            width: 90%;
+            background: #000;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* Ensure title has proper spacing */
+        .trailer-title {
+            margin-bottom: 50px !important;
+        }
+        
+        /* Dark Theme Styles (non-critical) */
+        body.dark-mode .grax_tm_all_wrap {
+            background-color: #121212 !important;
+        }
+        body.dark-mode .grax_tm_hero .name,
+        body.dark-mode .grax_tm_hero .job {
+            color: #ffffff !important;
+        }
+        body.dark-mode .grax_tm_section {
+            background-color: #1e1e1e !important;
+        }
+        .trailer-title,
+        .contact-title,
+        .about-title,
+        .news-title,
+        .careers-title {
+            color: #ffffff !important;
+            font-size: 30px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 10px !important;
+            margin-bottom: 30px !important;
+            text-align: center !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-weight: 700 !important;
+            font-family: 'Poppins', sans-serif !important;
+        }
+        .trailer-title span, 
+        .contact-title span,
+        .about-title span,
+        .news-title span,
+        .careers-title span {
+            color: #e54b4b !important;
+        }
+        body.dark-mode .grax_tm_topbar.animate {
+            background-color: #1e1e1e !important;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5) !important;
+        }
+        body.dark-mode .grax_tm_topbar .menu ul li a {
+            color: #ffffff !important;
+        }
+        
+        /* About Section Styles */
+        .about-section {
+            padding: 100px 0;
+            background-color: #1e1e1e;
+        }
+        
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+            font-family: 'Mulish', sans-serif;
+            font-size: 18px;
+            line-height: 1.8;
+            color: #dddddd;
+        }
+        
+        .about-content p {
+            margin-bottom: 50px;
+        }
+        
+        /* News Section Styles */
+        .under-construction {
+            padding: 50px 0;
+            text-align: center;
+            margin-bottom: 50px; /* 👈 Added space below this section */
+        }
+        
+        /* Careers Section Styles */
+        .careers-content {
+            max-width: 800px;
+            margin: 0 auto;
+            margin-bottom: 50px;
+        }
+
+        /* Form Styles */
+        .grax_tm_contact_form input,
+        .grax_tm_contact_form textarea,
+        .grax_tm_contact_form select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background-color: rgb(0, 0, 0);
+            color: #ffffff;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-family: 'Mulish', sans-serif;
+            transition: all 0.3s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml;utf8,<svg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+        }
+
+        .grax_tm_contact_form input:focus,
+        .grax_tm_contact_form textarea:focus,
+        .grax_tm_contact_form select:focus {
+            border-color: #e54b4b;
+            outline: none;
+        }
+
+        .grax_tm_contact_form textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .submit-form {
+            background-color: #e54b4b;
+            color: #000000;
+            border: 2px solid #e54b4b;
+            padding: 12px 40px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .submit-form:hover {
+            background-color: transparent;
+            color: #e54b4b;
+        }
+
+        .error_message {
+            color: #e54b4b;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .returnmessage {
+            color: #ff0000;
+            font-family: 'Poppins', sans-serif;
+            margin-top: 15px;
+            display: none;
+        }        
+        /* Contact Section */
+        #contact {
+            padding: 100px 0;
+        }
+        .contact-info {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .contact-email {
+            font-size: 22px;
+            color: #e54b4b;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            transition: color 0.3s ease;
+            display: inline-block;
+            margin-top: 20px;
+        }
+        .contact-email:hover {
+            color: #ffffff;
+        }
+        
+        /* Footer */
+        .copyright-footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #000;
+            color: #777;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .trailer-section,
+            .about-section,
+            #news,
+            #careers,
+            #contact {
+                padding: 70px 0 !important;
+            }
+            
+            .trailer-title,
+            .about-title,
+            .news-title,
+            .careers-title,
+            .contact-title {
+                font-size: 24px !important;
+                letter-spacing: 5px !important;
+            }
+            
+            .about-content,
+            .careers-content {
+                padding: 0 20px;
+            }
+            
+            .grax_tm_contact_form input,
+            .grax_tm_contact_form textarea {
+                padding: 10px 12px;
+            }
+            
+            .game-title-image {
+                max-width: 60% !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .trailer-title,
+            .about-title,
+            .news-title,
+            .careers-title,
+            .contact-title {
+                font-size: 20px !important;
+                letter-spacing: 3px !important;
+            }
+            
+            .game-title-image {
+                max-width: 80% !important;
+            }
+        }
+    </style>
+</body>
+</html>
