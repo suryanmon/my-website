@@ -416,21 +416,6 @@
     
     <!-- Style fixes for all sections -->
     <style>
-        /* GORILLA VS 100 SPECIFIC STYLES */
-        .gorilla-hero .bg .image {
-            background-image: url('3.jpg') !important;
-        }
-        .gorilla-title {
-            color: #ff6b00; /* Orange accent for Gorilla */
-        }
-        .gorilla-title span {
-            color: #8b0000; /* Dark red */
-        }
-        
-        /* Override any conflicting styles from shared CSS */
-        body.gorilla-page .grax_tm_topbar.animate {
-            background-color: #1a1a1a !important;
-        }
         /* Trailer Section Fixes */
         .trailer-section {
             padding: 100px 0 !important;
@@ -582,42 +567,5 @@
             }
         }
     </style>
-</head>
-
-<body class="dark-mode gorilla-page">
-    <!-- PRELOADER -->
-    <div id="preloader">...</div>
-    
-    <!-- WRAPPER ALL -->
-    <div class="grax_tm_all_wrap">
-        <!-- TOPBAR -->
-        <div class="grax_tm_topbar">
-            <!-- ... (keep existing topbar) ... -->
-            <!-- Update navigation links to show Gorilla as current -->
-            <ul class="anchor_nav">
-                <li><a href="index.html">Home</a></li>
-                <li class="current"><a href="#about">About</a></li>
-                <li><a href="#trailer">Trailer</a></li>
-                <li><a href="#eula">EULA</a></li>
-                <li><a href="#privacy">Privacy</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-        
-        <!-- HERO (with gorilla-specific class) -->
-        <div class="grax_tm_hero gorilla-hero" id="home">
-            <!-- ... (gorilla-specific background) ... -->
-        </div>
-        
-        <!-- PROPER SECTION ORDERING -->
-        <div class="grax_tm_section" id="about">...</div>
-        <div class="grax_tm_section" id="trailer">...</div>
-        <div class="grax_tm_section" id="eula">...</div>
-        <div class="grax_tm_section" id="privacy">...</div>
-        <div class="grax_tm_section" id="contact">...</div>
-        
-        <!-- FOOTER -->
-        <div class="copyright-footer">...</div>
-    </div>
 </body>
 </html>
