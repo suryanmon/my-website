@@ -118,39 +118,6 @@
             max-width: 900px;
             background: #000;
         }
-        
-        /* Install Button Styles */
-        .install-container {
-            text-align: center;
-            margin: 50px 0;
-        }
-        
-        .playstore-button {
-            display: inline-block;
-            background-color: #1a1a1a;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 10px;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 600;
-            font-size: 20px;
-            transition: all 0.3s ease;
-            border: 2px solid #ff6b00;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        .playstore-button:hover {
-            background-color: #ff6b00;
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
-        }
-        
-        .playstore-button img {
-            vertical-align: middle;
-            margin-right: 10px;
-            height: 30px;
-        }
     </style>
     
     <!-- Non-critical CSS -->
@@ -182,7 +149,7 @@
                         <ul class="anchor_nav">
                             <li class="current"><a href="#home">Home</a></li>
                             <li><a href="#about">About</a></li>
-                            <li><a href="#install">Install</a></li>
+                            <li><a href="#trailer">Trailer</a></li>
                             <li><a href="#eula">EULA</a></li>
                             <li><a href="#privacy">Privacy</a></li>
                             <li><a href="#contact">Contact</a></li>
@@ -203,28 +170,17 @@
                     <div class="details" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
                         <img src="logo/title-gorilla.png" alt="Gorilla Vs 100" style="max-width: 40%; width: auto; height: auto;">
                         <span class="fn_animation job" style="margin-top: 20px;">Action Game</span>
-                <div class="install-container">
-                    <a href="https://play.google.com/store/apps/details?id=com.edwydenny.Gorillavs100&pcampaignid=web_share" class="playstore-button" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" loading="lazy">
-                        Download on Google Play
+                        <div class="install-container" style="margin-top: 30px;">
+                            <a href="https://play.google.com/store/apps/details?id=com.edwydenny.Gorillavs100&pcampaignid=web_share" class="playstore-button" target="_blank" style="display: inline-flex; align-items: center; background-color: #1a1a1a; color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 18px; transition: all 0.3s ease; border: 2px solid #ff6b00; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" loading="lazy" style="height: 25px; margin-right: 10px;">
+                                Download on Google Play
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- INSTALL SECTION -->
-        <div class="grax_tm_section" id="install" style="padding: 100px 0;">
-            <div class="container">
-                <h2 class="section-title">INSTALL <span>NOW</span></h2>
-                <div class="install-container">
-                    <a href="https://play.google.com/store/apps/details?id=com.edwydenny.Gorillavs100&pcampaignid=web_share" class="playstore-button" target="_blank">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/1200px-Google_Play_Store_badge_EN.svg.png" alt="Google Play" loading="lazy">
-                        Download on Google Play
-                    </a>
-                </div>
-            </div>
-        </div>
-
+        
         <!-- ABOUT SECTION -->
         <div class="grax_tm_section" id="about" style="padding: 100px 0; background-color: #1e1e1e;">
             <div class="container">
@@ -235,7 +191,27 @@
                 </div>
             </div>
         </div>
-
+        
+        <!-- TRAILER SECTION -->
+        <div class="grax_tm_section" id="trailer" style="padding: 100px 0;">
+            <div class="container">
+                <h2 class="section-title">GAMEPLAY <span>TRAILER</span></h2>
+                <div class="video-container">
+                    <div class="about-content">
+                        <iframe width="560" 
+                                height="315" 
+                                src="https://www.youtube.com/embed/Ln6opgJ2kCc?si=rEoLFIBZJ0fEpq-s" 
+                                title="YouTube video player" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                referrerpolicy="strict-origin-when-cross-origin" 
+                                allowfullscreen
+                                style="width: 100%; height: 100%; position: absolute; top: 0; left: 0;">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
         
         <!-- EULA SECTION -->
         <div class="grax_tm_section" id="eula" style="padding: 100px 0; background-color: #1e1e1e;">
