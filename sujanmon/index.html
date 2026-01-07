@@ -2,64 +2,100 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sujan Mon | Portfolio</title>
+    <title>Sujan Mon | Technical Animator</title>
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&family=Poppins:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/portfolio.css">
 </head>
 <body>
 
-    <header class="hero">
-        <div class="hero-top">
-            <h1>Sujan Mon</h1>
-            <p>Game Developer / 3D Animator / Partner</p>
+    <nav class="nav-fixed">
+        <a href="#home">Home</a>
+        <a href="#projects">Projects</a>
+        <a href="#about">About Me</a>
+    </nav>
+
+    <header class="hero" id="home">
+        <div class="hero-title">
+            <h1>Sujan<br>Mon</h1>
+            <p>Technical Animator & UE5 Developer</p>
         </div>
 
-        <div class="play-container">
-            <a href="YOUR_VIDEO_URL_HERE" class="play-btn" target="_blank">
+        <a href="https://vimeo.com/sujanmon/showreel" target="_blank" class="play-trigger">
+            <div class="play-circle">
                 <div class="triangle"></div>
-            </a>
-        </div>
+            </div>
+            <span style="display:block; margin-top:15px; font-weight:700; letter-spacing:2px;">WATCH SHOWREEL</span>
+        </a>
 
-        <div class="hero-bottom">
-            <a href="mailto:sujanmon@gmail.com">sujanmon@gmail.com</a><br>
-            <span>IG: @EdwyDenny</span><br>
-            <span>www.edwydenny.com</span>
+        <div class="hero-contact">
+            <a href="mailto:sujennmon@gmail.com" style="color:white; font-weight:700; text-decoration:none;">sujennmon@gmail.com</a><br>
+            <span style="color:var(--text-dim);">Formerly at Gameloft Toronto</span>
         </div>
     </header>
 
-    <section class="section" id="about">
-        <h2>About Me</h2>
-        <p style="font-size: 1.4rem; line-height: 1.8; color: #ccc;">
-            I am a specialized Game Developer and 3D Animator at EdwyDenny. 
-            I focus on creating high-fidelity environments and immersive gameplay mechanics 
-            that push the boundaries of digital storytelling.
-        </p>
-    </section>
-
-    <section class="section" id="projects">
-        <h2>Projects</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>The Sling and The Stone</h3>
-                <p>PC Game - Lead Developer</p>
+    <section class="container" id="projects">
+        <h2 class="section-title">Projects</h2>
+        
+        <div class="project-list">
+            <div class="project-item">
+                <div class="project-img">
+                    <img src="../img/slider/Game-Shot2.png" alt="Sling and Stone">
+                </div>
+                <div class="project-info">
+                    <h3>The Sling and The Stone (Steam)</h3>
+                    <p>Physics-driven tactical action. Developed a complex custom slingshot animation rig and implemented 8-way movement in UE5.</p>
+                    <small style="color:var(--accent)">Unreal Engine 5 • Rigging • Blueprints</small>
+                </div>
             </div>
-            <div class="project-card">
-                <h3>Gorilla vs 100</h3>
-                <p>Mobile Game - 3D Animation</p>
+
+            <div class="project-item">
+                <div class="project-img">
+                    <img src="https://via.placeholder.com/800x450/1a1a1a/ffffff?text=Gorilla+vs+100" alt="Gorilla vs 100">
+                </div>
+                <div class="project-info">
+                    <h3>Gorilla vs 100 (Google Play)</h3>
+                    <p>Solo-developed arcade survival. Built all gameplay logic, AI behavior, and melee combat animations using UE5 Blueprints.</p>
+                    <small style="color:var(--accent)">Android • Gameplay Animation • AI Logic</small>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="section" id="companies">
-        <h2>Companies</h2>
-        <div class="company-list">
-            <img src="../img/logo/dark.png" alt="EdwyDenny">
+    <section class="container" id="about">
+        <h2 class="section-title">About Me</h2>
+        <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-dim); margin-bottom: 50px;">
+            I am a performance-driven **Technical Animator** specializing in UE5 pipelines, Control Rigs, and character systems[cite: 6, 8]. 
+            With over 6 years of industry experience [cite: 16], I've contributed to major titles like <i>Disney Magic Kingdoms</i> and <i>Jurassic World</i>.
+        </p>
+
+        <h3 style="margin-bottom:30px;">Professional Experience</h3>
+        <div class="exp-grid">
+            <div class="exp-card">
+                <h4>Gameloft Toronto</h4>
+                <p>3D Animator (2.5 Years)</p>
+                <p>Rigging, Skinning, and Animations for Disney Magic Kingdoms.</p>
             </div>
+            <div class="exp-card">
+                <h4>Gameshastra</h4>
+                <p>3D Animator (2.5 Years)</p>
+                <p>Gameplay Animation for titles like Jurassic World and Transformers.</p>
+            </div>
+            <div class="exp-card">
+                <h4>Edwy Denny Games</h4>
+                <p>Dev / Animator (Present)</p>
+                <p>Shipping high-quality indie titles on Steam and Android.</p>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; padding: 30px; background: #111; border-radius: 10px;">
+            <h3 style="margin-top:0;">Core Expertise</h3>
+            <p><strong>Tools:</strong> UE5, Maya, 3ds Max, MotionBuilder, Git [cite: 9, 22]</p>
+            <p><strong>Technical:</strong> Animation Blueprints, State Machines, Control Rig, Mocap Cleanup [cite: 22]</p>
+        </div>
     </section>
 
-    <footer style="padding: 40px 60px; font-size: 0.8rem; opacity: 0.4;">
-        &copy; 2025 Sujan Mon. All rights reserved.
+    <footer style="text-align: center; padding: 60px; color: var(--text-dim); border-top: 1px solid #222;">
+        <p>&copy; 2026 Sujan Mon • <a href="https://www.linkedin.com/in/sujanmon/" style="color:var(--accent);">LinkedIn</a></p>
     </footer>
 
 </body>
