@@ -1,0 +1,155 @@
+/* portfolio.css - Specific styles for the Portfolio Page */
+
+:root {
+    --primary-color: #e54b4b;
+    --text-white: #ffffff;
+    --bg-dark: #121212;
+    --overlay-color: rgba(0, 0, 0, 0.4);
+}
+
+/* --- 1. Hero Section (The "Bill Robinson" Style) --- */
+.hero_portfolio {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full screen height */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Space between top text and bottom contact */
+    padding: 60px;
+    box-sizing: border-box;
+}
+
+.hero_overlay {
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: var(--overlay-color); /* Darken bg so text pops */
+    z-index: 1;
+}
+
+.hero_content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+}
+
+/* Bold, Blocky Typography like the reference */
+.hero_name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 900;
+    font-size: 5rem;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--text-white);
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.hero_title {
+    font-family: 'Mulish', sans-serif;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: var(--text-white);
+    margin-top: 10px;
+    opacity: 0.9;
+}
+
+/* --- 2. The Play Button (Center Stage) --- */
+.play_trigger {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.play_btn_circle {
+    width: 100px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+.play_icon {
+    width: 0; 
+    height: 0; 
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-left: 25px solid #fff;
+    margin-left: 5px; /* Visual optical adjustment */
+}
+
+.play_trigger:hover {
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.play_trigger:hover .play_btn_circle {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+/* --- 3. Bottom Info (Like reference email) --- */
+.hero_footer {
+    position: relative;
+    z-index: 2;
+    font-family: 'Mulish', sans-serif;
+    color: var(--text-white);
+    font-size: 1rem;
+}
+
+.hero_footer a {
+    color: var(--text-white);
+    text-decoration: none;
+    font-weight: 700;
+    display: block;
+}
+
+.hero_footer span {
+    display: block;
+    opacity: 0.8;
+    margin-top: 5px;
+}
+
+/* --- 4. Content Sections (Below Fold) --- */
+.section_dark {
+    background-color: var(--bg-dark);
+    padding: 100px 0;
+    border-top: 1px solid #333;
+}
+
+.grid_companies {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+}
+
+.company_logo {
+    max-height: 60px;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+    filter: grayscale(100%);
+}
+
+.company_logo:hover {
+    opacity: 1;
+    filter: grayscale(0%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero_portfolio { padding: 30px; }
+    .hero_name { font-size: 3rem; }
+    .play_btn_circle { width: 70px; height: 70px; }
+}
