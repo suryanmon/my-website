@@ -7,46 +7,52 @@
     <link rel="stylesheet" href="portfolio.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="container">
-            <h1 class="name">Sujan Mon</h1>
-            <h2 class="profession">3D Animator</h2>
-            <div class="contact-info">
-                <a href="mailto:sujennmon@gmail.com" class="contact-link">
-                    <i class="fas fa-envelope"></i> sujenmnon@gmail.com
-                </a>
-                <a href="https://www.linkedin.com/in/sujanmon/" target="_blank" class="contact-link">
-                    <i class="fab fa-linkedin"></i> LinkedIn
-                </a>
-                <div class="languages">
-                    <i class="fas fa-globe"></i> English, Français (B2)
+            <div class="header-content">
+                <h1 class="name">Sujan Mon</h1>
+                <h2 class="profession">3D Animator & Technical Artist</h2>
+                <p class="tagline">All animations are keyframe animated</p>
+                
+                <div class="contact-info">
+                    <a href="mailto:sujenmnon@gmail.com" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>sujenmnon@gmail.com</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sujannon/" target="_blank" class="contact-link">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <div class="languages">
+                        <i class="fas fa-globe"></i>
+                        <span>English | Français (B2)</span>
+                    </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Video Section -->
+    <!-- Video Showreel Section -->
     <section class="video-section">
         <div class="container">
             <div class="section-header">
-                <h3>Animation Showreel</h3>
-                <p class="subtitle">All animations are keyframe animated</p>
+                <h2><i class="fas fa-play-circle"></i> Animation Showreel</h2>
+                <p class="subtitle">Professional 3D animation portfolio - Keyframe animation only</p>
             </div>
             
-            <div class="video-container">
-                <div class="vimeo-wrapper">
-                    <div style="padding:56.25% 0 0 0;position:relative;">
+            <div class="video-wrapper">
+                <div class="video-container">
+                    <div class="vimeo-embed">
                         <iframe id="showreel-video" 
-                                src="https://player.vimeo.com/video/916474372?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+                                src="https://player.vimeo.com/video/916474372?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=0&amp;autoplay=0&amp;loop=0&amp;muted=0" 
                                 frameborder="0" 
-                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
-                                referrerpolicy="strict-origin-when-cross-origin"
-                                style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+                                allowfullscreen
                                 title="Sujan Mon Animation Showreel. All are Keyframe Animations">
                         </iframe>
                     </div>
@@ -59,49 +65,199 @@
                     <button id="pause-btn" class="video-btn">
                         <i class="fas fa-pause"></i> Pause
                     </button>
+                    <button id="fullscreen-btn" class="video-btn">
+                        <i class="fas fa-expand"></i> Fullscreen
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Featured Projects -->
-    <section class="projects-section">
+    <!-- Professional Projects -->
+    <section class="projects-section professional-projects">
         <div class="container">
             <div class="section-header">
-                <h3>Featured Projects</h3>
-                <p class="subtitle">Games developed as solo developer & animator</p>
+                <h2><i class="fas fa-briefcase"></i> Professional Projects</h2>
+                <p class="subtitle">Games and animations developed for major studios</p>
             </div>
             
             <div class="projects-grid">
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-gamepad"></i>
-                    </div>
-                    <h4>Gorilla vs 100</h4>
-                    <p class="project-platform">Google Play</p>
-                    <p class="project-desc">
-                        Fast-paced combat survival game with stylised melee combat and horde animations.
-                    </p>
-                    <div class="project-tags">
-                        <span>Unreal Engine</span>
-                        <span>Animation</span>
-                        <span>Rigging</span>
+                <!-- Disney Magic Kingdoms -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-castle"></i>
+                        </div>
+                        <h3>Disney Magic Kingdoms</h3>
+                        <p class="project-role">Rigging, Skinning, Animation (3DS Max)</p>
+                        <p class="project-platform">Windows, iOS, Android</p>
+                        <p class="project-desc">Mobile game featuring Disney characters and worlds</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.gameloft.android.ANMP.GloftDYHM&hl=en_IN" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
                     </div>
                 </div>
                 
-                <div class="project-card">
-                    <div class="project-icon">
-                        <i class="fas fa-slingshot"></i>
+                <!-- Jurassic World -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-dinosaur"></i>
+                        </div>
+                        <h3>Jurassic World</h3>
+                        <p class="project-role">Gameplay Animator (Maya)</p>
+                        <p class="project-platform">Windows</p>
+                        <p class="project-desc">Dinosaur park simulation and adventure game</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.ludia.jurassicworld&hl=en" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
                     </div>
-                    <h4>The Sling and The Stone</h4>
-                    <p class="project-platform">Steam</p>
-                    <p class="project-desc">
-                        Physics-driven tactical action game with custom slingshot animation rig.
-                    </p>
-                    <div class="project-tags">
-                        <span>Unreal Engine</span>
-                        <span>Physics</span>
-                        <span>Control Rig</span>
+                </div>
+                
+                <!-- Transformers -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Transformers</h3>
+                        <p class="project-role">3D Animator (Maya)</p>
+                        <p class="project-platform">Android</p>
+                        <p class="project-desc">Action game featuring Transformers characters</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.backflipstudios.transformersearthwars&hl=en" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- How to Train Your Dragon -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1541414778237-f2d5d47f56f7?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-dragon"></i>
+                        </div>
+                        <h3>How to Train Your Dragon</h3>
+                        <p class="project-role">Gameplay Animator (3DS Max)</p>
+                        <p class="project-platform">Playstation</p>
+                        <p class="project-desc">Dragon training and adventure game</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.ludia.dragons&hl=en" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Seven and Me 2 -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <h3>Seven and Me 2</h3>
+                        <p class="project-role">3D Animator (Maya)</p>
+                        <p class="project-platform">French TV Production</p>
+                        <p class="project-desc">Animated series production</p>
+                        <div class="project-link">
+                            <i class="fas fa-film"></i> TV Production
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Final Fantasy Mobile -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Final Fantasy Mobile</h3>
+                        <p class="project-role">Gameplay Animator</p>
+                        <p class="project-platform">Mobile</p>
+                        <p class="project-desc">Mobile adaptation of Final Fantasy series</p>
+                        <a href="https://ffxivmobile.com/web202409/index.html#/" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personal Projects -->
+    <section class="projects-section personal-projects">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-user"></i> Personal Projects</h2>
+                <p class="subtitle">Indie games developed and animated solo</p>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Gorilla vs 100 -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Gorilla vs 100</h3>
+                        <p class="project-role">Solo Developer & Animator</p>
+                        <p class="project-platform">Google Play</p>
+                        <p class="project-desc">Fast-paced combat survival game with stylised melee combat</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.edwydenny.Gorillavs100&pcampaignid=web_share" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> Download on Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- The Sling and The Stone -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-slingshot"></i>
+                        </div>
+                        <h3>The Sling and The Stone</h3>
+                        <p class="project-role">Solo Developer & Animator</p>
+                        <p class="project-platform">Steam PC</p>
+                        <p class="project-desc">Physics-driven sling-based tactical action game</p>
+                        <a href="https://store.steampowered.com/app/3803610/The_Sling_and_The_Stone/" target="_blank" class="project-link">
+                            <i class="fab fa-steam"></i> View on Steam
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="experience-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Professional Experience</h2>
+                <p class="subtitle">Animation roles in game development studios</p>
+            </div>
+            
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <div class="experience-date">Nov 2021 - June 2024</div>
+                    <div class="experience-content">
+                        <h3>Gameloft Toronto</h3>
+                        <p class="experience-role">3D Animator</p>
+                        <p class="experience-desc">Worked on Disney Magic Kingdoms for rigging, skinning, and animation. Specialized in character systems and animation pipelines.</p>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-date">May 2019 - Dec 2021</div>
+                    <div class="experience-content">
+                        <h3>Gameshastra</h3>
+                        <p class="experience-role">3D Animator</p>
+                        <p class="experience-desc">Gameplay animation for Jurassic World and other projects. Keyframe animation and mocap cleanup for humanoids and creatures.</p>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-date">Jun 2018 - Apr 2019</div>
+                    <div class="experience-content">
+                        <h3>DQ Entertainment International</h3>
+                        <p class="experience-role">3D Animator</p>
+                        <p class="experience-desc">First professional role in animation. Worked on various animation projects, developing foundational skills in 3D animation.</p>
                     </div>
                 </div>
             </div>
@@ -112,84 +268,39 @@
     <section class="skills-section">
         <div class="container">
             <div class="section-header">
-                <h3>Core Skills</h3>
+                <h2><i class="fas fa-star"></i> Core Skills</h2>
                 <p class="subtitle">Technical animation and game development expertise</p>
             </div>
             
             <div class="skills-grid">
                 <div class="skill-category">
-                    <h4><i class="fas fa-cube"></i> Unreal Engine 5</h4>
-                    <ul>
-                        <li>Animation Blueprints</li>
-                        <li>State Machines</li>
-                        <li>Control Rig</li>
-                        <li>Blendspaces</li>
-                    </ul>
+                    <h3><i class="fas fa-cube"></i> Unreal Engine 5</h3>
+                    <div class="skill-list">
+                        <span>Animation Blueprints</span>
+                        <span>State Machines</span>
+                        <span>Control Rig</span>
+                        <span>Blendspaces</span>
+                    </div>
                 </div>
                 
                 <div class="skill-category">
-                    <h4><i class="fas fa-robot"></i> Rigging & Animation</h4>
-                    <ul>
-                        <li>Custom Rig Creation</li>
-                        <li>Skinning & Deformation</li>
-                        <li>Keyframe Animation</li>
-                        <li>Mocap Cleanup</li>
-                    </ul>
+                    <h3><i class="fas fa-robot"></i> Rigging & Animation</h3>
+                    <div class="skill-list">
+                        <span>Custom Rig Creation</span>
+                        <span>Skinning & Deformation</span>
+                        <span>Keyframe Animation</span>
+                        <span>Mocap Cleanup</span>
+                    </div>
                 </div>
                 
                 <div class="skill-category">
-                    <h4><i class="fas fa-tools"></i> Software Tools</h4>
-                    <ul>
-                        <li>Maya</li>
-                        <li>MotionBuilder</li>
-                        <li>3DS Max</li>
-                        <li>Git & Version Control</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Experience Section -->
-    <section class="experience-section">
-        <div class="container">
-            <div class="section-header">
-                <h3>Professional Experience</h3>
-                <p class="subtitle">Animation roles in game development</p>
-            </div>
-            
-            <div class="experience-list">
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <h4>Gameloft Toronto</h4>
-                        <span class="experience-period">Nov 2021 - June 2024</span>
+                    <h3><i class="fas fa-tools"></i> Software Tools</h3>
+                    <div class="skill-list">
+                        <span>Maya</span>
+                        <span>MotionBuilder</span>
+                        <span>3DS Max</span>
+                        <span>Git</span>
                     </div>
-                    <p class="experience-role">3D Animator</p>
-                    <p class="experience-desc">
-                        Worked on Disney Magic Kingdoms for rigging, skinning, and animation.
-                    </p>
-                </div>
-                
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <h4>Gameshastra</h4>
-                        <span class="experience-period">May 2019 - Dec 2021</span>
-                    </div>
-                    <p class="experience-role">3D Animator</p>
-                    <p class="experience-desc">
-                        Gameplay animation for various projects including Jurassic World.
-                    </p>
-                </div>
-                
-                <div class="experience-item">
-                    <div class="experience-header">
-                        <h4>Current: Edwy Denny Games</h4>
-                        <span class="experience-period">May 2024 - Present</span>
-                    </div>
-                    <p class="experience-role">Developer / Animator</p>
-                    <p class="experience-desc">
-                        Developing indie games with full creative control.
-                    </p>
                 </div>
             </div>
         </div>
@@ -200,28 +311,34 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-left">
-                    <h4>Sujan Mon</h4>
-                    <p>3D Animator & Technical Artist</p>
+                    <h3>Sujan Mon</h3>
+                    <p class="footer-tagline">3D Animator & Technical Artist</p>
+                    <p class="footer-note">All animations are keyframe animated</p>
                 </div>
+                
                 <div class="footer-right">
-                    <a href="mailto:sujenmnon@gmail.com" class="footer-link">
-                        <i class="fas fa-envelope"></i> Email
-                    </a>
-                    <a href="https://www.linkedin.com/in/sujannon/" target="_blank" class="footer-link">
-                        <i class="fab fa-linkedin"></i> LinkedIn
-                    </a>
-                    <a href="https://vimeo.com/916474372" target="_blank" class="footer-link">
-                        <i class="fab fa-vimeo"></i> Vimeo
-                    </a>
+                    <div class="footer-links">
+                        <a href="mailto:sujenmnon@gmail.com" class="footer-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/sujannon/" target="_blank" class="footer-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://vimeo.com/916474372" target="_blank" class="footer-link">
+                            <i class="fab fa-vimeo"></i>
+                        </a>
+                    </div>
+                    <p class="footer-contact">sujenmnon@gmail.com</p>
                 </div>
             </div>
+            
             <div class="copyright">
-                &copy; 2024 Sujan Mon. All animations are keyframe animated.
+                &copy; 2024 Sujan Mon. All rights reserved.
             </div>
         </div>
     </footer>
 
-    <!-- Vimeo Player API -->
+    <!-- Scripts -->
     <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="portfolio.js"></script>
 </body>
