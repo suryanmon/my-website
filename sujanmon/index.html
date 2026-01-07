@@ -13,7 +13,17 @@
 <body>
     <!-- Background Video Container -->
     <div class="video-container" id="video-container">
-        <iframe id="showreel-video" src="https://player.vimeo.com/video/916474372?background=1&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <div class="vimeo-wrapper">
+            <div style="padding:56.25% 0 0 0;position:relative;">
+                <iframe id="showreel-video" src="https://player.vimeo.com/video/916474372?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=1&amp;autoplay=1&amp;loop=1&amp;muted=1" 
+                        frameborder="0" 
+                        allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share" 
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        style="position:absolute;top:0;left:0;width:100%;height:100%;"
+                        title="Sujan Mon Animation Showreel. All are Keyframe Animations">
+                </iframe>
+            </div>
+        </div>
         <div class="video-overlay"></div>
     </div>
 
@@ -304,6 +314,8 @@
         </div>
     </div>
 
+    <!-- Vimeo Player API -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
     <script src="portfolio.js"></script>
 </body>
 </html>
