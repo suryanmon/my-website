@@ -2,72 +2,308 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sujan Mon | Technical Animator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../css/portfolio.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sujan Mon - 3D Animator Portfolio</title>
+    <link rel="stylesheet" href="portfolio.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- Background Video Container -->
+    <div class="video-container" id="video-container">
+        <iframe id="showreel-video" src="https://player.vimeo.com/video/916474372?background=1&autoplay=1&loop=1&muted=1" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+        <div class="video-overlay"></div>
+    </div>
 
-    <video autoplay muted loop class="hero-video-bg">
-        <source src="../img/slider/your-cinematic-reel.mp4" type="video/mp4">
-    </video>
-
-    <section class="game-header" id="home">
-        <div class="brand-area">
-            <h1>Sujan Mon</h1>
-            <p>Technical Animator</p>
-        </div>
-
-        <nav class="game-menu">
-            <a href="https://vimeo.com/sujanmon/showreel" target="_blank" class="menu-item">Watch Reel</a>
-            <a href="#projects" class="menu-item">Projects</a>
-            <a href="#about" class="menu-item">About Me</a>
-            <a href="mailto:sujennmon@gmail.com" class="menu-item">Contact</a>
-        </nav>
-
-        <div class="footer-version">Formerly @ Gameloft Toronto • Version 2026.1.0</div>
-    </section>
-
-    <section class="content-section" id="projects">
-        <h2 class="section-title">Projects</h2>
-        
-        <div style="display: grid; gap: 40px;">
-            <div>
-                [cite_start]<h3>The Sling and The Stone [cite: 3, 24]</h3>
-                <p>PC Steam - Physics-driven tactical action. [cite_start]Built custom slingshot rigs and 8-way movement. [cite: 30, 32, 33]</p>
+    <!-- Main Menu Section -->
+    <section class="main-menu" id="main-menu">
+        <div class="menu-content">
+            <div class="title-container">
+                <h1 class="game-title">SUJAN MON</h1>
+                <h2 class="game-subtitle">3D ANIMATOR</h2>
+                <div class="title-decoration">
+                    <span class="decoration-line"></span>
+                    <span class="decoration-icon"><i class="fas fa-gamepad"></i></span>
+                    <span class="decoration-line"></span>
+                </div>
             </div>
-            <div>
-                [cite_start]<h3>Gorilla vs 100 [cite: 2, 24]</h3>
-                <p>Android - Solo-developed arcade survival. [cite_start]Engineered all logic and melee combat flow. [cite: 10, 27, 28]</p>
-            </div>
-            <div>
-                [cite_start]<h3>Disney Magic Kingdoms [cite: 7, 23]</h3>
-                [cite_start]<p>Gameloft Toronto - Rigging and Skinning for mobile/PC platforms. [cite: 7, 23]</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section" id="about">
-        <h2 class="section-title">About Me</h2>
-        <div style="max-width: 800px; line-height: 1.6;">
-            [cite_start]<p>I am a performance-driven Technical Animator with a hybrid background in gameplay animation and Unreal Engine systems. [cite: 6]</p>
             
-            [cite_start]<p><strong>Core Skills:</strong> [cite: 21]
-                <ul>
-                    [cite_start]<li>UE5: Animation Blueprints, State Machines, Control Rig [cite: 22]</li>
-                    [cite_start]<li>Rigging: Custom rigs & game-ready deformation (Maya/3ds Max) [cite: 22]</li>
-                    [cite_start]<li>Languages: English, Français (B2) [cite: 5]</li>
-                </ul>
-            </p>
-
-            [cite_start]<p><strong>Education:</strong> [cite: 19]
-                <ul>
-                    [cite_start]<li>B.Tech in Computer Science - KL University [cite: 20]</li>
-                    [cite_start]<li>Certification in Animation - MAAC [cite: 20]</li>
-                </ul>
-            </p>
+            <nav class="menu-nav">
+                <button class="menu-btn" id="play-btn">
+                    <span class="btn-icon"><i class="fas fa-play"></i></span>
+                    <span class="btn-text">PLAY SHOWREEL</span>
+                    <span class="btn-hint">(Click or press P)</span>
+                </button>
+                <button class="menu-btn" data-target="projects">
+                    <span class="btn-icon"><i class="fas fa-folder-open"></i></span>
+                    <span class="btn-text">PROJECTS</span>
+                    <span class="btn-hint">(Click or press 1)</span>
+                </button>
+                <button class="menu-btn" data-target="about">
+                    <span class="btn-icon"><i class="fas fa-user"></i></span>
+                    <span class="btn-text">ABOUT ME</span>
+                    <span class="btn-hint">(Click or press 2)</span>
+                </button>
+            </nav>
+            
+            <div class="menu-footer">
+                <div class="language-badge">
+                    <i class="fas fa-globe"></i>
+                    <span>EN / FR (B2)</span>
+                </div>
+                <div class="contact-info">
+                    <a href="mailto:sujenmnon@gmail.com"><i class="fas fa-envelope"></i> sujenmnon@gmail.com</a>
+                    <a href="https://www.linkedin.com/in/sujannon/" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <span>SCROLL FOR MORE</span>
+            <i class="fas fa-chevron-down"></i>
         </div>
     </section>
 
+    <!-- Projects Section -->
+    <section class="content-section" id="projects">
+        <div class="section-header">
+            <h2 class="section-title">PROJECTS</h2>
+            <div class="section-subtitle">Game Development & Animation Work</div>
+        </div>
+        
+        <div class="projects-container">
+            <div class="project-category">
+                <h3 class="category-title">INDIE GAMES (SHIPPED)</h3>
+                <div class="project-grid">
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4 class="project-name">Gorilla vs 100</h4>
+                            <span class="project-platform">Google Play</span>
+                        </div>
+                        <div class="project-desc">
+                            Fast-paced combat survival game featuring stylised melee combat and horde animations.
+                        </div>
+                        <div class="project-skills">
+                            <span class="skill-tag">Unreal Engine</span>
+                            <span class="skill-tag">Blueprints</span>
+                            <span class="skill-tag">Animation</span>
+                            <span class="skill-tag">Rigging</span>
+                        </div>
+                        <div class="project-role">
+                            <i class="fas fa-user-check"></i> Solo Developer & Animator
+                        </div>
+                    </div>
+                    
+                    <div class="project-card">
+                        <div class="project-header">
+                            <h4 class="project-name">The Sling and The Stone</h4>
+                            <span class="project-platform">Steam</span>
+                        </div>
+                        <div class="project-desc">
+                            Physics-driven sling-based tactical action game with custom animation rig and 8-way movement system.
+                        </div>
+                        <div class="project-skills">
+                            <span class="skill-tag">Unreal Engine</span>
+                            <span class="skill-tag">Physics</span>
+                            <span class="skill-tag">Control Rig</span>
+                            <span class="skill-tag">Blendspaces</span>
+                        </div>
+                        <div class="project-role">
+                            <i class="fas fa-user-check"></i> Solo Developer & Animator
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="project-category">
+                <h3 class="category-title">PROFESSIONAL WORK</h3>
+                <div class="project-table">
+                    <div class="table-header">
+                        <div class="table-cell">Project</div>
+                        <div class="table-cell">Role/Skills</div>
+                        <div class="table-cell">Platform</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Disney Magic Kingdoms</div>
+                        <div class="table-cell">Rigging, Skinning, Animation (3DS Max)</div>
+                        <div class="table-cell">Windows, iOS, Android</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Jurassic World</div>
+                        <div class="table-cell">Gameplay Animator (Maya)</div>
+                        <div class="table-cell">Windows</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">How to Train Your Dragon</div>
+                        <div class="table-cell">Gameplay Animator (3DS Max)</div>
+                        <div class="table-cell">Playstation</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Transformers</div>
+                        <div class="table-cell">3D Animator (Maya)</div>
+                        <div class="table-cell">Android</div>
+                    </div>
+                    
+                    <div class="table-row">
+                        <div class="table-cell">Ara History Untold</div>
+                        <div class="table-cell">Gameplay Animator, Mocap (Maya)</div>
+                        <div class="table-cell">Windows, GeForce Now</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-footer">
+            <button class="back-to-menu" data-target="main-menu">
+                <i class="fas fa-arrow-up"></i> BACK TO MENU
+            </button>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section class="content-section" id="about">
+        <div class="section-header">
+            <h2 class="section-title">ABOUT ME</h2>
+            <div class="section-subtitle">Technical Animator & Game Developer</div>
+        </div>
+        
+        <div class="about-container">
+            <div class="about-column">
+                <div class="about-card">
+                    <h3 class="about-card-title"><i class="fas fa-briefcase"></i> EXPERIENCE</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-period">May 2024 - Present</div>
+                            <div class="timeline-content">
+                                <h4>Edwy Denny Games</h4>
+                                <p class="timeline-role">Developer / Animator</p>
+                                <p class="timeline-duration">1 year 2 months</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-period">Nov 2021 - June 2024</div>
+                            <div class="timeline-content">
+                                <h4>Gameloft Toronto</h4>
+                                <p class="timeline-role">3D Animator</p>
+                                <p class="timeline-duration">2 years 6 months</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-period">May 2019 - Dec 2021</div>
+                            <div class="timeline-content">
+                                <h4>Gameshastra</h4>
+                                <p class="timeline-role">3D Animator</p>
+                                <p class="timeline-duration">2 years 7 months</p>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-period">Jun 2018 - Apr 2019</div>
+                            <div class="timeline-content">
+                                <h4>DQ Entertainment Intl.</h4>
+                                <p class="timeline-role">3D Animator</p>
+                                <p class="timeline-duration">9 months</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-card">
+                    <h3 class="about-card-title"><i class="fas fa-graduation-cap"></i> EDUCATION</h3>
+                    <div class="education-item">
+                        <h4>KLUniversity</h4>
+                        <p class="education-degree">Bachelor of Technology (B.Tech.) - Computer Science</p>
+                        <p class="education-period">2013 - 2017</p>
+                    </div>
+                    <div class="education-item">
+                        <h4>MAAC</h4>
+                        <p class="education-degree">Certification (Animation) - A Grade</p>
+                        <p class="education-period">2017 - 2018</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-column">
+                <div class="about-card">
+                    <h3 class="about-card-title"><i class="fas fa-star"></i> CORE SKILLS</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Unreal Engine 5</h4>
+                            <ul class="skill-list">
+                                <li>Animation Blueprints</li>
+                                <li>State Machines</li>
+                                <li>Blendspaces</li>
+                                <li>Control Rig</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h4>Rigging & Skinning</h4>
+                            <ul class="skill-list">
+                                <li>Custom Rigs</li>
+                                <li>Game-ready Deformation</li>
+                                <li>Maya & 3DS Max</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h4>Gameplay Animation</h4>
+                            <ul class="skill-list">
+                                <li>Keyframe Animation</li>
+                                <li>Mocap Cleanup</li>
+                                <li>Creatures & Humanoids</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h4>Tools & Engines</h4>
+                            <ul class="skill-list">
+                                <li>Maya, MotionBuilder, 3DS Max</li>
+                                <li>Unreal Engine 5</li>
+                                <li>Git, Steam, Android Studio</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="about-card personal-card">
+                    <h3 class="about-card-title"><i class="fas fa-user-check"></i> PERSONAL</h3>
+                    <div class="personal-traits">
+                        <span class="trait"><i class="fas fa-check-circle"></i> Team Player</span>
+                        <span class="trait"><i class="fas fa-check-circle"></i> Adaptable</span>
+                        <span class="trait"><i class="fas fa-check-circle"></i> Professional</span>
+                        <span class="trait"><i class="fas fa-check-circle"></i> Problem Solver</span>
+                    </div>
+                    <p class="personal-statement">
+                        Experienced and performance-driven Technical Animator with a hybrid background in gameplay animation, rigging, and Unreal Engine systems. I specialize in building animation pipelines, control rigs, and character systems in UE5.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section-footer">
+            <button class="back-to-menu" data-target="main-menu">
+                <i class="fas fa-arrow-up"></i> BACK TO MENU
+            </button>
+        </div>
+    </section>
+
+    <!-- Game UI Elements -->
+    <div class="game-ui">
+        <div class="version-label">Portfolio v1.0</div>
+        <div class="hint-box">
+            <span class="hint-text">NAVIGATE: Mouse / Keyboard (P, 1, 2)</span>
+        </div>
+    </div>
+
+    <script src="portfolio.js"></script>
 </body>
 </html>
