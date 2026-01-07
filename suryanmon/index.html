@@ -1,204 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Portfolio of Suryan Mon - EdwyDenny Games">
-    <meta name="author" content="EdwyDenny">
-
-    <title>Suryan Mon | Portfolio</title>
-
-    <link rel="icon" type="image/png" href="../img/favicon.png">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suryan Mon - 3D Animator</title>
+    <link rel="stylesheet" href="portfolio.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/plugins.css">
-    <link rel="stylesheet" href="../css/style.css">
-
-    <style>
-        /* Preloader */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        .loader_line { width: 100px; height: 3px; background: rgba(255,255,255,0.2); position: relative; overflow: hidden; }
-        .loader_line:before { content: ""; position: absolute; left: -50px; height: 3px; width: 40px; background-color: #e54b4b; animation: lineAnim 1s linear infinite; }
-        @keyframes lineAnim { 0% { left: -40px; } 100% { left: 100px; } }
-        
-        body.dark-mode { background-color: #121212; color: #ffffff; }
-        
-        /* Portfolio Specific Styling using your existing theme */
-        .grax_tm_portfolio .overlay { background-color: #1e1e1e; }
-        .grax_tm_portfolio .details h3 { color: #fff; }
-        .grax_tm_portfolio .details span { color: #e54b4b; }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-
-<body class="dark-mode">
-
-    <div id="preloader">
-        <div class="loader_line"></div>
-    </div>
-    
-    <div class="grax_tm_all_wrap">
-    
-        <div class="grax_tm_topbar animate">
-            <div class="container">
-                <div class="topbar_inner">
-                    <div class="logo">
-                        <a href="../index.html"><img src="../img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a>
-                    </div>
-                    <div class="menu">
-                        <ul class="anchor_nav">
-                            <li><a href="../index.html">Main Home</a></li>
-                            <li class="current"><a href="#home">My Profile</a></li>
-                            <li><a href="#portfolio">My Work</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                        </ul>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="name">Suryan Mon</h1>
+                <h2 class="profession">3D Animator & Technical Artist</h2>
+                <p class="tagline">All animations are keyframe animated</p>
+                
+                <div class="contact-info">
+                    <a href="mailto:sujenmnon@gmail.com" class="contact-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>sujenmnon@gmail.com</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/Suryannon/" target="_blank" class="contact-link">
+                        <i class="fab fa-linkedin"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <div class="languages">
+                        <i class="fas fa-globe"></i>
+                        <span>English | Français (B2)</span>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="grax_tm_hero" id="home" style="height: 100vh;">
-            <div class="bg">
-                <div class="image" data-img-url="../img/slider/Game-Shot2.png"></div>
-                <div class="overlay"></div>
-            </div>
-            <div class="content">
-                <div class="container">
-                    <div class="details" data-animation="toTop"> <h1 class="name">Suryan Mon</h1>
-                        <span class="job">3D Generalist & Partner</span>
-                    </div>
-                </div>
+    </header>
+
+    <!-- Video Showreel Section -->
+    <section class="video-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-play-circle"></i> Animation Showreel</h2>
+                <p class="subtitle">Professional 3D animation portfolio - Keyframe animation only</p>
             </div>
             
-            <div class="grax_tm_down" data-skin="light">
-                <div class="line_wrapper"></div>
+            <div class="video-wrapper">
+                <div class="video-container">
+                    <div class="vimeo-embed">
+                        <iframe id="showreel-video" 
+                                src="https://player.vimeo.com/video/916474372?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479&amp;background=0&amp;autoplay=0&amp;loop=0&amp;muted=0" 
+                                frameborder="0" 
+                                allow="autoplay; fullscreen; picture-in-picture; clipboard-write" 
+                                allowfullscreen
+                                title="Suryan Mon Animation Showreel. All are Keyframe Animations">
+                        </iframe>
+                    </div>
+                </div>
+                
+                <div class="video-controls">
+                    <button id="play-btn" class="video-btn">
+                        <i class="fas fa-play"></i> Play Showreel
+                    </button>
+                    <button id="pause-btn" class="video-btn">
+                        <i class="fas fa-pause"></i> Pause
+                    </button>
+                    <button id="fullscreen-btn" class="video-btn">
+                        <i class="fas fa-expand"></i> Fullscreen
+                    </button>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="grax_tm_section" id="about" style="padding: 100px 0; background-color: #1e1e1e;">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>About <span>Me</span></h3>
+    <!-- Professional Projects -->
+    <section class="projects-section professional-projects">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-briefcase"></i> Professional Projects</h2>
+                <p class="subtitle">Games and animations developed for major studios</p>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Disney Magic Kingdoms -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-castle"></i>
+                        </div>
+                        <h3>Disney Magic Kingdoms</h3>
+                        <p class="project-role">Rigging, Skinning, Animation (3DS Max)</p>
+                        <p class="project-platform">Windows, iOS, Android</p>
+                        <p class="project-desc">Mobile game featuring Disney characters and worlds</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.gameloft.android.ANMP.GloftDYHM&hl=en_IN" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
+                    </div>
                 </div>
-                <div class="grax_tm_about">
-                    <div class="about_inner">
-                        <div class="right" style="width: 100%; padding: 0;">
-                            <div class="text">
-                                <p>Hello, I am <strong>Suryan Mon</strong>. As a partner at EdwyDenny, I specialize in Gameplay Animation and 3D Art.</p>
-                            </div>
-                            <div class="grax_tm_button">
-                                <a href="../index.html#contact">Get in Touch</a>
-                            </div>
+                
+                <!-- Jurassic World -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-dinosaur"></i>
+                        </div>
+                        <h3>Jurassic World</h3>
+                        <p class="project-role">Gameplay Animator (Maya)</p>
+                        <p class="project-platform">Windows</p>
+                        <p class="project-desc">Dinosaur park simulation and adventure game</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.ludia.jurassicworld&hl=en" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Transformers -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>Transformers</h3>
+                        <p class="project-role">3D Animator (Maya)</p>
+                        <p class="project-platform">Android</p>
+                        <p class="project-desc">Action game featuring Transformers characters</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.backflipstudios.transformersearthwars&hl=en" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- How to Train Your Dragon -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1541414778237-f2d5d47f56f7?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-dragon"></i>
+                        </div>
+                        <h3>How to Train Your Dragon</h3>
+                        <p class="project-role">Gameplay Animator (3DS Max)</p>
+                        <p class="project-platform">Playstation</p>
+                        <p class="project-desc">Dragon training and adventure game</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.ludia.dragons&hl=en" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> View on Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Seven and Me 2 -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <h3>Seven and Me 2</h3>
+                        <p class="project-role">3D Animator (Maya)</p>
+                        <p class="project-platform">French TV Production</p>
+                        <p class="project-desc">Animated series production</p>
+                        <div class="project-link">
+                            <i class="fas fa-film"></i> TV Production
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        
-        <div class="grax_tm_section grax_tm_portfolio" id="portfolio">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>My <span>Contributions</span></h3>
-                </div>
-                <div class="portfolio_list">
-                    <ul class="gallery_zoom">
-                        <li>
-                            <div class="list_inner">
-                                <div class="image">
-                                    <img src="../img/thumbs/1-1.jpg" alt="" /> <div class="main" data-img-url="../logo/title_sling.png"></div>
-                                </div>
-                                <div class="overlay"></div>
-                                <div class="details">
-                                    <span>PC Game</span>
-                                    <h3>The Sling and The Stone</h3>
-                                </div>
-                                <a class="grax_tm_full_link" href="../sling-and-stone.html"></a>
-                            </div>
-                        </li>
-
-                        <li>
-                            <div class="list_inner">
-                                <div class="image">
-                                    <img src="../img/thumbs/1-1.jpg" alt="" /> 
-                                    <div class="main" data-img-url="../logo/title-gorilla.png"></div>
-                                </div>
-                                <div class="overlay"></div>
-                                <div class="details">
-                                    <span>Mobile Game</span>
-                                    <h3>Gorilla vs 100</h3>
-                                </div>
-                                <a class="grax_tm_full_link" href="../gorilla-vs-100.html"></a>
-                            </div>
-                        </li>
-
-                        </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="grax_tm_section" id="contact" style="padding: 100px 0; background-color: #121212;">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>Contact <span>Me</span></h3>
-                </div>
-                <div style="text-align: center; margin-top: 30px;">
-                    <p>Send me an email directly:</p>
-                    <a href="mailto:sales@edwydenny.com" style="font-size: 22px; color: #e54b4b; text-decoration: none; font-family: 'Poppins', sans-serif;">suryenn.1995@gmail.com</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="grax_tm_copyright">
-            <div class="container">
-                <div class="copyright_inner">
-                    <div class="logo">
-                        <img src="../img/logo/dark.png" alt="" />
-                    </div>
-                    <div class="copy">
-                        <p>&copy; 2025 EdwyDenny. All rights reserved.</p>
+                
+                <!-- Final Fantasy Mobile -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1518709268805-4e9042af2176?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Final Fantasy Mobile</h3>
+                        <p class="project-role">Gameplay Animator</p>
+                        <p class="project-platform">Mobile</p>
+                        <p class="project-desc">Mobile adaptation of Final Fantasy series</p>
+                        <a href="https://ffxivmobile.com/web202409/index.html#/" target="_blank" class="project-link">
+                            <i class="fas fa-external-link-alt"></i> Visit Website
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
-        
-    </div>
+    </section>
 
-    <script src="../js/jquery.js"></script>
-    <script src="../js/plugins.js"></script>
-    <script src="../js/init.js"></script>
-    
-    <script>
-        // Custom Image Loader for the subfolder
-        // We need to tell the script to look for background images
-        jQuery(document).ready(function(){
-            "use strict";
-            var data = jQuery('*[data-img-url]');
-            data.each(function(){
-                var element = jQuery(this);
-                var url = element.attr('data-img-url');
-                element.css({backgroundImage: 'url('+url+')'});
-            });
-        });
+    <!-- Personal Projects -->
+    <section class="projects-section personal-projects">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-user"></i> Personal Projects</h2>
+                <p class="subtitle">Indie games developed and animated solo</p>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Gorilla vs 100 -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3>Gorilla vs 100</h3>
+                        <p class="project-role">Solo Developer & Animator</p>
+                        <p class="project-platform">Google Play</p>
+                        <p class="project-desc">Fast-paced combat survival game with stylised melee combat</p>
+                        <a href="https://play.google.com/store/apps/details?id=com.edwydenny.Gorillavs100&pcampaignid=web_share" target="_blank" class="project-link">
+                            <i class="fab fa-google-play"></i> Download on Google Play
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- The Sling and The Stone -->
+                <div class="project-card" style="background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=1000&auto=format&fit=crop');">
+                    <div class="project-content">
+                        <div class="project-icon">
+                            <i class="fas fa-slingshot"></i>
+                        </div>
+                        <h3>The Sling and The Stone</h3>
+                        <p class="project-role">Solo Developer & Animator</p>
+                        <p class="project-platform">Steam PC</p>
+                        <p class="project-desc">Physics-driven sling-based tactical action game</p>
+                        <a href="https://store.steampowered.com/app/3803610/The_Sling_and_The_Stone/" target="_blank" class="project-link">
+                            <i class="fab fa-steam"></i> View on Steam
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        // Preloader removal
-        document.addEventListener('DOMContentLoaded', function() {
-            var preloader = document.getElementById('preloader');
-            if (preloader) {
-                window.addEventListener('load', function() {
-                    setTimeout(function() {
-                        preloader.style.transition = 'opacity 0.5s';
-                        preloader.style.opacity = '0';
-                        setTimeout(function() {
-                            preloader.style.display = 'none';
-                        }, 500);
-                    }, 500);
-                });
-            }
-        });
-    </script>
+    <!-- Experience Section -->
+    <section class="experience-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-history"></i> Professional Experience</h2>
+                <p class="subtitle">Animation roles in game development studios</p>
+            </div>
+            
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <div class="experience-date">Nov 2021 - June 2024</div>
+                    <div class="experience-content">
+                        <h3>Gameloft Toronto</h3>
+                        <p class="experience-role">3D Animator</p>
+                        <p class="experience-desc">Worked on Disney Magic Kingdoms for rigging, skinning, and animation. Specialized in character systems and animation pipelines.</p>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-date">May 2019 - Dec 2021</div>
+                    <div class="experience-content">
+                        <h3>Gameshastra</h3>
+                        <p class="experience-role">3D Animator</p>
+                        <p class="experience-desc">Gameplay animation for Jurassic World and other projects. Keyframe animation and mocap cleanup for humanoids and creatures.</p>
+                    </div>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-date">Jun 2018 - Apr 2019</div>
+                    <div class="experience-content">
+                        <h3>DQ Entertainment International</h3>
+                        <p class="experience-role">3D Animator</p>
+                        <p class="experience-desc">First professional role in animation. Worked on various animation projects, developing foundational skills in 3D animation.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-section">
+        <div class="container">
+            <div class="section-header">
+                <h2><i class="fas fa-star"></i> Core Skills</h2>
+                <p class="subtitle">Technical animation and game development expertise</p>
+            </div>
+            
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3><i class="fas fa-cube"></i> Unreal Engine 5</h3>
+                    <div class="skill-list">
+                        <span>Animation Blueprints</span>
+                        <span>State Machines</span>
+                        <span>Control Rig</span>
+                        <span>Blendspaces</span>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-robot"></i> Rigging & Animation</h3>
+                    <div class="skill-list">
+                        <span>Custom Rig Creation</span>
+                        <span>Skinning & Deformation</span>
+                        <span>Keyframe Animation</span>
+                        <span>Mocap Cleanup</span>
+                    </div>
+                </div>
+                
+                <div class="skill-category">
+                    <h3><i class="fas fa-tools"></i> Software Tools</h3>
+                    <div class="skill-list">
+                        <span>Maya</span>
+                        <span>MotionBuilder</span>
+                        <span>3DS Max</span>
+                        <span>Git</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <h3>Suryan Mon</h3>
+                    <p class="footer-tagline">3D Animator & Technical Artist</p>
+                    <p class="footer-note">All animations are keyframe animated</p>
+                </div>
+                
+                <div class="footer-right">
+                    <div class="footer-links">
+                        <a href="mailto:sujenmnon@gmail.com" class="footer-link">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/Suryannon/" target="_blank" class="footer-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://vimeo.com/916474372" target="_blank" class="footer-link">
+                            <i class="fab fa-vimeo"></i>
+                        </a>
+                    </div>
+                    <p class="footer-contact">sujenmnon@gmail.com</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                &copy; 2024 Suryan Mon. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="portfolio.js"></script>
 </body>
 </html>
 
