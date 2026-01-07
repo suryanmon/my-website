@@ -1,179 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="Portfolio of Sujan Mon - EdwyDenny Games">
-    <meta name="author" content="EdwyDenny">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sujan Mon | Portfolio</title>
-
-    <link rel="icon" type="image/png" href="../img/favicon.png">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="../css/plugins.css">
-    <link rel="stylesheet" href="../css/style.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;700&family=Poppins:wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/portfolio.css">
-
-    <style>
-        /* Loading animation overrides */
-        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-        .loader_line { width: 100px; height: 3px; background: rgba(255,255,255,0.2); position: relative; overflow: hidden; }
-        .loader_line:before { content: ""; position: absolute; left: -50px; height: 3px; width: 40px; background-color: #e54b4b; animation: lineAnim 1s linear infinite; }
-        @keyframes lineAnim { 0% { left: -40px; } 100% { left: 100px; } }
-    </style>
 </head>
+<body>
 
-<body class="dark-mode">
+    <header class="hero">
+        <div class="hero-top">
+            <h1>Sujan Mon</h1>
+            <p>Game Developer / 3D Animator / Partner</p>
+        </div>
 
-    <div id="preloader">
-        <div class="loader_line"></div>
-    </div>
-    
-    <div class="grax_tm_all_wrap">
-
-        <div class="hero_portfolio" style="background-image: url('../img/slider/Game-Shot2.png');">
-            
-            <div class="hero_overlay"></div>
-
-            <div class="hero_content">
-                <h1 class="hero_name">Sujan Mon</h1>
-                <p class="hero_title">Game Developer & 3D Animator</p>
-            </div>
-
-            <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" class="play_trigger popup-youtube">
-                <div class="play_btn_circle">
-                    <div class="play_icon"></div>
-                </div>
+        <div class="play-container">
+            <a href="YOUR_VIDEO_URL_HERE" class="play-btn" target="_blank">
+                <div class="triangle"></div>
             </a>
-
-            <div class="hero_footer">
-                <a href="mailto:sujanmon@gmail.com">sujanmon@gmail.com</a>
-                <span>IG: @EdwyDenny</span>
-                <span>www.edwydenny.com</span>
-            </div>
         </div>
 
-        <div class="grax_tm_section section_dark" id="about">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>About <span>Me</span></h3>
-                </div>
-                <div class="grax_tm_about">
-                    <div class="about_inner">
-                        <div class="right" style="width: 100%; padding: 0;">
-                            <div class="text">
-                                <p style="font-size: 1.2rem; color: #ccc;">
-                                    Hello, I am <strong>Sujan Mon</strong>. As a partner at EdwyDenny, I specialize in Game Development and 3D Animation. I build immersive worlds and interactive experiences.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <div class="hero-bottom">
+            <a href="mailto:sujanmon@gmail.com">sujanmon@gmail.com</a><br>
+            <span>IG: @EdwyDenny</span><br>
+            <span>www.edwydenny.com</span>
+        </div>
+    </header>
+
+    <section class="section" id="about">
+        <h2>About Me</h2>
+        <p style="font-size: 1.4rem; line-height: 1.8; color: #ccc;">
+            I am a specialized Game Developer and 3D Animator at EdwyDenny. 
+            I focus on creating high-fidelity environments and immersive gameplay mechanics 
+            that push the boundaries of digital storytelling.
+        </p>
+    </section>
+
+    <section class="section" id="projects">
+        <h2>Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>The Sling and The Stone</h3>
+                <p>PC Game - Lead Developer</p>
+            </div>
+            <div class="project-card">
+                <h3>Gorilla vs 100</h3>
+                <p>Mobile Game - 3D Animation</p>
             </div>
         </div>
-        
-        <div class="grax_tm_section grax_tm_portfolio section_dark" id="portfolio">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>My <span>Projects</span></h3>
-                </div>
-                <div class="portfolio_list">
-                    <ul class="gallery_zoom">
-                        <li>
-                            <div class="list_inner">
-                                <div class="image">
-                                    <img src="../img/thumbs/1-1.jpg" alt="" /> 
-                                    <div class="main" data-img-url="../logo/title_sling.png"></div>
-                                </div>
-                                <div class="overlay"></div>
-                                <div class="details">
-                                    <span>PC Game</span>
-                                    <h3>The Sling and The Stone</h3>
-                                </div>
-                                <a class="grax_tm_full_link" href="../sling-and-stone.html"></a>
-                            </div>
-                        </li>
+    </section>
 
-                        <li>
-                            <div class="list_inner">
-                                <div class="image">
-                                    <img src="../img/thumbs/1-1.jpg" alt="" /> 
-                                    <div class="main" data-img-url="../logo/title-gorilla.png"></div>
-                                </div>
-                                <div class="overlay"></div>
-                                <div class="details">
-                                    <span>Mobile Game</span>
-                                    <h3>Gorilla vs 100</h3>
-                                </div>
-                                <a class="grax_tm_full_link" href="../gorilla-vs-100.html"></a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+    <section class="section" id="companies">
+        <h2>Companies</h2>
+        <div class="company-list">
+            <img src="../img/logo/dark.png" alt="EdwyDenny">
             </div>
-        </div>
+    </section>
 
-        <div class="grax_tm_section section_dark" id="companies">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>Companies <span>Worked With</span></h3>
-                </div>
-                <div class="grid_companies">
-                    <img src="../img/logo/dark.png" class="company_logo" alt="EdwyDenny">
-                    <img src="../img/logo/dark.png" class="company_logo" alt="Company 2">
-                    <img src="../img/logo/dark.png" class="company_logo" alt="Company 3">
-                </div>
-            </div>
-        </div>
-        
-        <div class="grax_tm_copyright">
-            <div class="container">
-                <div class="copyright_inner">
-                    <div class="copy">
-                        <p>&copy; 2025 EdwyDenny. All rights reserved.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-    </div>
+    <footer style="padding: 40px 60px; font-size: 0.8rem; opacity: 0.4;">
+        &copy; 2025 Sujan Mon. All rights reserved.
+    </footer>
 
-    <script src="../js/jquery.js"></script>
-    <script src="../js/plugins.js"></script>
-    <script src="../js/init.js"></script>
-    
-    <script>
-        // Custom Image Loader
-        jQuery(document).ready(function(){
-            "use strict";
-            var data = jQuery('*[data-img-url]');
-            data.each(function(){
-                var element = jQuery(this);
-                var url = element.attr('data-img-url');
-                element.css({backgroundImage: 'url('+url+')'});
-            });
-        });
-
-        // Preloader removal
-        document.addEventListener('DOMContentLoaded', function() {
-            var preloader = document.getElementById('preloader');
-            if (preloader) {
-                window.addEventListener('load', function() {
-                    setTimeout(function() {
-                        preloader.style.opacity = '0';
-                        setTimeout(function() {
-                            preloader.style.display = 'none';
-                        }, 500);
-                    }, 500);
-                });
-            }
-        });
-    </script>
 </body>
 </html>
