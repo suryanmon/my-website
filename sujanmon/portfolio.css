@@ -1,155 +1,126 @@
-/* portfolio.css - Specific styles for the Portfolio Page */
-
+/* portfolio.css */
 :root {
-    --primary-color: #e54b4b;
-    --text-white: #ffffff;
-    --bg-dark: #121212;
-    --overlay-color: rgba(0, 0, 0, 0.4);
+    --accent: #e54b4b;
+    --bg: #0a0a0a;
 }
 
-/* --- 1. Hero Section (The "Bill Robinson" Style) --- */
-.hero_portfolio {
+body, html {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+/* --- HERO SECTION --- */
+.hero {
     position: relative;
+    height: 100vh;
     width: 100%;
-    height: 100vh; /* Full screen height */
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('../img/slider/Game-Shot2.png');
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Space between top text and bottom contact */
+    justify-content: space-between;
     padding: 60px;
     box-sizing: border-box;
 }
 
-.hero_overlay {
-    position: absolute;
-    top: 0; left: 0; bottom: 0; right: 0;
-    background: var(--overlay-color); /* Darken bg so text pops */
-    z-index: 1;
-}
-
-.hero_content {
-    position: relative;
-    z-index: 2;
-    max-width: 800px;
-}
-
-/* Bold, Blocky Typography like the reference */
-.hero_name {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 900;
+.hero-top h1 {
     font-size: 5rem;
-    line-height: 1;
-    text-transform: uppercase;
-    color: var(--text-white);
     margin: 0;
-    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 900;
+    line-height: 0.9;
 }
 
-.hero_title {
-    font-family: 'Mulish', sans-serif;
-    font-weight: 600;
-    font-size: 1.5rem;
-    color: var(--text-white);
+.hero-top p {
+    font-size: 1.2rem;
     margin-top: 10px;
-    opacity: 0.9;
+    font-family: 'Mulish', sans-serif;
 }
 
-/* --- 2. The Play Button (Center Stage) --- */
-.play_trigger {
+/* CENTER PLAY BUTTON */
+.play-container {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 3;
-    cursor: pointer;
-    transition: transform 0.3s ease;
 }
 
-.play_btn_circle {
+.play-btn {
     width: 100px;
     height: 100px;
-    background-color: rgba(255, 255, 255, 0.15);
-    border: 2px solid #fff;
+    border: 2px solid white;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: rgba(255,255,255,0.1);
     backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
 }
 
-.play_icon {
-    width: 0; 
-    height: 0; 
+.play-btn:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+    transform: scale(1.1);
+}
+
+.triangle {
+    width: 0; height: 0; 
     border-top: 15px solid transparent;
     border-bottom: 15px solid transparent;
-    border-left: 25px solid #fff;
-    margin-left: 5px; /* Visual optical adjustment */
+    border-left: 25px solid white;
+    margin-left: 8px;
 }
 
-.play_trigger:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-}
-
-.play_trigger:hover .play_btn_circle {
-    background-color: var(--primary-color);
-    border-color: var(--primary-color);
-}
-
-/* --- 3. Bottom Info (Like reference email) --- */
-.hero_footer {
-    position: relative;
-    z-index: 2;
+.hero-bottom {
     font-family: 'Mulish', sans-serif;
-    color: var(--text-white);
-    font-size: 1rem;
+    line-height: 1.6;
 }
 
-.hero_footer a {
-    color: var(--text-white);
-    text-decoration: none;
-    font-weight: 700;
-    display: block;
+.hero-bottom a { color: white; text-decoration: none; font-weight: bold; }
+
+/* --- CONTENT SECTIONS --- */
+.section {
+    padding: 100px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.hero_footer span {
-    display: block;
-    opacity: 0.8;
-    margin-top: 5px;
+.section h2 {
+    font-size: 2.5rem;
+    border-bottom: 2px solid var(--accent);
+    display: inline-block;
+    margin-bottom: 40px;
 }
 
-/* --- 4. Content Sections (Below Fold) --- */
-.section_dark {
-    background-color: var(--bg-dark);
-    padding: 100px 0;
-    border-top: 1px solid #333;
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
 }
 
-.grid_companies {
+.project-card {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.project-card:hover { transform: translateY(-10px); }
+
+.company-list {
     display: flex;
-    gap: 40px;
-    justify-content: center;
-    align-items: center;
     flex-wrap: wrap;
-    margin-top: 50px;
+    gap: 50px;
+    align-items: center;
+    opacity: 0.6;
 }
 
-.company_logo {
-    max-height: 60px;
-    opacity: 0.5;
-    transition: opacity 0.3s;
-    filter: grayscale(100%);
-}
-
-.company_logo:hover {
-    opacity: 1;
-    filter: grayscale(0%);
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .hero_portfolio { padding: 30px; }
-    .hero_name { font-size: 3rem; }
-    .play_btn_circle { width: 70px; height: 70px; }
-}
+.company-list img { height: 40px; filter: grayscale(1); }
