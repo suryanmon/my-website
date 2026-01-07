@@ -1,123 +1,120 @@
-/* portfolio.css */
+/* portfolio.css - AAA Game Menu Style */
 :root {
-    --accent: #e54b4b; /* Your signature red */
-    --bg-dark: #0a0a0a;
-    --text-dim: #b0b0b0;
+    --accent: #e54b4b;
+    --glass: rgba(0, 0, 0, 0.4);
+    --font-main: 'Poppins', sans-serif;
 }
 
 html { scroll-behavior: smooth; }
 
-body {
+body, html {
     margin: 0;
-    background-color: var(--bg-dark);
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
     color: white;
-    font-family: 'Mulish', sans-serif;
+    font-family: var(--font-main);
+    overflow-x: hidden;
 }
 
-/* --- NAVIGATION --- */
-.nav-fixed {
+/* --- CINEMATIC BACKGROUND --- */
+.hero-video-bg {
     position: fixed;
-    top: 0; width: 100%;
-    display: flex; justify-content: flex-end;
-    padding: 20px 50px;
-    z-index: 100;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    filter: brightness(0.6);
 }
 
-.nav-fixed a {
-    color: white;
-    text-decoration: none;
-    margin-left: 30px;
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 1px;
-    transition: color 0.3s;
-}
-
-.nav-fixed a:hover { color: var(--accent); }
-
-/* --- HERO SECTION (Bill Robinson Style) --- */
-.hero {
+/* --- MAIN MENU LAYOUT --- */
+.game-header {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    padding: 80px 60px;
-    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop'); /* Replace with your best UE5 render */
-    background-size: cover;
-    background-position: center;
-    position: relative;
+    justify-content: center;
+    padding-left: 10%;
+    background: linear-gradient(to right, rgba(0,0,0,0.8), transparent 60%);
 }
 
-.hero-title h1 {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(3rem, 10vw, 6rem);
+.brand-area { margin-bottom: 50px; }
+
+.brand-area h1 {
+    font-size: 5rem;
     margin: 0;
-    line-height: 0.8;
     text-transform: uppercase;
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 0.8;
 }
 
-.hero-title p {
-    font-size: 1.5rem;
+.brand-area p {
     color: var(--accent);
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    margin-top: 10px;
 }
 
-/* PLAY BUTTON */
-.play-trigger {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+/* --- THE MENU LINKS --- */
+.game-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.menu-item {
+    font-size: 2rem;
+    color: rgba(255,255,255,0.6);
     text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
-.play-circle {
-    width: 120px; height: 120px;
-    border: 3px solid white;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    background: rgba(255,255,255,0.1);
-    backdrop-filter: blur(8px);
-    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+/* The selection dot (like a game cursor) */
+.menu-item::before {
+    content: '';
+    width: 0; height: 4px;
+    background: var(--accent);
+    margin-right: 0;
+    transition: all 0.3s ease;
 }
 
-.play-circle:hover { background: var(--accent); border-color: var(--accent); transform: scale(1.15); }
-
-.triangle {
-    width: 0; height: 0; 
-    border-top: 20px solid transparent;
-    border-bottom: 20px solid transparent;
-    border-left: 35px solid white;
-    margin-left: 10px;
-}
-
-/* --- SECTIONS --- */
-.container { padding: 100px 60px; max-width: 1200px; margin: 0 auto; }
-
-.section-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 3rem;
-    margin-bottom: 50px;
-    border-left: 8px solid var(--accent);
+.menu-item:hover {
+    color: #fff;
     padding-left: 20px;
 }
 
-/* EXPERIENCE GRID */
-.exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; }
-.exp-card { border-top: 1px solid #333; padding-top: 20px; }
-.exp-card h4 { color: var(--accent); margin: 0; }
-.exp-card p { font-size: 0.9rem; color: var(--text-dim); }
+.menu-item:hover::before {
+    width: 30px;
+    margin-right: 15px;
+}
 
-/* PROJECT CARDS */
-.project-list { display: grid; gap: 60px; }
-.project-item { display: flex; gap: 40px; align-items: center; }
-.project-img { width: 50%; height: 300px; background: #1a1a1a; overflow: hidden; border-radius: 10px; }
-.project-img img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-.project-item:hover .project-img img { transform: scale(1.05); }
+/* --- CONTENT SECTIONS (Below the fold) --- */
+.content-section {
+    position: relative;
+    background: rgba(10, 10, 10, 0.95);
+    padding: 100px 10%;
+    min-height: 100vh;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
 
-@media (max-width: 768px) {
-    .project-item { flex-direction: column; }
-    .project-img { width: 100%; }
+.section-title {
+    font-size: 3rem;
+    margin-bottom: 50px;
+    text-transform: uppercase;
+    color: var(--accent);
+}
+
+.footer-version {
+    position: absolute;
+    bottom: 30px;
+    right: 50px;
+    font-size: 0.7rem;
+    opacity: 0.4;
+    text-transform: uppercase;
 }
