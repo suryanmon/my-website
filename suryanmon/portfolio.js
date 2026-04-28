@@ -1,76 +1,95 @@
 // Portfolio functionality
 document.addEventListener('DOMContentLoaded', function() {
-    // Vimeo Player Setup
+    // YouTube Player Setup
     let player = null;
-    
-    function initVimeoPlayer() {
+    let playerReady = false;
+
+    // Load YouTube IFrame API
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+
+    // Called automatically by YouTube API when ready
+    window.onYouTubeIframeAPIReady = function() {
+        player = new YT.Player('showreel-video', {
+            events: {
+                onReady: function() {
+                    playerReady = true;
+                    console.log('YouTube player initialized');
+                }
+            }
+        });
+    };
+
+    // Play button
+    document.getElementById('play-btn').addEventListener('click', function() {
+        if (playerReady) player.playVideo();
+    });
+
+    // Pause button
+    document.getElementById('pause-btn').addEventListener('click', function() {
+        if (playerReady) player.pauseVideo();
+    });
+
+    // Fullscreen button
+    document.getElementById('fullscreen-btn').addEventListener('click', function() {
         const iframe = document.getElementById('showreel-video');
-        if (iframe && typeof Vimeo !== 'undefined') {
-            player = new Vimeo.Player(iframe);
-            
-            // Play button
-            document.getElementById('play-btn').addEventListener('click', function() {
-                player.play().catch(function(error) {
-                    console.log('Play error:', error);
-                });
-            });
-            
-            // Pause button
-            document.getElementById('pause-btn').addEventListener('click', function() {
-                player.pause().catch(function(error) {
-                    console.log('Pause error:', error);
-                });
-            });
-            
-            // Fullscreen button
-            document.getElementById('fullscreen-btn').addEventListener('click', function() {
-                player.requestFullscreen().catch(function(error) {
-                    console.log('Fullscreen error:', error);
-                });
-            });
-            
-            console.log('Vimeo player initialized');
-        } else if (!player) {
-            setTimeout(initVimeoPlayer, 500);
+        const requestFS = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.mozRequestFullScreen;
+        if (requestFS) requestFS.call(iframe);
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', function(e) {
+        if (!playerReady) return;
+
+        // Spacebar to play/pause
+        if (e.code === 'Space') {
+            e.preventDefault();
+            const state = player.getPlayerState();
+            if (state === YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
         }
-    }
-    
-    // Initialize Vimeo player
-    if (document.getElementById('showreel-video')) {
-        initVimeoPlayer();
-    }
-    
+
+        // F for fullscreen
+        if (e.code === 'KeyF') {
+            e.preventDefault();
+            const iframe = document.getElementById('showreel-video');
+            const requestFS = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.mozRequestFullScreen;
+            if (requestFS) requestFS.call(iframe);
+        }
+    });
+
     // Project card animations
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-10px)';
         });
-        
         card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
         });
     });
-    
+
     // Skill category animations
     const skillCategories = document.querySelectorAll('.skill-category');
     skillCategories.forEach(category => {
         category.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
         });
-        
         category.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
         });
     });
-    
+
     // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 window.scrollTo({
@@ -80,49 +99,39 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-    
+
     // Fade in animation for sections
     const sections = document.querySelectorAll('section');
-    
+
     const fadeInOnScroll = function() {
         sections.forEach(section => {
             const sectionTop = section.getBoundingClientRect().top;
-            const sectionVisible = 150;
-            
-            if (sectionTop < window.innerHeight - sectionVisible) {
-                section.style.opacity = "1";
-                section.style.transform = "translateY(0)";
+            if (sectionTop < window.innerHeight - 150) {
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
             }
         });
     };
-    
-    // Set initial state for sections
+
     sections.forEach(section => {
-        section.style.opacity = "0";
-        section.style.transform = "translateY(20px)";
-        section.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+        section.style.opacity = '0';
+        section.style.transform = 'translateY(20px)';
+        section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     });
-    
-    // Check on scroll
+
     window.addEventListener('scroll', fadeInOnScroll);
-    
-    // Initial check
     fadeInOnScroll();
-    
-    // Add active state to nav links (if navigation is added later)
+
+    // Nav active state
     const navLinks = document.querySelectorAll('.nav-link');
     if (navLinks.length > 0) {
         window.addEventListener('scroll', function() {
             let current = '';
             sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                
-                if (scrollY >= (sectionTop - 150)) {
+                if (scrollY >= section.offsetTop - 150) {
                     current = section.getAttribute('id');
                 }
             });
-            
             navLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href') === `#${current}`) {
@@ -131,28 +140,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
-    // Add keyboard shortcuts
-    document.addEventListener('keydown', function(e) {
-        // Spacebar to play/pause video
-        if (e.code === 'Space' && player) {
-            e.preventDefault();
-            player.getPaused().then(function(paused) {
-                if (paused) {
-                    player.play();
-                } else {
-                    player.pause();
-                }
-            });
-        }
-        
-        // F for fullscreen
-        if (e.code === 'KeyF' && player) {
-            e.preventDefault();
-            player.requestFullscreen();
-        }
-    });
-    
-    // Initialize
+
     console.log('Portfolio loaded successfully');
 });
