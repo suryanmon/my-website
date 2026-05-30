@@ -4,73 +4,132 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="EdwyDenny Games — Creators of The Sling and The Stone and Gorilla vs 100">
+  <meta name="description" content="EdwyDenny — A Creative Company">
   <title>EDWYDENNY - A Creative Company</title>
   <link rel="icon" type="image/png" href="img/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
     :root {
       --black:   #080808;
       --white:   #f0ede8;
-      --dim:     rgba(240,237,232,0.45);
       --accent1: #4a90e2;
       --accent2: #ff6b00;
       --ff-display:   'Bebas Neue', sans-serif;
       --ff-condensed: 'Barlow Condensed', sans-serif;
       --ff-body:      'Barlow', sans-serif;
     }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
+    html { scroll-behavior:smooth; overflow-x:hidden; }
     body {
-      background: var(--black);
-      color: var(--white);
-      font-family: var(--ff-body);
-      cursor: none;
-      overflow-x: hidden;
+      background:var(--black); color:var(--white);
+      font-family:var(--ff-body); cursor:none; overflow-x:hidden;
     }
 
-    /* ── CURSOR ── */
+    /* ═══════════════════════
+       CUSTOM CURSOR
+       Default = dot + ring
+       Over wwd sections = big circle with PLAY
+    ═══════════════════════ */
     #cur-dot, #cur-ring {
-      position:fixed; top:0; left:0;
-      border-radius:50%; pointer-events:none; z-index:9999;
+      position:fixed; top:0; left:0; border-radius:50%;
+      pointer-events:none; z-index:9999;
       transform:translate(-50%,-50%);
-      transition: width .18s, height .18s, background .18s;
+      transition:width .18s, height .18s, background .18s, opacity .18s;
     }
     #cur-dot  { width:7px; height:7px; background:var(--white); }
     #cur-ring { width:36px; height:36px; border:1px solid rgba(240,237,232,.4); }
-    body.hov #cur-dot  { width:11px; height:11px; background:var(--accent2); }
-    body.hov #cur-ring { width:56px; height:56px; border-color:var(--accent2); opacity:.6; }
 
-    /* ── PRELOADER ── */
+    /* PLAY cursor — big circle shown over wwd sections */
+    #cur-play {
+      position:fixed; top:0; left:0;
+      width:90px; height:90px;
+      border-radius:50%;
+      background:rgba(240,237,232,.12);
+      border:1px solid rgba(240,237,232,.35);
+      backdrop-filter:blur(6px);
+      pointer-events:none; z-index:9998;
+      transform:translate(-50%,-50%) scale(0);
+      display:flex; align-items:center; justify-content:center;
+      transition:transform .3s cubic-bezier(.25,.46,.45,.94), opacity .3s;
+      opacity:0;
+    }
+    #cur-play svg { width:22px; height:22px; fill:var(--white); margin-left:4px; }
+    body.play-cursor #cur-dot  { opacity:0; }
+    body.play-cursor #cur-ring { opacity:0; }
+    body.play-cursor #cur-play { transform:translate(-50%,-50%) scale(1); opacity:1; }
+
+    /* ═══════════════════════
+       PRELOADER
+    ═══════════════════════ */
     #preloader {
       position:fixed; inset:0; z-index:8000;
       background:var(--black);
       display:flex; align-items:center; justify-content:center;
-      flex-direction:column; gap:24px;
-      transition: opacity .7s ease;
+      flex-direction:column;
+      transition:opacity .8s ease;
     }
     #preloader.out { opacity:0; pointer-events:none; }
+
+    /* EST. · EDWYDENNY · 2024 row */
+    .pre-meta {
+      display:flex; align-items:center; gap:28px;
+      opacity:0; animation:fadeUp .7s ease .1s forwards;
+    }
+    .pre-meta-word {
+      font-family:var(--ff-condensed);
+      font-size:12px; font-weight:500;
+      letter-spacing:5px; text-transform:uppercase;
+      color:rgba(240,237,232,.35);
+    }
+    .pre-meta-sep {
+      width:1px; height:22px;
+      background:rgba(240,237,232,.2);
+    }
+
+    /* Big studio name */
     .pre-logo {
       font-family:var(--ff-display);
-      font-size:48px; letter-spacing:18px; color:var(--white);
-      animation: fadeUp .8s ease .2s both;
+      font-size:clamp(52px,7vw,90px);
+      letter-spacing:16px; color:var(--white);
+      line-height:1;
+      opacity:0; animation:fadeUp .8s ease .25s forwards;
+      margin:10px 0 32px;
     }
-    .pre-bar { width:180px; height:1px; background:rgba(255,255,255,.1); overflow:hidden; }
-    .pre-fill { height:100%; width:0; background:var(--white); animation: fillBar 1.6s ease forwards; }
-    @keyframes fillBar { to { width:100%; } }
+
+    /* Cycling service words */
+    .pre-words {
+      height:22px; overflow:hidden;
+      opacity:0; animation:fadeUp .7s ease .5s forwards;
+    }
+    .pre-word {
+      font-family:var(--ff-condensed);
+      font-size:13px; font-weight:500;
+      letter-spacing:5px; text-transform:uppercase;
+      color:rgba(240,237,232,.4);
+      height:22px; line-height:22px;
+      text-align:center;
+      transform:translateY(100%);
+      transition:transform .45s cubic-bezier(.77,0,.175,1), opacity .45s ease;
+      opacity:0;
+    }
+    .pre-word.active { transform:translateY(0); opacity:1; }
+    .pre-word.exit   { transform:translateY(-100%); opacity:0; }
+
     @keyframes fadeUp {
-      from { opacity:0; transform:translateY(12px); }
+      from { opacity:0; transform:translateY(10px); }
       to   { opacity:1; transform:translateY(0); }
     }
 
-    /* ── NAVBAR ── */
+    /* ═══════════════════════
+       NAVBAR
+    ═══════════════════════ */
     nav {
       position:fixed; top:0; left:0; right:0; height:72px;
       display:flex; align-items:center; justify-content:space-between;
       padding:0 52px; z-index:500;
-      transition: background .4s, backdrop-filter .4s;
+      transition:background .4s, backdrop-filter .4s;
     }
     nav.bg {
       background:rgba(8,8,8,.88);
@@ -93,21 +152,21 @@
     }
     .nav-toggle span { display:block; width:26px; height:1.5px; background:var(--white); }
 
-    /* ══════════════════════════════
-       1. HERO — FULLSCREEN TRAILER
-    ══════════════════════════════ */
+    /* ═══════════════════════════════════════
+       HERO — FULLSCREEN TRAILER
+       Parallax: video stays fixed, text scrolls
+    ═══════════════════════════════════════ */
     #hero {
-      position:relative; width:100%; height:100vh;
-      overflow:hidden;
+      position:relative; width:100%; height:100vh; overflow:hidden;
     }
+    /* video layer — fixed-like via position absolute + no scroll */
     #vimeo-wrap {
       position:absolute; inset:0;
       width:calc(100% + 2px); height:calc(100% + 2px);
       top:-1px; left:-1px; overflow:hidden;
     }
     #vimeo-wrap iframe {
-      position:absolute;
-      top:50%; left:50%;
+      position:absolute; top:50%; left:50%;
       transform:translate(-50%,-50%);
       min-width:100vw; min-height:56.25vw;
       width:177.78vh; height:100vh;
@@ -117,28 +176,59 @@
       position:absolute; inset:0; z-index:2;
       background:linear-gradient(
         to bottom,
-        rgba(8,8,8,.15) 0%,
-        rgba(8,8,8,.04) 35%,
-        rgba(8,8,8,.50) 72%,
-        rgba(8,8,8,.97) 100%
+        rgba(8,8,8,.12) 0%,
+        rgba(8,8,8,.04) 30%,
+        rgba(8,8,8,.55) 70%,
+        rgba(8,8,8,.98) 100%
       );
     }
-    .hero-studio {
+
+    /* ─── EST. · EDWYDENNY · 2024 hero overlay ─── */
+    .hero-identity {
       position:absolute; top:50%; left:50%;
-      transform:translate(-50%,-60%);
+      transform:translate(-50%,-50%);
       z-index:3; text-align:center; pointer-events:none;
+      width:100%;
     }
-    .hero-studio img {
-      height:64px; filter:brightness(0) invert(1);
+    /* top row: EST. — — — YEAR */
+    .hero-meta-row {
+      display:flex; align-items:center; justify-content:center;
+      gap:0; margin-bottom:14px;
+      opacity:0; animation:fadeUp .8s ease 2s forwards;
+    }
+    .hero-meta-est, .hero-meta-year {
+      font-family:var(--ff-condensed);
+      font-size:13px; font-weight:400;
+      letter-spacing:6px; text-transform:uppercase;
+      color:rgba(240,237,232,.5);
+      min-width:120px;
+    }
+    .hero-meta-est  { text-align:right; padding-right:32px; }
+    .hero-meta-year { text-align:left;  padding-left:32px; }
+    .hero-meta-line {
+      width:0; height:1px; background:rgba(240,237,232,.25);
+      animation:lineGrow .8s ease 2.4s forwards;
+    }
+    @keyframes lineGrow { to { width:60px; } }
+
+    /* Big studio name */
+    .hero-name {
+      font-family:var(--ff-display);
+      font-size:clamp(60px, 9vw, 130px);
+      letter-spacing:18px; line-height:.9;
+      color:var(--white);
       opacity:0; animation:fadeUp .9s ease 2.2s forwards;
     }
-    .hero-studio .tagline {
+
+    /* subtitle */
+    .hero-sub {
       display:block;
       font-family:var(--ff-condensed);
-      font-size:13px; letter-spacing:6px; text-transform:uppercase;
-      color:rgba(240,237,232,.35); margin-top:14px;
+      font-size:13px; letter-spacing:8px; text-transform:uppercase;
+      color:rgba(240,237,232,.3); margin-top:18px;
       opacity:0; animation:fadeUp .9s ease 2.5s forwards;
     }
+
     #mute-btn {
       position:absolute; bottom:52px; right:48px; z-index:10;
       background:rgba(8,8,8,.55); border:1px solid rgba(240,237,232,.2);
@@ -150,6 +240,7 @@
     }
     #mute-btn:hover { background:rgba(240,237,232,.15); border-color:rgba(240,237,232,.5); }
     #mute-btn svg { width:19px; height:19px; }
+
     .scroll-hint {
       position:absolute; bottom:44px; left:50%;
       transform:translateX(-50%); z-index:10;
@@ -169,12 +260,13 @@
     }
     @keyframes scrollLine { 0%{top:-100%} 100%{top:100%} }
 
-    /* ══════════════════════════════════════
-       2 & 3. WHAT WE DO SECTIONS
-       Each is a full-height cinematic panel
-       with a background image, big title,
-       subsection label, and project cards.
-    ══════════════════════════════════════ */
+    /* ═════════════════════════════════════════════════
+       WWD SECTIONS — Sticky parallax feel
+       The section has min-height:100vh.
+       The video background uses position:fixed while
+       the section is in view, achieved with a sentinel
+       + JS class swap. Text/cards scroll normally.
+    ═════════════════════════════════════════════════ */
     .wwd-section {
       position:relative;
       width:100%; min-height:100vh;
@@ -183,40 +275,48 @@
       overflow:hidden;
     }
 
-    /* Background image */
-    .wwd-section-bg {
+    /* VIDEO background — absolutely positioned, fills section */
+    .wwd-video-wrap {
       position:absolute; inset:0;
-      background-size:cover; background-position:center;
-      transform:scale(1.04);
-      transition:transform 1.2s cubic-bezier(.25,.46,.45,.94);
+      overflow:hidden; z-index:0;
     }
-    .wwd-section:hover .wwd-section-bg { transform:scale(1); }
+    .wwd-video-wrap iframe {
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      min-width:100%; min-height:56.25vw;
+      width:177.78vh; height:100vh;
+      border:none; pointer-events:none;
+    }
 
-    /* Gradient — heavy at bottom so text pops */
+    /* dark gradient on top of video */
     .wwd-section-overlay {
       position:absolute; inset:0; z-index:1;
       background:linear-gradient(
         to bottom,
-        rgba(8,8,8,.10) 0%,
-        rgba(8,8,8,.10) 30%,
-        rgba(8,8,8,.82) 65%,
+        rgba(8,8,8,.08) 0%,
+        rgba(8,8,8,.08) 25%,
+        rgba(8,8,8,.80) 62%,
         rgba(8,8,8,.97) 100%
       );
     }
 
-    /* All text + cards sit above overlay */
+    /* thin top rule */
+    .wwd-section::before {
+      content:''; position:absolute; top:0; left:0; right:0;
+      height:1px; background:rgba(240,237,232,.08); z-index:3;
+    }
+
+    /* Content sits above video + overlay */
     .wwd-section-content {
       position:relative; z-index:2;
       padding:0 80px 80px;
     }
 
-    /* "WHAT WE DO" — top label */
     .wwd-label {
       font-family:var(--ff-condensed);
       font-size:12px; font-weight:600;
       letter-spacing:6px; text-transform:uppercase;
-      color:rgba(240,237,232,.35);
-      margin-bottom:12px;
+      color:rgba(240,237,232,.35); margin-bottom:12px;
       display:flex; align-items:center; gap:14px;
     }
     .wwd-label::before {
@@ -224,21 +324,15 @@
       background:rgba(240,237,232,.3);
     }
 
-    /* BIG SUBSECTION TITLE */
     .wwd-title {
       font-family:var(--ff-display);
-      font-size:clamp(64px, 8.5vw, 130px);
-      line-height:.88; letter-spacing:4px;
-      color:var(--white);
-      margin-bottom:52px;
+      font-size:clamp(68px, 9vw, 138px);
+      line-height:.86; letter-spacing:4px;
+      color:var(--white); margin-bottom:52px;
     }
 
-    /* ── PROJECT CARDS ROW ── */
-    .wwd-cards-wrap {
-      position:relative;
-      overflow:hidden;
-      margin-bottom:36px;
-    }
+    /* cards */
+    .wwd-cards-wrap { overflow:hidden; margin-bottom:36px; }
     .wwd-cards-track {
       display:flex; gap:18px;
       transition:transform .65s cubic-bezier(.25,.46,.45,.94);
@@ -246,8 +340,7 @@
     }
     .wwd-card {
       flex-shrink:0; width:200px;
-      cursor:none; color:var(--white);
-      text-decoration:none;
+      cursor:none; color:var(--white); text-decoration:none;
     }
     .wwd-card-img {
       width:100%; aspect-ratio:2/3;
@@ -264,22 +357,18 @@
     .wwd-card-title {
       font-family:var(--ff-condensed);
       font-size:14px; font-weight:500; letter-spacing:1.5px;
-      color:rgba(240,237,232,.55);
-      margin-top:12px;
+      color:rgba(240,237,232,.55); margin-top:12px;
       transition:color .2s;
     }
     .wwd-card:hover .wwd-card-title { color:var(--white); }
 
-    /* PREV / NEXT */
-    .wwd-nav {
-      display:flex; align-items:center; gap:32px;
-    }
+    /* nav */
+    .wwd-nav { display:flex; align-items:center; gap:32px; }
     .wwd-nav-btn {
       font-family:var(--ff-condensed);
       font-size:13px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
       color:rgba(240,237,232,.4); cursor:none; background:none; border:none;
-      display:flex; align-items:center; gap:12px;
-      transition:color .2s;
+      display:flex; align-items:center; gap:12px; transition:color .2s;
     }
     .wwd-nav-btn:hover { color:var(--white); }
     .wwd-nav-btn svg { width:20px; height:20px; }
@@ -288,32 +377,50 @@
       position:relative; overflow:hidden;
     }
     .wwd-nav-sep-fill {
-      position:absolute; left:0; top:0; height:100%;
-      background:var(--white);
+      position:absolute; left:0; top:0; height:100%; background:var(--white);
       transition:width .65s cubic-bezier(.25,.46,.45,.94);
     }
-
-    /* Accent line at top of each section */
-    .wwd-section::before {
-      content:''; display:block;
-      position:absolute; top:0; left:0; right:0;
-      height:1px; background:rgba(240,237,232,.08);
-      z-index:3;
-    }
-
-    /* Section-specific accent colors on nav */
     .wwd-mobile .wwd-nav-sep-fill { background:var(--accent2); }
     .wwd-film   .wwd-nav-sep-fill { background:var(--accent1); }
 
-    /* ══════════════════════════════
-       4. CONTACT
-    ══════════════════════════════ */
+    /* ═══════════════════════
+       VIDEO MODAL (fullscreen)
+    ═══════════════════════ */
+    #vid-modal {
+      position:fixed; inset:0; z-index:7000;
+      background:rgba(8,8,8,.95);
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; pointer-events:none;
+      transition:opacity .4s ease;
+    }
+    #vid-modal.open { opacity:1; pointer-events:all; }
+    #vid-modal-inner {
+      position:relative;
+      width:90vw; max-width:1400px;
+      aspect-ratio:16/9;
+    }
+    #vid-modal-inner iframe {
+      width:100%; height:100%; border:none;
+    }
+    #vid-modal-close {
+      position:absolute; top:-48px; right:0;
+      background:none; border:none; cursor:none;
+      font-family:var(--ff-condensed);
+      font-size:12px; letter-spacing:3px; text-transform:uppercase;
+      color:rgba(240,237,232,.5);
+      display:flex; align-items:center; gap:10px;
+      transition:color .2s;
+    }
+    #vid-modal-close:hover { color:var(--white); }
+    #vid-modal-close svg { width:18px; height:18px; }
+
+    /* ═══════════════════════
+       CONTACT
+    ═══════════════════════ */
     #contact {
-      padding:130px 80px;
-      background:var(--black);
+      padding:130px 80px; background:var(--black);
       border-top:1px solid rgba(240,237,232,.07);
-      display:flex; align-items:center;
-      justify-content:space-between; gap:60px;
+      display:flex; align-items:center; justify-content:space-between; gap:60px;
     }
     .contact-eyebrow {
       font-family:var(--ff-condensed);
@@ -326,8 +433,7 @@
     .contact-title {
       font-family:var(--ff-display);
       font-size:clamp(70px,8vw,120px);
-      line-height:.86; letter-spacing:4px;
-      color:var(--white);
+      line-height:.86; letter-spacing:4px; color:var(--white);
     }
     .contact-email {
       display:inline-flex; align-items:center; gap:16px;
@@ -344,53 +450,30 @@
     }
     .contact-email:hover { color:var(--white); }
     .contact-email:hover::after { transform:scaleX(1); }
-    .contact-note {
-      max-width:400px; font-size:15px; font-weight:300;
-      color:rgba(240,237,232,.35); line-height:1.85;
-    }
+    .contact-note { max-width:400px; font-size:15px; font-weight:300; color:rgba(240,237,232,.35); line-height:1.85; }
 
-    /* ── FOOTER ── */
     footer {
-      background:var(--black);
-      border-top:1px solid rgba(240,237,232,.07);
-      padding:32px 80px;
-      display:flex; align-items:center; justify-content:space-between;
+      background:var(--black); border-top:1px solid rgba(240,237,232,.07);
+      padding:32px 80px; display:flex; align-items:center; justify-content:space-between;
     }
     footer img { height:28px; filter:brightness(0) invert(1); opacity:.35; }
-    footer p {
-      font-family:var(--ff-condensed);
-      font-size:12px; letter-spacing:2.5px; text-transform:uppercase;
-      color:rgba(240,237,232,.22);
-    }
+    footer p { font-family:var(--ff-condensed); font-size:12px; letter-spacing:2.5px; text-transform:uppercase; color:rgba(240,237,232,.22); }
 
-    /* ── SCROLL REVEAL ── */
     .reveal { opacity:0; transform:translateY(30px); transition:opacity .9s ease, transform .9s ease; }
     .reveal.in { opacity:1; transform:none; }
     .reveal.d1 { transition-delay:.12s; }
     .reveal.d2 { transition-delay:.24s; }
 
-    /* ── MOBILE NAV ── */
     .mob-nav {
       display:none; position:fixed; inset:0;
       background:var(--black); z-index:700;
       flex-direction:column; align-items:center; justify-content:center; gap:36px;
     }
     .mob-nav.open { display:flex; }
-    .mob-nav a {
-      font-family:var(--ff-display); font-size:56px;
-      letter-spacing:5px; color:var(--white);
-      text-decoration:none; opacity:.7; transition:opacity .2s;
-    }
+    .mob-nav a { font-family:var(--ff-display); font-size:56px; letter-spacing:5px; color:var(--white); text-decoration:none; opacity:.7; transition:opacity .2s; }
     .mob-nav a:hover { opacity:1; }
-    .mob-close {
-      position:absolute; top:28px; right:34px;
-      background:none; border:none; cursor:none;
-      font-family:var(--ff-condensed); font-size:13px;
-      letter-spacing:3px; text-transform:uppercase;
-      color:rgba(240,237,232,.4);
-    }
+    .mob-close { position:absolute; top:28px; right:34px; background:none; border:none; cursor:none; font-family:var(--ff-condensed); font-size:13px; letter-spacing:3px; text-transform:uppercase; color:rgba(240,237,232,.4); }
 
-    /* ── RESPONSIVE ── */
     @media (max-width:1024px) {
       nav { padding:0 24px; }
       .nav-links { display:none; }
@@ -399,22 +482,53 @@
       .wwd-title { font-size:clamp(52px,10vw,90px); }
       #contact { flex-direction:column; align-items:flex-start; padding:80px 28px; }
       footer { padding:26px 28px; }
+      .hero-meta-est, .hero-meta-year { min-width:80px; font-size:11px; }
     }
     @media (max-width:640px) {
       .wwd-section-content { padding:0 20px 48px; }
+      #vid-modal-inner { width:98vw; }
     }
   </style>
 </head>
 <body>
 
-<!-- CURSOR -->
+<!-- CURSORS -->
 <div id="cur-dot"></div>
 <div id="cur-ring"></div>
+<div id="cur-play">
+  <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+</div>
 
-<!-- PRELOADER -->
+<!-- ═══════════════════════
+     PRELOADER
+═══════════════════════ -->
 <div id="preloader">
+  <div class="pre-meta">
+    <span class="pre-meta-word">Est.</span>
+    <div class="pre-meta-sep"></div>
+    <span class="pre-meta-word">2024</span>
+  </div>
   <div class="pre-logo">EDWYDENNY</div>
-  <div class="pre-bar"><div class="pre-fill"></div></div>
+  <div class="pre-words" id="preWords">
+    <div class="pre-word" id="pw0">Film Animation</div>
+    <div class="pre-word" id="pw1">TV Series</div>
+    <div class="pre-word" id="pw2">Mobile Game Animation</div>
+    <div class="pre-word" id="pw3">Rigging</div>
+    <div class="pre-word" id="pw4">Rendering</div>
+  </div>
+</div>
+
+<!-- VIDEO MODAL -->
+<div id="vid-modal">
+  <div id="vid-modal-inner">
+    <button id="vid-modal-close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+      Close
+    </button>
+    <iframe id="vid-modal-iframe" src="" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
 </div>
 
 <!-- MOBILE NAV -->
@@ -438,9 +552,9 @@
   <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- ══════════════════════════════
-     1. HERO — FULLSCREEN TRAILER
-══════════════════════════════ -->
+<!-- ═══════════════════════
+     1. HERO
+═══════════════════════ -->
 <section id="hero">
   <div id="vimeo-wrap">
     <iframe id="vimeoPlayer"
@@ -449,10 +563,18 @@
     </iframe>
   </div>
   <div class="hero-overlay"></div>
-  <div class="hero-studio">
-    <img src="img/logo/dark.png" alt="EdwyDenny">
-    <span class="tagline">A Creative Game Studio — Est. 2024</span>
+
+  <!-- EST. · EDWYDENNY · 2024 -->
+  <div class="hero-identity">
+    <div class="hero-meta-row">
+      <span class="hero-meta-est">Est.</span>
+      <div class="hero-meta-line"></div>
+      <span class="hero-meta-year">2024</span>
+    </div>
+    <div class="hero-name">EDWYDENNY</div>
+    <span class="hero-sub">A Creative Company</span>
   </div>
+
   <button id="mute-btn" title="Toggle sound">
     <svg id="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
       <path d="M11 5 6 9H2v6h4l5 4V5z"/>
@@ -469,11 +591,21 @@
   </div>
 </section>
 
-<!-- ══════════════════════════════
-     2. WHAT WE DO — 
-══════════════════════════════ -->
-<section class="wwd-section wwd-mobile" id="mobile">
-  <div class="wwd-section-bg" style="background-image:url('img/slider/Game-Shot2.png')"></div>
+<!-- ═══════════════════════
+     2. MOBILE GAME ANIMATION
+     Video: vimeo.com/1196954779
+═══════════════════════ -->
+<section class="wwd-section wwd-mobile" id="mobile"
+  data-vimeo="https://player.vimeo.com/video/1196954779?autoplay=1&muted=1&loop=1&controls=0&title=0&byline=0&portrait=0&background=1"
+  data-modal="https://player.vimeo.com/video/1196954779?autoplay=1&controls=1">
+
+  <!-- Autoplay background video -->
+  <div class="wwd-video-wrap">
+    <iframe
+      src="https://player.vimeo.com/video/1196954779?autoplay=1&muted=1&loop=1&controls=0&title=0&byline=0&portrait=0&background=1"
+      allow="autoplay; fullscreen" allowfullscreen loading="lazy">
+    </iframe>
+  </div>
   <div class="wwd-section-overlay"></div>
 
   <div class="wwd-section-content">
@@ -507,23 +639,30 @@
 
     <div class="wwd-nav">
       <button class="wwd-nav-btn" onclick="slideCards('mobile',-1)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        PREV
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>PREV
       </button>
       <div class="wwd-nav-sep"><div class="wwd-nav-sep-fill" id="fill-mobile"></div></div>
       <button class="wwd-nav-btn" onclick="slideCards('mobile',1)">
-        NEXT
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        NEXT<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════
-     3. WHAT WE DO — FILM & EPISODIC
-══════════════════════════════ -->
-<section class="wwd-section wwd-film" id="film">
-  <div class="wwd-section-bg" style="background-image:url('img/slider/3.jpg')"></div>
+<!-- ═══════════════════════
+     3. FILM & EPISODIC
+     Video: vimeo.com/1196876349
+═══════════════════════ -->
+<section class="wwd-section wwd-film" id="film"
+  data-vimeo="https://player.vimeo.com/video/1196876349?autoplay=1&muted=1&loop=1&controls=0&title=0&byline=0&portrait=0&background=1"
+  data-modal="https://player.vimeo.com/video/1196876349?autoplay=1&controls=1">
+
+  <div class="wwd-video-wrap">
+    <iframe
+      src="https://player.vimeo.com/video/1196876349?autoplay=1&muted=1&loop=1&controls=0&title=0&byline=0&portrait=0&background=1"
+      allow="autoplay; fullscreen" allowfullscreen loading="lazy">
+    </iframe>
+  </div>
   <div class="wwd-section-overlay"></div>
 
   <div class="wwd-section-content">
@@ -549,21 +688,19 @@
 
     <div class="wwd-nav">
       <button class="wwd-nav-btn" onclick="slideCards('film',-1)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-        PREV
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>PREV
       </button>
       <div class="wwd-nav-sep"><div class="wwd-nav-sep-fill" id="fill-film"></div></div>
       <button class="wwd-nav-btn" onclick="slideCards('film',1)">
-        NEXT
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        NEXT<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </button>
     </div>
   </div>
 </section>
 
-<!-- ══════════════════════════════
+<!-- ═══════════════════════
      4. CONTACT
-══════════════════════════════ -->
+═══════════════════════ -->
 <section id="contact">
   <div class="reveal">
     <div class="contact-eyebrow">Get in Touch</div>
@@ -575,51 +712,99 @@
       sales@edwydenny.com
     </a>
   </div>
-  <p class="contact-note reveal d2">
-    For business enquiries, partnerships, or press — reach out directly. We're a small studio with big ambitions.
-  </p>
+  <p class="contact-note reveal d2">For business enquiries, partnerships, or press — reach out directly. We're a small studio with big ambitions.</p>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <img src="img/logo/dark.png" alt="EdwyDenny">
   <p>© 2026 EdwyDenny. All rights reserved.</p>
 </footer>
 
 <script>
-// ── CURSOR ──
-const dot=document.getElementById('cur-dot'), ring=document.getElementById('cur-ring');
-let mx=0,my=0,rx=0,ry=0;
+/* ═══════════════════════════════
+   CURSOR
+═══════════════════════════════ */
+const dot=document.getElementById('cur-dot');
+const ring=document.getElementById('cur-ring');
+const curPlay=document.getElementById('cur-play');
+let mx=0,my=0,rx=0,ry=0,px=0,py=0;
+
 document.addEventListener('mousemove',e=>{
   mx=e.clientX; my=e.clientY;
   dot.style.left=mx+'px'; dot.style.top=my+'px';
 });
-(function animR(){ rx+=(mx-rx)*.13; ry+=(my-ry)*.13; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animR); })();
+(function animR(){
+  rx+=(mx-rx)*.13; ry+=(my-ry)*.13;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  px+=(mx-px)*.08; py+=(my-py)*.08;
+  curPlay.style.left=px+'px'; curPlay.style.top=py+'px';
+  requestAnimationFrame(animR);
+})();
+
+// Hover on links/buttons
 document.querySelectorAll('a,button').forEach(el=>{
   el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
   el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
 });
 
-// ── PRELOADER ──
+// Play cursor on wwd sections
+document.querySelectorAll('.wwd-section').forEach(sec=>{
+  sec.addEventListener('mouseenter',()=>{
+    document.body.classList.remove('hov');
+    document.body.classList.add('play-cursor');
+  });
+  sec.addEventListener('mouseleave',()=>{
+    document.body.classList.remove('play-cursor');
+  });
+  // Click → open modal
+  sec.addEventListener('click', e=>{
+    // Only if not clicking a nav button or card
+    if(e.target.closest('.wwd-nav-btn,.wwd-card')) return;
+    openModal(sec.dataset.modal);
+  });
+});
+
+/* ═══════════════════════════════
+   PRELOADER — cycling words
+═══════════════════════════════ */
+const words = document.querySelectorAll('.pre-word');
+let wi=0;
+words[0].classList.add('active');
+
+const cycleInterval = setInterval(()=>{
+  words[wi].classList.remove('active');
+  words[wi].classList.add('exit');
+  setTimeout(()=> words[wi].classList.remove('exit'), 500);
+  wi=(wi+1)%words.length;
+  words[wi].classList.add('active');
+}, 420);
+
 function dismissPre(){
+  clearInterval(cycleInterval);
   const p=document.getElementById('preloader');
   if(!p) return;
   p.classList.add('out');
-  setTimeout(()=>p.remove(),800);
+  setTimeout(()=>p.remove(),900);
 }
-window.addEventListener('load',()=>setTimeout(dismissPre,1800));
-setTimeout(dismissPre,4500);
+window.addEventListener('load',()=>setTimeout(dismissPre,2200));
+setTimeout(dismissPre,5000);
 
-// ── NAVBAR ──
+/* ═══════════════════════════════
+   NAVBAR
+═══════════════════════════════ */
 const navbar=document.getElementById('navbar');
 window.addEventListener('scroll',()=>navbar.classList.toggle('bg',scrollY>40),{passive:true});
 
-// ── MOBILE NAV ──
+/* ═══════════════════════════════
+   MOBILE NAV
+═══════════════════════════════ */
 document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('mobNav').classList.add('open'));
 document.getElementById('mobClose').addEventListener('click',()=>document.getElementById('mobNav').classList.remove('open'));
 function closeMob(){ document.getElementById('mobNav').classList.remove('open'); }
 
-// ── MUTE TOGGLE ──
+/* ═══════════════════════════════
+   HERO MUTE TOGGLE
+═══════════════════════════════ */
 let muted=true;
 const vplayer=document.getElementById('vimeoPlayer');
 document.getElementById('mute-btn').addEventListener('click',()=>{
@@ -629,34 +814,58 @@ document.getElementById('mute-btn').addEventListener('click',()=>{
   document.getElementById('icon-sound').style.display=muted?'none':'block';
 });
 
-// ── CARD CAROUSEL ──
-const CARD_W = 218; // 200px + 18px gap
-const offsets = { mobile:0, film:0 };
+/* ═══════════════════════════════
+   VIDEO MODAL
+═══════════════════════════════ */
+const modal=document.getElementById('vid-modal');
+const modalIframe=document.getElementById('vid-modal-iframe');
 
-function slideCards(id, dir){
-  const track = document.getElementById('track-'+id);
-  const cards  = track.querySelectorAll('.wwd-card').length;
-  const maxOff = -(cards-1)*CARD_W;
-  offsets[id] = Math.max(Math.min(offsets[id] - dir*CARD_W, 0), maxOff);
-  track.style.transform = `translateX(${offsets[id]}px)`;
-  // update progress bar
-  const pct = cards<=1 ? 100 : (Math.abs(offsets[id])/((cards-1)*CARD_W))*100;
-  document.getElementById('fill-'+id).style.width = Math.min(pct,100)+'%';
+function openModal(src){
+  modalIframe.src=src;
+  modal.classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  modal.classList.remove('open');
+  document.body.style.overflow='';
+  setTimeout(()=>{ modalIframe.src=''; },400);
+}
+document.getElementById('vid-modal-close').addEventListener('click',closeModal);
+modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ═══════════════════════════════
+   CARD CAROUSEL
+═══════════════════════════════ */
+const CARD_W=218;
+const offsets={mobile:0,film:0};
+function slideCards(id,dir){
+  const track=document.getElementById('track-'+id);
+  const cards=track.querySelectorAll('.wwd-card').length;
+  const maxOff=-(cards-1)*CARD_W;
+  offsets[id]=Math.max(Math.min(offsets[id]-dir*CARD_W,0),maxOff);
+  track.style.transform=`translateX(${offsets[id]}px)`;
+  const pct=cards<=1?100:(Math.abs(offsets[id])/((cards-1)*CARD_W))*100;
+  document.getElementById('fill-'+id).style.width=Math.min(pct,100)+'%';
 }
 
-// ── SCROLL REVEAL ──
-const revObs = new IntersectionObserver(entries=>{
+/* ═══════════════════════════════
+   SCROLL REVEAL
+═══════════════════════════════ */
+const revObs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
 },{threshold:.1});
 document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
 
-// ── NAV ACTIVE ──
-const secs = document.querySelectorAll('section[id]');
-const nlis = document.querySelectorAll('.nav-links li');
+/* ═══════════════════════════════
+   NAV ACTIVE
+═══════════════════════════════ */
+const secs=document.querySelectorAll('section[id]');
+const nlis=document.querySelectorAll('.nav-links li');
 window.addEventListener('scroll',()=>{
   let cur='';
   secs.forEach(s=>{ if(scrollY>=s.offsetTop-110) cur=s.id; });
-  nlis.forEach(li=>li.classList.toggle('active', li.querySelector('a').getAttribute('href')==='#'+cur));
+  nlis.forEach(li=>li.classList.toggle('active',li.querySelector('a').getAttribute('href')==='#'+cur));
 },{passive:true});
 </script>
 </body>
