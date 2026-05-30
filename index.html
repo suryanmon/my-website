@@ -10,153 +10,111 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
-
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --black:   #080808;
       --white:   #f0ede8;
-      --dim:     rgba(240,237,232,0.45);
       --accent1: #4a90e2;
       --accent2: #ff6b00;
       --ff-display:   'Bebas Neue', sans-serif;
       --ff-condensed: 'Barlow Condensed', sans-serif;
       --ff-body:      'Barlow', sans-serif;
     }
-
-    html, body {
-      width: 100%; height: 100%;
-      overflow: hidden; /* lock scroll while hero is fullscreen */
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body {
       background: var(--black);
       color: var(--white);
       font-family: var(--ff-body);
       cursor: none;
-    }
-    body.scrollable {
-      overflow: auto;
       overflow-x: hidden;
     }
 
-    /* ─── CUSTOM CURSOR ─── */
+    /* ── CURSOR ── */
     #cur-dot, #cur-ring {
-      position: fixed; top: 0; left: 0;
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: width .18s, height .18s, background .18s, border-color .18s;
+      position: fixed; top:0; left:0;
+      border-radius:50%; pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%);
+      transition: width .18s, height .18s, background .18s;
     }
-    #cur-dot  { width: 6px; height: 6px; background: var(--white); }
-    #cur-ring {
-      width: 34px; height: 34px;
-      border: 1px solid rgba(240,237,232,.4);
-      transition: transform .0s, width .22s, height .22s;
-    }
-    body.hov #cur-dot  { width: 10px; height: 10px; background: var(--accent2); }
-    body.hov #cur-ring { width: 52px; height: 52px; border-color: var(--accent2); opacity:.6; }
+    #cur-dot  { width:6px; height:6px; background:var(--white); }
+    #cur-ring { width:34px; height:34px; border:1px solid rgba(240,237,232,.4); }
+    body.hov #cur-dot  { width:10px; height:10px; background:var(--accent2); }
+    body.hov #cur-ring { width:52px; height:52px; border-color:var(--accent2); opacity:.6; }
 
-    /* ─── PRELOADER ─── */
+    /* ── PRELOADER ── */
     #preloader {
-      position: fixed; inset: 0; z-index: 8000;
-      background: var(--black);
-      display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 20px;
+      position:fixed; inset:0; z-index:8000;
+      background:var(--black);
+      display:flex; align-items:center; justify-content:center;
+      flex-direction:column; gap:20px;
       transition: opacity .7s ease;
     }
-    #preloader.out { opacity: 0; pointer-events: none; }
+    #preloader.out { opacity:0; pointer-events:none; }
     .pre-logo {
-      font-family: var(--ff-display);
-      font-size: 38px; letter-spacing: 14px;
-      color: var(--white);
+      font-family:var(--ff-display);
+      font-size:38px; letter-spacing:14px; color:var(--white);
       animation: fadeUp .8s ease .2s both;
     }
-    .pre-bar { width: 160px; height: 1px; background: rgba(255,255,255,.1); overflow:hidden; }
-    .pre-fill { height:100%; width:0; background: var(--white); animation: fillBar 1.6s ease forwards; }
+    .pre-bar { width:160px; height:1px; background:rgba(255,255,255,.1); overflow:hidden; }
+    .pre-fill { height:100%; width:0; background:var(--white); animation: fillBar 1.6s ease forwards; }
     @keyframes fillBar { to { width:100%; } }
     @keyframes fadeUp {
-      from { opacity:0; transform: translateY(10px); }
-      to   { opacity:1; transform: translateY(0); }
+      from { opacity:0; transform:translateY(10px); }
+      to   { opacity:1; transform:translateY(0); }
     }
 
-    /* ─── NAVBAR ─── */
+    /* ── NAVBAR ── */
     nav {
-      position: fixed; top:0; left:0; right:0;
-      height: 68px;
-      display: flex; align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      z-index: 500;
+      position:fixed; top:0; left:0; right:0; height:68px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 48px; z-index:500;
       transition: background .4s, backdrop-filter .4s;
     }
     nav.bg {
-      background: rgba(8,8,8,.82);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      background:rgba(8,8,8,.82);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,.06);
     }
-    .nav-logo img { height: 34px; display:block; }
+    .nav-logo img { height:34px; display:block; }
     .nav-links { list-style:none; display:flex; gap:36px; }
     .nav-links a {
-      font-family: var(--ff-condensed);
-      font-size: 12px; font-weight:500;
-      letter-spacing: 2.5px; text-transform: uppercase;
-      text-decoration: none;
-      color: rgba(240,237,232,.5);
-      transition: color .2s;
+      font-family:var(--ff-condensed);
+      font-size:12px; font-weight:500;
+      letter-spacing:2.5px; text-transform:uppercase;
+      text-decoration:none; color:rgba(240,237,232,.5);
+      transition:color .2s;
     }
-    .nav-links a:hover { color: var(--white); }
-    .nav-links .active a { color: var(--white); }
-
-    /* hamburger */
+    .nav-links a:hover, .nav-links .active a { color:var(--white); }
     .nav-toggle {
       display:none; flex-direction:column; gap:5px;
       background:none; border:none; cursor:none; padding:4px;
     }
-    .nav-toggle span {
-      display:block; width:24px; height:1.5px;
-      background: var(--white); transition: all .3s;
-    }
+    .nav-toggle span { display:block; width:24px; height:1.5px; background:var(--white); }
 
-    /* ─── HERO SECTION ─── */
+    /* ══════════════════════════════
+       HERO — FULLSCREEN TRAILER
+    ══════════════════════════════ */
     #hero {
-      position: relative;
-      width: 100%; height: 100vh;
-      overflow: hidden;
-      display: flex; flex-direction: column;
+      position:relative; width:100%; height:100vh;
+      overflow:hidden; display:flex; flex-direction:column;
     }
-
-    /* Vimeo iframe fills the whole hero */
     #vimeo-wrap {
-      position: absolute; inset: 0;
-      /* Vimeo needs extra size to hide its controls & letterbox */
-      width: calc(100% + 2px);
-      height: calc(100% + 2px);
-      top: -1px; left: -1px;
-      overflow: hidden;
+      position:absolute; inset:0;
+      width:calc(100% + 2px); height:calc(100% + 2px);
+      top:-1px; left:-1px; overflow:hidden;
     }
-    /*
-      To make Vimeo truly fullscreen we use the padding-top trick
-      but we also want it bigger than the viewport so controls stay hidden.
-      We scale an iframe that has a 16:9 ratio to cover viewport.
-    */
     #vimeo-wrap iframe {
-      position: absolute;
-      /* cover viewport regardless of aspect */
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      /* min dimensions to always cover */
-      min-width: 100vw;
-      min-height: 56.25vw; /* 16:9 */
-      width: 177.78vh;      /* 16:9 */
-      height: 100vh;
-      border: none;
-      pointer-events: none; /* prevent clicks through to Vimeo UI */
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      min-width:100vw; min-height:56.25vw;
+      width:177.78vh; height:100vh;
+      border:none; pointer-events:none;
     }
-
-    /* Dark vignette over video */
     .hero-overlay {
-      position: absolute; inset:0; z-index:2;
-      background: linear-gradient(
+      position:absolute; inset:0; z-index:2;
+      background:linear-gradient(
         to bottom,
         rgba(8,8,8,.18) 0%,
         rgba(8,8,8,.05) 40%,
@@ -164,436 +122,506 @@
         rgba(8,8,8,.96) 100%
       );
     }
-
-    /* Studio name — center of hero */
     .hero-studio {
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -60%);
-      z-index: 3;
-      text-align: center;
-      pointer-events: none;
+      position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-60%);
+      z-index:3; text-align:center; pointer-events:none;
     }
     .hero-studio img {
-      height: 60px; width: auto;
-      filter: brightness(0) invert(1);
-      opacity: 0;
-      animation: fadeUp .9s ease 2.2s forwards;
+      height:60px; filter:brightness(0) invert(1);
+      opacity:0; animation:fadeUp .9s ease 2.2s forwards;
     }
     .hero-studio .tagline {
-      display: block;
-      font-family: var(--ff-condensed);
-      font-size: 11px; letter-spacing: 5px;
-      text-transform: uppercase;
-      color: rgba(240,237,232,.35);
-      margin-top: 12px;
-      opacity: 0;
-      animation: fadeUp .9s ease 2.5s forwards;
+      display:block;
+      font-family:var(--ff-condensed);
+      font-size:11px; letter-spacing:5px; text-transform:uppercase;
+      color:rgba(240,237,232,.35); margin-top:12px;
+      opacity:0; animation:fadeUp .9s ease 2.5s forwards;
     }
-
-    /* Mute / unmute button */
     #mute-btn {
-      position: absolute;
-      bottom: 160px; right: 44px;
-      z-index: 10;
-      background: rgba(8,8,8,.55);
-      border: 1px solid rgba(240,237,232,.2);
-      color: var(--white);
-      cursor: none;
-      width: 44px; height: 44px;
-      border-radius: 50%;
-      display: flex; align-items:center; justify-content:center;
-      transition: background .2s, border-color .2s;
-      opacity: 0;
-      animation: fadeUp .6s ease 3s forwards;
+      position:absolute; bottom:160px; right:44px; z-index:10;
+      background:rgba(8,8,8,.55); border:1px solid rgba(240,237,232,.2);
+      color:var(--white); cursor:none;
+      width:44px; height:44px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      transition:background .2s, border-color .2s;
+      opacity:0; animation:fadeUp .6s ease 3s forwards;
     }
-    #mute-btn:hover { background: rgba(240,237,232,.15); border-color: rgba(240,237,232,.5); }
+    #mute-btn:hover { background:rgba(240,237,232,.15); border-color:rgba(240,237,232,.5); }
     #mute-btn svg { width:18px; height:18px; }
-
-    /* Scroll hint */
     .scroll-hint {
-      position: absolute;
-      bottom: 44px; left: 50%;
-      transform: translateX(-50%);
-      z-index: 10;
-      display: flex; flex-direction: column; align-items:center; gap:8px;
-      opacity:0;
-      animation: fadeUp .8s ease 3.2s forwards;
+      position:absolute; bottom:44px; left:50%;
+      transform:translateX(-50%); z-index:10;
+      display:flex; flex-direction:column; align-items:center; gap:8px;
+      opacity:0; animation:fadeUp .8s ease 3.2s forwards;
     }
     .scroll-hint span {
-      font-family: var(--ff-condensed);
-      font-size: 9px; letter-spacing: 3.5px;
-      text-transform: uppercase;
-      color: rgba(240,237,232,.3);
+      font-family:var(--ff-condensed);
+      font-size:9px; letter-spacing:3.5px; text-transform:uppercase;
+      color:rgba(240,237,232,.3);
     }
     .sh-line { width:1px; height:38px; background:rgba(240,237,232,.12); overflow:hidden; position:relative; }
     .sh-line::after {
-      content:'';
-      position:absolute; top:-100%; left:0;
-      width:1px; height:100%;
-      background: rgba(240,237,232,.6);
-      animation: scrollLine 2s ease-in-out 3.6s infinite;
+      content:''; position:absolute; top:-100%; left:0;
+      width:1px; height:100%; background:rgba(240,237,232,.6);
+      animation:scrollLine 2s ease-in-out 3.6s infinite;
     }
     @keyframes scrollLine { 0%{top:-100%} 100%{top:100%} }
 
-    /* ─── OUR GAMES STRIP (bottom of hero) ─── */
-    .games-strip {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      z-index: 5;
-      display: flex;
-    }
-
-    .game-thumb {
-      flex: 1;
-      position: relative;
-      height: 130px;
-      overflow: hidden;
-      text-decoration: none;
-      color: var(--white);
-      border-top: 1px solid rgba(240,237,232,.12);
-      transition: height .5s cubic-bezier(.25,.46,.45,.94);
-    }
-    .game-thumb:first-child { border-right: 1px solid rgba(240,237,232,.12); }
-    .game-thumb:hover { height: 180px; }
-
-    /* thumbnail bg image */
-    .game-thumb-bg {
-      position: absolute; inset:0;
-      background-size:cover; background-position:center;
-      transform: scale(1.08);
-      transition: transform .6s cubic-bezier(.25,.46,.45,.94), filter .4s;
-      filter: saturate(.4) brightness(.55);
-    }
-    .game-thumb:hover .game-thumb-bg {
-      transform: scale(1);
-      filter: saturate(.8) brightness(.7);
-    }
-
-    /* accent bar at top of thumb */
-    .game-thumb::before {
-      content:'';
-      position:absolute; top:0; left:0;
-      height: 2px; width:0;
-      z-index:2;
-      transition: width .5s cubic-bezier(.25,.46,.45,.94);
-    }
-    .game-thumb:hover::before { width:100%; }
-    .thumb-sling::before  { background: var(--accent1); }
-    .thumb-gorilla::before { background: var(--accent2); }
-
-    .game-thumb-content {
-      position: absolute; inset:0; z-index:3;
-      padding: 18px 32px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-    }
-
-    .thumb-eyebrow {
-      font-family: var(--ff-condensed);
-      font-size: 10px; font-weight:600;
-      letter-spacing: 3px; text-transform: uppercase;
-      margin-bottom: 6px;
-      opacity: .6;
-      transition: opacity .3s;
-    }
-    .game-thumb:hover .thumb-eyebrow { opacity:1; }
-    .thumb-sling  .thumb-eyebrow { color: var(--accent1); }
-    .thumb-gorilla .thumb-eyebrow { color: var(--accent2); }
-
-    .thumb-title {
-      font-family: var(--ff-display);
-      font-size: clamp(22px, 2.8vw, 36px);
-      letter-spacing: 2px;
-      line-height:1;
-      color: var(--white);
-      opacity:.75;
-      transition: opacity .3s;
-    }
-    .game-thumb:hover .thumb-title { opacity:1; }
-
-    .thumb-arrow {
-      position: absolute;
-      right: 28px; bottom: 20px;
-      font-family: var(--ff-condensed);
-      font-size: 11px; letter-spacing:2px; text-transform: uppercase;
-      color: var(--white);
-      opacity:0;
-      transition: opacity .3s ease, transform .3s ease;
-      transform: translateX(-6px);
-      display:flex; align-items:center; gap:8px;
-    }
-    .game-thumb:hover .thumb-arrow { opacity:.7; transform: translateX(0); }
-
-    /* "OUR GAMES" label between strip and scroll area */
+    /* Games strip */
     .games-label {
-      position: absolute;
-      bottom: 138px; left: 50%;
-      transform: translateX(-50%);
-      z-index: 6;
-      font-family: var(--ff-condensed);
-      font-size: 10px; font-weight:600;
-      letter-spacing: 5px; text-transform: uppercase;
-      color: rgba(240,237,232,.3);
-      white-space: nowrap;
-      display: flex; align-items:center; gap: 14px;
-      opacity:0;
-      animation: fadeUp .8s ease 2.8s forwards;
+      position:absolute; bottom:138px; left:50%;
+      transform:translateX(-50%); z-index:6;
+      font-family:var(--ff-condensed);
+      font-size:10px; font-weight:600;
+      letter-spacing:5px; text-transform:uppercase;
+      color:rgba(240,237,232,.3); white-space:nowrap;
+      display:flex; align-items:center; gap:14px;
+      opacity:0; animation:fadeUp .8s ease 2.8s forwards;
     }
     .games-label::before, .games-label::after {
-      content:'';
-      display:block; width:28px; height:1px;
-      background:rgba(240,237,232,.2);
+      content:''; display:block; width:28px; height:1px; background:rgba(240,237,232,.2);
+    }
+    .games-strip {
+      position:absolute; bottom:0; left:0; right:0; z-index:5; display:flex;
+    }
+    .game-thumb {
+      flex:1; position:relative; height:130px; overflow:hidden;
+      text-decoration:none; color:var(--white);
+      border-top:1px solid rgba(240,237,232,.12);
+      transition:height .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .game-thumb:first-child { border-right:1px solid rgba(240,237,232,.12); }
+    .game-thumb:hover { height:180px; }
+    .game-thumb-bg {
+      position:absolute; inset:0; background-size:cover; background-position:center;
+      transform:scale(1.08); filter:saturate(.4) brightness(.55);
+      transition:transform .6s cubic-bezier(.25,.46,.45,.94), filter .4s;
+    }
+    .game-thumb:hover .game-thumb-bg { transform:scale(1); filter:saturate(.8) brightness(.7); }
+    .game-thumb::before {
+      content:''; position:absolute; top:0; left:0;
+      height:2px; width:0; z-index:2;
+      transition:width .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .game-thumb:hover::before { width:100%; }
+    .thumb-sling::before  { background:var(--accent1); }
+    .thumb-gorilla::before { background:var(--accent2); }
+    .game-thumb-content {
+      position:absolute; inset:0; z-index:3;
+      padding:18px 32px 20px;
+      display:flex; flex-direction:column; justify-content:flex-end;
+    }
+    .thumb-eyebrow {
+      font-family:var(--ff-condensed);
+      font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+      margin-bottom:6px; opacity:.6; transition:opacity .3s;
+    }
+    .game-thumb:hover .thumb-eyebrow { opacity:1; }
+    .thumb-sling  .thumb-eyebrow { color:var(--accent1); }
+    .thumb-gorilla .thumb-eyebrow { color:var(--accent2); }
+    .thumb-title {
+      font-family:var(--ff-display);
+      font-size:clamp(22px,2.8vw,36px); letter-spacing:2px; line-height:1;
+      color:var(--white); opacity:.75; transition:opacity .3s;
+    }
+    .game-thumb:hover .thumb-title { opacity:1; }
+    .thumb-arrow {
+      position:absolute; right:28px; bottom:20px;
+      font-family:var(--ff-condensed); font-size:11px; letter-spacing:2px; text-transform:uppercase;
+      color:var(--white); opacity:0;
+      transition:opacity .3s, transform .3s; transform:translateX(-6px);
+      display:flex; align-items:center; gap:8px;
+    }
+    .game-thumb:hover .thumb-arrow { opacity:.7; transform:translateX(0); }
+
+    /* ══════════════════════════════
+       WHAT WE DO — Rodeo FX style
+    ══════════════════════════════ */
+    #whatwedo {
+      position:relative;
+      width:100%; height:100vh;
+      overflow:hidden;
+      display:flex;
     }
 
-    /* ─── BELOW-FOLD: Games detail section ─── */
+    /* Fullscreen background image per division — transitions */
+    .wwd-bg {
+      position:absolute; inset:0; z-index:0;
+      background-size:cover; background-position:center;
+      transition:opacity .8s ease;
+      opacity:0;
+    }
+    .wwd-bg.active { opacity:1; }
+
+    /* Dark overlay */
+    .wwd-overlay {
+      position:absolute; inset:0; z-index:1;
+      background:linear-gradient(
+        to right,
+        rgba(8,8,8,.92) 0%,
+        rgba(8,8,8,.65) 35%,
+        rgba(8,8,8,.25) 70%,
+        rgba(8,8,8,.15) 100%
+      );
+    }
+
+    /* LEFT SIDEBAR — like Rodeo FX */
+    .wwd-sidebar {
+      position:relative; z-index:10;
+      width:220px; flex-shrink:0;
+      display:flex; flex-direction:column;
+      justify-content:space-between;
+      padding:90px 0 44px 44px;
+      border-right:1px solid rgba(240,237,232,.08);
+    }
+    .wwd-section-title {
+      font-family:var(--ff-condensed);
+      font-size:11px; font-weight:600;
+      letter-spacing:4px; text-transform:uppercase;
+      color:rgba(240,237,232,.35);
+      margin-bottom:48px;
+      display:flex; align-items:center; gap:12px;
+    }
+    .wwd-section-title::before {
+      content:''; display:block; width:20px; height:1px; background:rgba(240,237,232,.3);
+    }
+
+    /* Vertical studio name like Rodeo FX */
+    .wwd-studio-vert {
+      writing-mode:vertical-rl;
+      text-orientation:mixed;
+      transform:rotate(180deg);
+      font-family:var(--ff-condensed);
+      font-size:11px; font-weight:600;
+      letter-spacing:4px; text-transform:uppercase;
+      color:rgba(240,237,232,.25);
+      margin-bottom:auto;
+    }
+
+    /* Division tabs */
+    .wwd-tabs {
+      list-style:none;
+      display:flex; flex-direction:column; gap:0;
+    }
+    .wwd-tab {
+      display:flex; align-items:center; gap:14px;
+      padding:14px 0;
+      cursor:none;
+      border-bottom:1px solid rgba(240,237,232,.07);
+      transition:all .2s;
+    }
+    .wwd-tab:first-child { border-top:1px solid rgba(240,237,232,.07); }
+
+    /* dot indicator */
+    .wwd-dot {
+      width:6px; height:6px; border-radius:50%;
+      border:1px solid rgba(240,237,232,.35);
+      flex-shrink:0; transition:all .3s;
+    }
+    .wwd-tab.active .wwd-dot,
+    .wwd-tab:hover  .wwd-dot {
+      background:var(--white); border-color:var(--white);
+    }
+
+    .wwd-tab-label {
+      font-family:var(--ff-condensed);
+      font-size:13px; font-weight:500;
+      letter-spacing:1.5px; text-transform:uppercase;
+      color:rgba(240,237,232,.4);
+      transition:color .2s;
+    }
+    .wwd-tab.active .wwd-tab-label,
+    .wwd-tab:hover  .wwd-tab-label { color:var(--white); }
+
+    .wwd-tab-discover {
+      font-family:var(--ff-condensed);
+      font-size:10px; letter-spacing:2px; text-transform:uppercase;
+      color:rgba(240,237,232,.25);
+      margin-top:3px;
+      text-decoration:none;
+      display:none;
+      transition:color .2s;
+    }
+    .wwd-tab-discover:hover { color:rgba(240,237,232,.7); }
+    .wwd-tab.active .wwd-tab-discover { display:block; }
+
+    .wwd-tab-inner { display:flex; flex-direction:column; }
+
+    /* MAIN CONTENT AREA */
+    .wwd-main {
+      flex:1; position:relative; z-index:10;
+      display:flex; flex-direction:column;
+      justify-content:center;
+      padding:90px 60px 44px 60px;
+      overflow:hidden;
+    }
+
+    /* Division heading */
+    .wwd-heading-wrap { margin-bottom:48px; }
+    .wwd-division-name {
+      font-family:var(--ff-display);
+      font-size:clamp(38px,4.5vw,64px);
+      letter-spacing:3px; line-height:.95;
+      color:var(--white);
+      display:none;
+    }
+    .wwd-division-name.active { display:block; animation:fadeUp .5s ease both; }
+
+    /* "RECENT PROJECTS" label */
+    .wwd-projects-label {
+      font-family:var(--ff-condensed);
+      font-size:10px; font-weight:600;
+      letter-spacing:4px; text-transform:uppercase;
+      color:rgba(240,237,232,.3);
+      margin-bottom:24px;
+    }
+
+    /* Project cards row — horizontal scroll */
+    .wwd-cards-viewport {
+      position:relative;
+      overflow:hidden;
+    }
+    .wwd-cards-track {
+      display:flex; gap:16px;
+      transition:transform .6s cubic-bezier(.25,.46,.45,.94);
+      will-change:transform;
+    }
+
+    .wwd-card {
+      flex-shrink:0;
+      width:200px;
+      cursor:none;
+      text-decoration:none; color:var(--white);
+      position:relative;
+    }
+    .wwd-card-img {
+      width:100%; aspect-ratio:2/3;
+      overflow:hidden; border-radius:2px;
+      position:relative;
+      background:#1a1a1a;
+      border:1px solid rgba(240,237,232,.07);
+    }
+    .wwd-card-img img {
+      width:100%; height:100%; object-fit:cover;
+      transform:scale(1.06);
+      transition:transform .6s cubic-bezier(.25,.46,.45,.94), filter .4s;
+      filter:saturate(.7);
+    }
+    .wwd-card:hover .wwd-card-img img { transform:scale(1); filter:saturate(1); }
+
+    /* Placeholder gradient for cards without real images */
+    .wwd-card-placeholder {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      font-family:var(--ff-display);
+      font-size:13px; letter-spacing:2px;
+      color:rgba(240,237,232,.15);
+      text-align:center; padding:16px;
+    }
+
+    .wwd-card-title {
+      font-family:var(--ff-condensed);
+      font-size:13px; font-weight:500; letter-spacing:1px;
+      color:rgba(240,237,232,.6);
+      margin-top:10px;
+      transition:color .2s;
+    }
+    .wwd-card:hover .wwd-card-title { color:var(--white); }
+
+    /* PREV / NEXT nav — bottom right like Rodeo FX */
+    .wwd-nav {
+      position:absolute; bottom:44px; right:44px;
+      z-index:10; display:flex; align-items:center; gap:32px;
+    }
+    .wwd-nav-btn {
+      font-family:var(--ff-condensed);
+      font-size:12px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+      color:rgba(240,237,232,.4); cursor:none; background:none; border:none;
+      display:flex; align-items:center; gap:10px;
+      transition:color .2s;
+    }
+    .wwd-nav-btn:hover { color:var(--white); }
+    .wwd-nav-btn svg { width:18px; height:18px; }
+    .wwd-nav-sep {
+      width:80px; height:1px; background:rgba(240,237,232,.15);
+      position:relative; overflow:hidden;
+    }
+    .wwd-nav-sep-fill {
+      position:absolute; left:0; top:0; height:100%;
+      background:var(--white);
+      transition:width .6s cubic-bezier(.25,.46,.45,.94);
+    }
+
+    /* ══════════════════════════════
+       GAMES DETAIL SECTION
+    ══════════════════════════════ */
     #games {
-      background: #0c0c0c;
-      padding: 120px 80px;
-      border-top: 1px solid rgba(240,237,232,.07);
+      background:#0c0c0c; padding:120px 80px;
+      border-top:1px solid rgba(240,237,232,.07);
     }
     .sec-eyebrow {
-      font-family: var(--ff-condensed);
-      font-size: 11px; font-weight:500;
-      letter-spacing: 4px; text-transform:uppercase;
-      color: rgba(240,237,232,.35);
-      margin-bottom: 16px;
+      font-family:var(--ff-condensed);
+      font-size:11px; font-weight:500;
+      letter-spacing:4px; text-transform:uppercase;
+      color:rgba(240,237,232,.35); margin-bottom:16px;
       display:flex; align-items:center; gap:14px;
     }
     .sec-eyebrow::before { content:''; display:block; width:24px; height:1px; background:rgba(240,237,232,.25); }
     .sec-title {
-      font-family: var(--ff-display);
-      font-size: clamp(56px, 7vw, 100px);
-      line-height:.88; letter-spacing:3px;
-      color: var(--white);
-      margin-bottom: 80px;
+      font-family:var(--ff-display);
+      font-size:clamp(56px,7vw,100px);
+      line-height:.88; letter-spacing:3px; color:var(--white); margin-bottom:80px;
     }
-
     .games-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
-
     .game-card {
       position:relative; overflow:hidden;
-      text-decoration:none; color:var(--white);
-      display:block; background: #111;
+      text-decoration:none; color:var(--white); display:block; background:#111;
     }
-    .game-card-img {
-      height: 440px; overflow:hidden;
-      position:relative;
-    }
+    .game-card-img { height:440px; overflow:hidden; position:relative; }
     .game-card-img img {
       width:100%; height:100%; object-fit:cover;
-      transform: scale(1.06);
-      transition: transform 1s cubic-bezier(.25,.46,.45,.94), filter .5s;
-      filter: saturate(.65);
+      transform:scale(1.06); filter:saturate(.65);
+      transition:transform 1s cubic-bezier(.25,.46,.45,.94), filter .5s;
     }
     .game-card:hover .game-card-img img { transform:scale(1); filter:saturate(1); }
     .game-card-img::after {
-      content:'';
-      position:absolute; inset:0;
-      background: linear-gradient(to bottom, transparent 40%, rgba(8,8,8,.85) 100%);
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(to bottom, transparent 40%, rgba(8,8,8,.85) 100%);
     }
     .game-card-bar {
-      position:absolute; bottom:0; left:0;
-      height:3px; width:0;
-      transition: width .5s cubic-bezier(.25,.46,.45,.94);
-      z-index:2;
+      position:absolute; bottom:0; left:0; height:3px; width:0;
+      transition:width .5s cubic-bezier(.25,.46,.45,.94); z-index:2;
     }
     .game-card:hover .game-card-bar { width:100%; }
-    .bar-sling   { background: var(--accent1); }
-    .bar-gorilla { background: var(--accent2); }
-
+    .bar-sling   { background:var(--accent1); }
+    .bar-gorilla { background:var(--accent2); }
     .game-card-body {
-      padding: 32px 40px 40px;
-      border-top: 1px solid rgba(240,237,232,.07);
-      transition: background .3s;
+      padding:32px 40px 40px;
+      border-top:1px solid rgba(240,237,232,.07);
+      transition:background .3s;
     }
     .game-card:hover .game-card-body { background:#151515; }
-
     .game-card-platform {
-      font-family: var(--ff-condensed);
-      font-size: 11px; font-weight:600;
-      letter-spacing:3px; text-transform:uppercase;
-      margin-bottom: 14px;
-      display:inline-block;
-      padding: 4px 10px; border-radius:2px;
+      font-family:var(--ff-condensed);
+      font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase;
+      margin-bottom:14px; display:inline-block; padding:4px 10px; border-radius:2px;
     }
     .plat-sling   { color:var(--accent1); border:1px solid rgba(74,144,226,.3); }
     .plat-gorilla { color:var(--accent2); border:1px solid rgba(255,107,0,.3); }
-
     .game-card-logo img {
       max-height:46px; width:auto;
-      filter: brightness(0) invert(1);
-      opacity:.88;
-      margin-bottom:14px; display:block;
-      transition: opacity .3s;
+      filter:brightness(0) invert(1); opacity:.88;
+      margin-bottom:14px; display:block; transition:opacity .3s;
     }
     .game-card:hover .game-card-logo img { opacity:1; }
-
     .game-card-desc {
       font-size:14px; font-weight:300;
       color:rgba(240,237,232,.5);
-      line-height:1.75; max-width:400px;
-      margin-bottom:24px;
+      line-height:1.75; max-width:400px; margin-bottom:24px;
     }
     .game-card-cta {
-      font-family: var(--ff-condensed);
-      font-size:12px; font-weight:500;
-      letter-spacing:2.5px; text-transform:uppercase;
-      color:var(--white);
-      display:inline-flex; align-items:center; gap:10px;
-      opacity:.35;
-      transition: opacity .3s;
+      font-family:var(--ff-condensed);
+      font-size:12px; font-weight:500; letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--white); display:inline-flex; align-items:center; gap:10px;
+      opacity:.35; transition:opacity .3s;
     }
     .game-card:hover .game-card-cta { opacity:1; }
-    .game-card-cta svg { width:16px; height:16px; transition: transform .3s; }
+    .game-card-cta svg { width:16px; height:16px; transition:transform .3s; }
     .game-card:hover .game-card-cta svg { transform:translateX(4px); }
 
-    /* ─── ABOUT ─── */
+    /* ══════════════════════════════
+       ABOUT
+    ══════════════════════════════ */
     #about {
-      padding: 130px 80px;
-      background: var(--black);
-      border-top: 1px solid rgba(240,237,232,.07);
+      padding:130px 80px; background:var(--black);
+      border-top:1px solid rgba(240,237,232,.07);
       display:grid; grid-template-columns:1fr 1fr;
       gap:100px; align-items:center;
     }
     .about-title {
-      font-family: var(--ff-display);
-      font-size: clamp(52px,5.5vw,82px);
-      line-height:.9; letter-spacing:2px;
-      color:var(--white);
-      margin-bottom:28px;
+      font-family:var(--ff-display);
+      font-size:clamp(52px,5.5vw,82px);
+      line-height:.9; letter-spacing:2px; color:var(--white); margin-bottom:28px;
     }
     .about-title em {
-      font-style:normal;
-      color:transparent;
-      -webkit-text-stroke: 1px rgba(240,237,232,.35);
+      font-style:normal; color:transparent;
+      -webkit-text-stroke:1px rgba(240,237,232,.35);
     }
-    .about-body {
-      font-size:16px; font-weight:300;
-      color:rgba(240,237,232,.5);
-      line-height:1.85;
-    }
+    .about-body { font-size:16px; font-weight:300; color:rgba(240,237,232,.5); line-height:1.85; }
     .stats { display:grid; grid-template-columns:1fr 1fr; gap:36px; }
     .stat { border-top:1px solid rgba(240,237,232,.1); padding-top:22px; }
-    .stat-n {
-      font-family: var(--ff-display);
-      font-size:60px; line-height:1;
-      color:var(--white); letter-spacing:2px;
-    }
-    .stat-l {
-      font-family: var(--ff-condensed);
-      font-size:11px; letter-spacing:2.5px;
-      text-transform:uppercase;
-      color:rgba(240,237,232,.3);
-      margin-top:4px;
-    }
+    .stat-n { font-family:var(--ff-display); font-size:60px; line-height:1; color:var(--white); letter-spacing:2px; }
+    .stat-l { font-family:var(--ff-condensed); font-size:11px; letter-spacing:2.5px; text-transform:uppercase; color:rgba(240,237,232,.3); margin-top:4px; }
 
-    /* ─── CONTACT ─── */
+    /* ══════════════════════════════
+       CONTACT
+    ══════════════════════════════ */
     #contact {
-      padding: 110px 80px;
-      background:#0c0c0c;
+      padding:110px 80px; background:#0c0c0c;
       border-top:1px solid rgba(240,237,232,.07);
-      display:flex; align-items:center;
-      justify-content:space-between; gap:60px;
+      display:flex; align-items:center; justify-content:space-between; gap:60px;
     }
-    .contact-title {
-      font-family: var(--ff-display);
-      font-size: clamp(54px,6.5vw,92px);
-      line-height:.88; letter-spacing:2px;
-      color:var(--white);
-    }
+    .contact-title { font-family:var(--ff-display); font-size:clamp(54px,6.5vw,92px); line-height:.88; letter-spacing:2px; color:var(--white); }
     .contact-email {
       display:inline-flex; align-items:center; gap:14px;
-      text-decoration:none;
-      font-family: var(--ff-condensed);
-      font-size: clamp(16px,1.8vw,24px);
-      font-weight:400; letter-spacing:1px;
-      color:rgba(240,237,232,.5);
-      margin-top:36px;
-      position:relative;
-      transition: color .3s;
+      text-decoration:none; font-family:var(--ff-condensed);
+      font-size:clamp(16px,1.8vw,24px); font-weight:400; letter-spacing:1px;
+      color:rgba(240,237,232,.5); margin-top:36px;
+      position:relative; transition:color .3s;
     }
     .contact-email::after {
-      content:'';
-      position:absolute; bottom:-4px; left:0; right:0;
+      content:''; position:absolute; bottom:-4px; left:0; right:0;
       height:1px; background:var(--white);
       transform:scaleX(0); transform-origin:left;
-      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+      transition:transform .5s cubic-bezier(.25,.46,.45,.94);
     }
     .contact-email:hover { color:var(--white); }
     .contact-email:hover::after { transform:scaleX(1); }
-    .contact-note {
-      max-width:380px;
-      font-size:14px; font-weight:300;
-      color:rgba(240,237,232,.35);
-      line-height:1.8;
-    }
+    .contact-note { max-width:380px; font-size:14px; font-weight:300; color:rgba(240,237,232,.35); line-height:1.8; }
 
-    /* ─── FOOTER ─── */
+    /* ── FOOTER ── */
     footer {
-      background:var(--black);
-      border-top:1px solid rgba(240,237,232,.07);
-      padding:28px 80px;
-      display:flex; align-items:center; justify-content:space-between;
+      background:var(--black); border-top:1px solid rgba(240,237,232,.07);
+      padding:28px 80px; display:flex; align-items:center; justify-content:space-between;
     }
     footer img { height:26px; filter:brightness(0) invert(1); opacity:.35; }
-    footer p {
-      font-family:var(--ff-condensed);
-      font-size:11px; letter-spacing:2px;
-      text-transform:uppercase;
-      color:rgba(240,237,232,.22);
-    }
+    footer p { font-family:var(--ff-condensed); font-size:11px; letter-spacing:2px; text-transform:uppercase; color:rgba(240,237,232,.22); }
 
-    /* ─── SCROLL REVEAL ─── */
-    .reveal { opacity:0; transform:translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
     .reveal.in { opacity:1; transform:none; }
     .reveal.d1 { transition-delay:.1s; }
     .reveal.d2 { transition-delay:.2s; }
-    .reveal.d3 { transition-delay:.3s; }
 
-    /* ─── MOBILE NAV ─── */
+    /* ── MOBILE NAV ── */
     .mob-nav {
       display:none; position:fixed; inset:0;
       background:var(--black); z-index:700;
       flex-direction:column; align-items:center; justify-content:center; gap:36px;
     }
     .mob-nav.open { display:flex; }
-    .mob-nav a {
-      font-family:var(--ff-display);
-      font-size:52px; letter-spacing:4px;
-      color:var(--white); text-decoration:none;
-      opacity:.7; transition:opacity .2s;
-    }
+    .mob-nav a { font-family:var(--ff-display); font-size:52px; letter-spacing:4px; color:var(--white); text-decoration:none; opacity:.7; transition:opacity .2s; }
     .mob-nav a:hover { opacity:1; }
-    .mob-close {
-      position:absolute; top:26px; right:32px;
-      background:none; border:none; cursor:none;
-      font-family:var(--ff-condensed);
-      font-size:13px; letter-spacing:3px;
-      text-transform:uppercase;
-      color:rgba(240,237,232,.4);
-    }
+    .mob-close { position:absolute; top:26px; right:32px; background:none; border:none; cursor:none; font-family:var(--ff-condensed); font-size:13px; letter-spacing:3px; text-transform:uppercase; color:rgba(240,237,232,.4); }
 
-    /* ─── RESPONSIVE ─── */
+    /* ── RESPONSIVE ── */
     @media (max-width:1024px) {
       nav { padding:0 24px; }
       .nav-links { display:none; }
       .nav-toggle { display:flex; }
-      .hero-studio img { height:40px; }
-      .game-thumb { height:110px; }
-      .game-thumb:hover { height:150px; }
-      .games-label { display:none; }
+      #whatwedo { height:auto; flex-direction:column; }
+      .wwd-sidebar { width:100%; flex-direction:row; flex-wrap:wrap; padding:80px 24px 24px; border-right:none; border-bottom:1px solid rgba(240,237,232,.08); }
+      .wwd-studio-vert { display:none; }
+      .wwd-tabs { flex-direction:row; gap:0; flex-wrap:wrap; }
+      .wwd-tab { border-bottom:none; border-right:1px solid rgba(240,237,232,.07); padding:10px 20px; }
+      .wwd-main { padding:40px 24px 100px; }
+      .wwd-nav { bottom:24px; right:24px; }
       #games { padding:80px 28px; }
-      .games-grid { grid-template-columns:1fr; gap:2px; }
+      .games-grid { grid-template-columns:1fr; }
       #about { grid-template-columns:1fr; padding:80px 28px; gap:56px; }
       #contact { flex-direction:column; align-items:flex-start; padding:80px 28px; }
       footer { padding:24px 28px; }
-    }
-    @media (max-width:640px) {
-      .game-thumb-content { padding:14px 20px 16px; }
-      .stats { grid-template-columns:1fr 1fr; gap:24px; }
-      #mute-btn { bottom:150px; right:20px; }
     }
   </style>
 </head>
@@ -612,10 +640,11 @@
 <!-- MOBILE NAV -->
 <div class="mob-nav" id="mobNav">
   <button class="mob-close" id="mobClose">CLOSE</button>
-  <a href="#hero"    onclick="closeMob()">Home</a>
-  <a href="#games"   onclick="closeMob()">Games</a>
-  <a href="#about"   onclick="closeMob()">About</a>
-  <a href="#contact" onclick="closeMob()">Contact</a>
+  <a href="#hero"     onclick="closeMob()">Home</a>
+  <a href="#whatwedo" onclick="closeMob()">What We Do</a>
+  <a href="#games"    onclick="closeMob()">Games</a>
+  <a href="#about"    onclick="closeMob()">About</a>
+  <a href="#contact"  onclick="closeMob()">Contact</a>
 </div>
 
 <!-- NAVBAR -->
@@ -623,6 +652,7 @@
   <div class="nav-logo"><a href="#hero"><img src="img/logo/dark.png" alt="EdwyDenny"></a></div>
   <ul class="nav-links">
     <li class="active"><a href="#hero">Home</a></li>
+    <li><a href="#whatwedo">What We Do</a></li>
     <li><a href="#games">Games</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -630,32 +660,22 @@
   <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- ═══════════════════════════
+<!-- ══════════════════════════════
      HERO — FULLSCREEN TRAILER
-═══════════════════════════ -->
+══════════════════════════════ -->
 <section id="hero">
-
-  <!-- Vimeo autoplay, muted, looped, no controls visible -->
   <div id="vimeo-wrap">
     <iframe id="vimeoPlayer"
       src="https://player.vimeo.com/video/985911021?h=99cd78d59f&autoplay=1&muted=1&loop=1&controls=0&title=0&byline=0&portrait=0&background=1&quality=1080p"
-      allow="autoplay; fullscreen; picture-in-picture"
-      allowfullscreen>
+      allow="autoplay; fullscreen; picture-in-picture" allowfullscreen>
     </iframe>
   </div>
-
-  <!-- Gradient overlay -->
   <div class="hero-overlay"></div>
-
-  <!-- Studio logo centred -->
   <div class="hero-studio">
     <img src="img/logo/dark.png" alt="EdwyDenny">
     <span class="tagline">A Creative Game Studio — Est. 2024</span>
   </div>
-
-  <!-- Mute / Unmute -->
   <button id="mute-btn" title="Toggle sound">
-    <!-- Speaker icon — will swap via JS -->
     <svg id="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
       <path d="M11 5 6 9H2v6h4l5 4V5z"/>
       <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
@@ -665,100 +685,195 @@
       <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
     </svg>
   </button>
-
-  <!-- Scroll hint -->
   <div class="scroll-hint">
     <span>Scroll</span>
     <div class="sh-line"></div>
   </div>
-
-  <!-- "OUR GAMES" label above strip -->
   <div class="games-label">OUR GAMES</div>
-
-  <!-- ── GAMES THUMBNAIL STRIP at bottom ── -->
   <div class="games-strip">
-
     <a href="sling-and-stone.html" class="game-thumb thumb-sling">
       <div class="game-thumb-bg" style="background-image:url('img/slider/Game-Shot2.png')"></div>
       <div class="game-thumb-content">
         <div class="thumb-eyebrow">PC Game</div>
         <div class="thumb-title">The Sling &amp; The Stone</div>
       </div>
-      <div class="thumb-arrow">
-        View
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
+      <div class="thumb-arrow">View <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </a>
-
     <a href="gorilla-vs-100.html" class="game-thumb thumb-gorilla">
       <div class="game-thumb-bg" style="background-image:url('img/slider/3.jpg')"></div>
       <div class="game-thumb-content">
         <div class="thumb-eyebrow">Mobile Game</div>
         <div class="thumb-title">Gorilla vs 100</div>
       </div>
-      <div class="thumb-arrow">
-        View
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </div>
+      <div class="thumb-arrow">View <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
     </a>
-
   </div>
 </section>
 
-<!-- ═══════════════════════════
-     GAMES DETAIL (below fold)
-═══════════════════════════ -->
+<!-- ══════════════════════════════
+     WHAT WE DO — Rodeo FX Style
+══════════════════════════════ -->
+<section id="whatwedo">
+
+  <!-- Background images per division -->
+  <div class="wwd-bg active" id="bg-mobile" style="background-image:url('img/slider/Game-Shot2.png')"></div>
+  <div class="wwd-bg"        id="bg-film"   style="background-image:url('img/slider/3.jpg')"></div>
+  <div class="wwd-overlay"></div>
+
+  <!-- LEFT SIDEBAR -->
+  <div class="wwd-sidebar">
+    <div>
+      <div class="wwd-section-title">What We Do</div>
+      <ul class="wwd-tabs">
+
+        <li class="wwd-tab active" data-division="mobile" data-bg="bg-mobile">
+          <div class="wwd-dot"></div>
+          <div class="wwd-tab-inner">
+            <span class="wwd-tab-label">Mobile Game Animation</span>
+            <a class="wwd-tab-discover" href="gorilla-vs-100.html">Discover our work ›</a>
+          </div>
+        </li>
+
+        <li class="wwd-tab" data-division="film" data-bg="bg-film">
+          <div class="wwd-dot"></div>
+          <div class="wwd-tab-inner">
+            <span class="wwd-tab-label">Film &amp; Episodic</span>
+            <a class="wwd-tab-discover" href="sling-and-stone.html">Discover our work ›</a>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+    <div class="wwd-studio-vert">EDWYDENNY</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="wwd-main">
+
+    <!-- Division headings -->
+    <div class="wwd-heading-wrap">
+      <div class="wwd-division-name active" id="name-mobile">MOBILE GAME<br>ANIMATION</div>
+      <div class="wwd-division-name"        id="name-film">FILM &amp;<br>EPISODIC</div>
+    </div>
+
+    <div class="wwd-projects-label">RECENT PROJECTS</div>
+
+    <!-- Cards viewport -->
+    <div class="wwd-cards-viewport">
+
+      <!-- Mobile Game Animation projects -->
+      <div class="wwd-cards-track" id="track-mobile">
+
+        <div class="wwd-card">
+          <div class="wwd-card-img">
+            <img src="img/slider/3.jpg" alt="Gorilla vs 100">
+          </div>
+          <div class="wwd-card-title">Gorilla vs 100</div>
+        </div>
+
+        <div class="wwd-card">
+          <div class="wwd-card-img">
+            <div class="wwd-card-placeholder">COMING<br>SOON</div>
+          </div>
+          <div class="wwd-card-title">Project Alpha</div>
+        </div>
+
+        <div class="wwd-card">
+          <div class="wwd-card-img">
+            <div class="wwd-card-placeholder">COMING<br>SOON</div>
+          </div>
+          <div class="wwd-card-title">Project Beta</div>
+        </div>
+
+        <div class="wwd-card">
+          <div class="wwd-card-img">
+            <div class="wwd-card-placeholder">COMING<br>SOON</div>
+          </div>
+          <div class="wwd-card-title">Project Gamma</div>
+        </div>
+
+      </div>
+
+      <!-- Film & Episodic projects (hidden by default) -->
+      <div class="wwd-cards-track" id="track-film" style="display:none">
+
+        <div class="wwd-card">
+          <div class="wwd-card-img">
+            <img src="img/slider/Game-Shot2.png" alt="The Sling and The Stone">
+          </div>
+          <div class="wwd-card-title">The Sling &amp; The Stone</div>
+        </div>
+
+        <div class="wwd-card">
+          <div class="wwd-card-img">
+            <div class="wwd-card-placeholder">COMING<br>SOON</div>
+          </div>
+          <div class="wwd-card-title">Short Film I</div>
+        </div>
+
+        <div class="wwd-card">
+          <div class="wwd-card-img">
+            <div class="wwd-card-placeholder">COMING<br>SOON</div>
+          </div>
+          <div class="wwd-card-title">Short Film II</div>
+        </div>
+
+      </div>
+
+    </div><!-- /viewport -->
+
+    <!-- PREV / NEXT -->
+    <div class="wwd-nav">
+      <button class="wwd-nav-btn" id="wwd-prev">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        PREV
+      </button>
+      <div class="wwd-nav-sep"><div class="wwd-nav-sep-fill" id="wwd-sep-fill"></div></div>
+      <button class="wwd-nav-btn" id="wwd-next">
+        NEXT
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+  </div><!-- /wwd-main -->
+</section>
+
+<!-- ══════════════════════════════
+     GAMES DETAIL
+══════════════════════════════ -->
 <section id="games">
   <div class="sec-eyebrow reveal">Our Portfolio</div>
   <h2 class="sec-title reveal d1">OUR<br>GAMES</h2>
-
   <div class="games-grid">
-
     <a href="sling-and-stone.html" class="game-card reveal d1">
-      <div class="game-card-img">
-        <img src="img/slider/Game-Shot2.png" alt="The Sling and The Stone">
-      </div>
+      <div class="game-card-img"><img src="img/slider/Game-Shot2.png" alt="The Sling and The Stone"></div>
       <div class="game-card-bar bar-sling"></div>
       <div class="game-card-body">
         <span class="game-card-platform plat-sling">PC Game</span>
         <div class="game-card-logo"><img src="logo/title_sling.png" alt="The Sling and The Stone"></div>
-        <p class="game-card-desc">From Zero to Hero — you begin with a Stone and finish with an Army of Heaven beside you. A biblical action-epic.</p>
-        <div class="game-card-cta">
-          View Game
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
+        <p class="game-card-desc">From Zero to Hero — you begin with a Stone and finish with an Army of Heaven beside you.</p>
+        <div class="game-card-cta">View Game <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
     </a>
-
     <a href="gorilla-vs-100.html" class="game-card reveal d2">
-      <div class="game-card-img">
-        <img src="img/slider/3.jpg" alt="Gorilla vs 100">
-      </div>
+      <div class="game-card-img"><img src="img/slider/3.jpg" alt="Gorilla vs 100"></div>
       <div class="game-card-bar bar-gorilla"></div>
       <div class="game-card-body">
         <span class="game-card-platform plat-gorilla">Mobile Game</span>
         <div class="game-card-logo"><img src="logo/title-gorilla.png" alt="Gorilla vs 100"></div>
-        <p class="game-card-desc">An action-arcade battle where you play as a gorilla fighting relentless waves of 100 enemies. Available on mobile.</p>
-        <div class="game-card-cta">
-          View Game
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </div>
+        <p class="game-card-desc">An action-arcade battle where you play as a gorilla fighting relentless waves of 100 enemies.</p>
+        <div class="game-card-cta">View Game <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div>
       </div>
     </a>
-
   </div>
 </section>
 
-<!-- ═══════════════════════════
-     ABOUT
-═══════════════════════════ -->
+<!-- ABOUT -->
 <section id="about">
   <div>
     <div class="sec-eyebrow reveal">About the Studio</div>
     <h2 class="about-title reveal d1">EDWY<br><em>DENNY</em></h2>
-    <p class="about-body reveal d2">
-      An independent game studio founded by two brothers — dedicated to crafting games for the Glory of Jesus Christ. Since 2024, we've specialised in action-packed titles with unique mechanics and compelling, faith-driven narratives.
-    </p>
+    <p class="about-body reveal d2">An independent game studio founded by two brothers — dedicated to crafting games for the Glory of Jesus Christ. Since 2024, we've specialised in action-packed titles with unique mechanics and compelling, faith-driven narratives.</p>
   </div>
   <div class="stats reveal d1">
     <div class="stat"><div class="stat-n">02</div><div class="stat-l">Games Released</div></div>
@@ -768,23 +883,17 @@
   </div>
 </section>
 
-<!-- ═══════════════════════════
-     CONTACT
-═══════════════════════════ -->
+<!-- CONTACT -->
 <section id="contact">
   <div class="reveal">
     <div class="sec-eyebrow">Get in Touch</div>
     <h2 class="contact-title">LET'S<br>TALK</h2>
     <a href="mailto:sales@edwydenny.com" class="contact-email">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-      </svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
       sales@edwydenny.com
     </a>
   </div>
-  <p class="contact-note reveal d2">
-    For business enquiries, partnerships, or press — reach out directly. We're a small studio with big ambitions and we'd love to hear from you.
-  </p>
+  <p class="contact-note reveal d2">For business enquiries, partnerships, or press — reach out directly. We're a small studio with big ambitions.</p>
 </section>
 
 <!-- FOOTER -->
@@ -794,84 +903,134 @@
 </footer>
 
 <script>
-  // ── CURSOR ──
-  const dot  = document.getElementById('cur-dot');
-  const ring = document.getElementById('cur-ring');
-  let mx=0, my=0, rx=0, ry=0;
-  document.addEventListener('mousemove', e => {
-    mx=e.clientX; my=e.clientY;
-    dot.style.left=mx+'px'; dot.style.top=my+'px';
-  });
-  (function animRing(){
-    rx += (mx-rx)*.13; ry += (my-ry)*.13;
-    ring.style.left=rx+'px'; ring.style.top=ry+'px';
-    requestAnimationFrame(animRing);
-  })();
-  document.querySelectorAll('a,button').forEach(el=>{
-    el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
-    el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
-  });
+// ── CURSOR ──
+const dot=document.getElementById('cur-dot'), ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+(function animR(){ rx+=(mx-rx)*.13; ry+=(my-ry)*.13; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(animR); })();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
 
-  // ── PRELOADER ──
-  function dismissPreloader(){
-    const p = document.getElementById('preloader');
-    if(!p) return;
-    p.classList.add('out');
-    setTimeout(()=>p.remove(), 800);
-    // unlock scroll after preloader
-    document.body.classList.add('scrollable');
-  }
-  window.addEventListener('load', ()=> setTimeout(dismissPreloader, 1800));
-  setTimeout(dismissPreloader, 4500); // hard fallback
+// ── PRELOADER ──
+function dismissPre(){
+  const p=document.getElementById('preloader');
+  if(!p) return;
+  p.classList.add('out');
+  setTimeout(()=>p.remove(),800);
+}
+window.addEventListener('load',()=>setTimeout(dismissPre,1800));
+setTimeout(dismissPre,4500);
 
-  // ── NAVBAR ──
-  const navbar = document.getElementById('navbar');
-  window.addEventListener('scroll', ()=>{
-    navbar.classList.toggle('bg', window.scrollY > 40);
-  }, {passive:true});
+// ── NAVBAR ──
+const navbar=document.getElementById('navbar');
+window.addEventListener('scroll',()=>navbar.classList.toggle('bg',scrollY>40),{passive:true});
 
-  // ── MOBILE NAV ──
-  document.getElementById('navToggle').addEventListener('click',()=>
-    document.getElementById('mobNav').classList.add('open'));
-  document.getElementById('mobClose').addEventListener('click',()=>
-    document.getElementById('mobNav').classList.remove('open'));
-  function closeMob(){ document.getElementById('mobNav').classList.remove('open'); }
+// ── MOBILE NAV ──
+document.getElementById('navToggle').addEventListener('click',()=>document.getElementById('mobNav').classList.add('open'));
+document.getElementById('mobClose').addEventListener('click',()=>document.getElementById('mobNav').classList.remove('open'));
+function closeMob(){ document.getElementById('mobNav').classList.remove('open'); }
 
-  // ── MUTE TOGGLE via Vimeo postMessage API ──
-  let muted = true;
-  const player = document.getElementById('vimeoPlayer');
-  const iconMuted = document.getElementById('icon-muted');
-  const iconSound = document.getElementById('icon-sound');
+// ── MUTE TOGGLE ──
+let muted=true;
+const vplayer=document.getElementById('vimeoPlayer');
+document.getElementById('mute-btn').addEventListener('click',()=>{
+  muted=!muted;
+  vplayer.contentWindow.postMessage(JSON.stringify({method:'setVolume',value:muted?0:1}),'https://player.vimeo.com');
+  document.getElementById('icon-muted').style.display=muted?'block':'none';
+  document.getElementById('icon-sound').style.display=muted?'none':'block';
+});
 
-  document.getElementById('mute-btn').addEventListener('click', ()=>{
-    muted = !muted;
-    // Vimeo Player API postMessage
-    const msg = muted
-      ? JSON.stringify({method:'setVolume', value:0})
-      : JSON.stringify({method:'setVolume', value:1});
-    player.contentWindow.postMessage(msg, 'https://player.vimeo.com');
+// ── WHAT WE DO — Division switching ──
+const tabs      = document.querySelectorAll('.wwd-tab');
+const bgs       = document.querySelectorAll('.wwd-bg');
+const names     = document.querySelectorAll('.wwd-division-name');
+const tracks    = document.querySelectorAll('.wwd-cards-track');
 
-    iconMuted.style.display = muted ? 'block' : 'none';
-    iconSound.style.display = muted ? 'none'  : 'block';
-  });
+function switchDivision(tab){
+  const div = tab.dataset.division;
+  const bgId = tab.dataset.bg;
 
-  // ── SCROLL REVEAL ──
-  const revealObs = new IntersectionObserver(entries=>{
-    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
-  },{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+  // tabs
+  tabs.forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
 
-  // ── NAV ACTIVE STATE ──
-  const secs  = document.querySelectorAll('section[id]');
-  const nlis  = document.querySelectorAll('.nav-links li');
-  window.addEventListener('scroll',()=>{
-    let cur='';
-    secs.forEach(s=>{ if(window.scrollY >= s.offsetTop-100) cur=s.id; });
-    nlis.forEach(li=>{
-      li.classList.toggle('active', li.querySelector('a').getAttribute('href')==='#'+cur);
-    });
-  },{passive:true});
+  // backgrounds
+  bgs.forEach(b=>b.classList.remove('active'));
+  document.getElementById(bgId).classList.add('active');
+
+  // headings
+  names.forEach(n=>n.classList.remove('active'));
+  document.getElementById('name-'+div).classList.add('active');
+
+  // tracks
+  tracks.forEach(t=>{ t.style.display='none'; t.dataset.offset='0'; t.style.transform='translateX(0)'; });
+  document.getElementById('track-'+div).style.display='flex';
+
+  // reset progress bar
+  updateProgressBar(div);
+}
+
+tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>switchDivision(tab));
+});
+
+// ── PREV / NEXT carousel ──
+const CARD_W = 216; // 200px card + 16px gap
+
+function currentTrack(){
+  const activeDiv = document.querySelector('.wwd-tab.active').dataset.division;
+  return document.getElementById('track-'+activeDiv);
+}
+
+function getOffset(track){ return parseInt(track.dataset.offset||0); }
+
+function updateProgressBar(div){
+  const track = document.getElementById('track-'+div);
+  const cards  = track.querySelectorAll('.wwd-card').length;
+  const off    = getOffset(track);
+  const pct    = cards <= 1 ? 100 : (Math.abs(off) / ((cards - 1) * CARD_W)) * 100;
+  document.getElementById('wwd-sep-fill').style.width = Math.min(pct, 100) + '%';
+}
+
+document.getElementById('wwd-next').addEventListener('click',()=>{
+  const track = currentTrack();
+  const cards  = track.querySelectorAll('.wwd-card').length;
+  const maxOff = -(cards - 1) * CARD_W;
+  let off = getOffset(track) - CARD_W;
+  if(off < maxOff) off = maxOff;
+  track.dataset.offset = off;
+  track.style.transform = `translateX(${off}px)`;
+  updateProgressBar(document.querySelector('.wwd-tab.active').dataset.division);
+});
+
+document.getElementById('wwd-prev').addEventListener('click',()=>{
+  const track = currentTrack();
+  let off = getOffset(track) + CARD_W;
+  if(off > 0) off = 0;
+  track.dataset.offset = off;
+  track.style.transform = `translateX(${off}px)`;
+  updateProgressBar(document.querySelector('.wwd-tab.active').dataset.division);
+});
+
+// ── SCROLL REVEAL ──
+const revObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>revObs.observe(el));
+
+// ── NAV ACTIVE ──
+const secs = document.querySelectorAll('section[id]');
+const nlis = document.querySelectorAll('.nav-links li');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  secs.forEach(s=>{ if(scrollY>=s.offsetTop-100) cur=s.id; });
+  nlis.forEach(li=>li.classList.toggle('active', li.querySelector('a').getAttribute('href')==='#'+cur));
+},{passive:true});
 </script>
-
 </body>
 </html>
