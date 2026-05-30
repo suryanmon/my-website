@@ -1,27 +1,4 @@
 @charset "utf-8";
-/*
-
-
-
-01) GRAX BASE
-02) GRAX TOPBAR
-03) GRAX MOBILE MENU
-04) GRAX HERO
-05) GRAX ABOUT
-06) GRAX PORTFOLIO
-07) GRAX TALK
-08) GRAX NEWS
-09) GRAX CONTACT
-10) GRAX COPYRIGHT
-11) GRAX CURSOR
-12) GRAX PARTICLE EFFECT
-13) GRAX GLITCH EFFECT
-14) GRAX MEDIA QUERIES (FOR SMALL DEVIVES)
-
-
-/*---------------------------------------------------*/
-/*	01) GRAX BASE
-/*---------------------------------------------------*/
 /* Force white text in dark sections */
 [style*="background-color: #1e1e1e"],
 [style*="background-color: #000"],
