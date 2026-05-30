@@ -1,329 +1,877 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="description" content="EdwyDenny Games - Creators of The Sling and The Stone and Gorilla vs 100">
-    <meta name="author" content="EdwyDenny">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="EdwyDenny Games — Creators of The Sling and The Stone and Gorilla vs 100">
+  <title>EDWYDENNY — Game Studio</title>
+  <link rel="icon" type="image/png" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
 
-    <title>Animation Creative Company</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="img/favicon.png">
+    :root {
+      --black:   #080808;
+      --white:   #f0ede8;
+      --dim:     rgba(240,237,232,0.45);
+      --accent1: #4a90e2;
+      --accent2: #ff6b00;
+      --ff-display:   'Bebas Neue', sans-serif;
+      --ff-condensed: 'Barlow Condensed', sans-serif;
+      --ff-body:      'Barlow', sans-serif;
+    }
 
-    <!-- Preload resources -->
-    <link rel="preload" href="img/slider/Game-Shot2.png" as="image">
-    <link rel="preload" href="img/logo/dark.png" as="image">
-    <link rel="preload" href="logo/title_sling.png" as="image">
-    <link rel="preload" href="logo/title-gorilla.png" as="image">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden; /* lock scroll while hero is fullscreen */
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--ff-body);
+      cursor: none;
+    }
+    body.scrollable {
+      overflow: auto;
+      overflow-x: hidden;
+    }
 
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    /* ─── CUSTOM CURSOR ─── */
+    #cur-dot, #cur-ring {
+      position: fixed; top: 0; left: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .18s, height .18s, background .18s, border-color .18s;
+    }
+    #cur-dot  { width: 6px; height: 6px; background: var(--white); }
+    #cur-ring {
+      width: 34px; height: 34px;
+      border: 1px solid rgba(240,237,232,.4);
+      transition: transform .0s, width .22s, height .22s;
+    }
+    body.hov #cur-dot  { width: 10px; height: 10px; background: var(--accent2); }
+    body.hov #cur-ring { width: 52px; height: 52px; border-color: var(--accent2); opacity:.6; }
 
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/plugins.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="css/plugins.css">
-        <link rel="stylesheet" href="css/style.css">
-    </noscript>
+    /* ─── PRELOADER ─── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 8000;
+      background: var(--black);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 20px;
+      transition: opacity .7s ease;
+    }
+    #preloader.out { opacity: 0; pointer-events: none; }
+    .pre-logo {
+      font-family: var(--ff-display);
+      font-size: 38px; letter-spacing: 14px;
+      color: var(--white);
+      animation: fadeUp .8s ease .2s both;
+    }
+    .pre-bar { width: 160px; height: 1px; background: rgba(255,255,255,.1); overflow:hidden; }
+    .pre-fill { height:100%; width:0; background: var(--white); animation: fillBar 1.6s ease forwards; }
+    @keyframes fillBar { to { width:100%; } }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(10px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
 
-    <!-- Critical CSS -->
-    <style>
-        /* Preloader */
-        #preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #121212;
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .loader_line {
-            width: 100px;
-            height: 3px;
-            background: rgba(255,255,255,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        .loader_line:before {
-            content: "";
-            position: absolute;
-            left: -50px;
-            height: 3px;
-            width: 40px;
-            background-color: #e54b4b;
-            animation: lineAnim 1s linear infinite;
-        }
-        @keyframes lineAnim {
-            0% { left: -40px; }
-            100% { left: 100px; }
-        }
-        
-        /* Dark Mode */
-        body.dark-mode {
-            background-color: #121212;
-            color: #ffffff;
-        }
-        
-        /* Game Cards */
-        .game-grid {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 60px;
-            margin: 50px auto;
-            max-width: 800px;
-        }
-        
-        .game-card {
-            width: 100%;
-            background: #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: transform 0.3s;
-            border-left: 5px solid;
-            padding: 40px;
-            box-sizing: border-box;
-        }
-        
-        .sling-card {
-            border-left-color: #4a90e2;
-        }
-        
-        .gorilla-card {
-            border-left-color: #ff6b00;
-        }
-        
-        .game-title-image {
-            max-width: 300px;
-            height: auto;
-            margin: 0 auto 20px;
-            display: block;
-        }
-        
-        .game-platform {
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 20px;
-            display: block;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-        }
-        
-        .pc-platform {
-            color: #4a90e2;
-        }
-        
-        .mobile-platform {
-            color: #ff6b00;
-        }
-        
-        .game-description {
-            font-size: 18px;
-            line-height: 1.6;
-            font-family: 'Mulish', sans-serif;
-            text-align: center;
-        }
-        
-        /* Section Styling */
-        .games-section {
-            padding: 100px 0;
-            background-color: #121212;
-        }
-        
-        .section-title {
-            font-size: 36px;
-            text-transform: uppercase;
-            letter-spacing: 8px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-        }
-        
-        .section-subtitle {
-            font-size: 18px;
-            color: #aaa;
-            text-align: center;
-            margin-bottom: 50px;
-            font-family: 'Mulish', sans-serif;
-        }
-        
-        /* Hero Section */
-        .hero-section {
-            padding: 150px 0;
-            text-align: center;
-            position: relative;
-        }
-        
-        .studio-logo {
-            max-width: 200px;
-            margin-bottom: 30px;
-        }
-        
-        .studio-title {
-            font-size: 42px;
-            color: #aaa;
-            letter-spacing: 8px;
-            margin-bottom: 5px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-        }
-        
-        .studio-tagline {
-            font-size: 18px;
-            color: #aaa;
-            font-family: 'Mulish', sans-serif;
-        }
-    </style>
+    /* ─── NAVBAR ─── */
+    nav {
+      position: fixed; top:0; left:0; right:0;
+      height: 68px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      z-index: 500;
+      transition: background .4s, backdrop-filter .4s;
+    }
+    nav.bg {
+      background: rgba(8,8,8,.82);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .nav-logo img { height: 34px; display:block; }
+    .nav-links { list-style:none; display:flex; gap:36px; }
+    .nav-links a {
+      font-family: var(--ff-condensed);
+      font-size: 12px; font-weight:500;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      text-decoration: none;
+      color: rgba(240,237,232,.5);
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-links .active a { color: var(--white); }
+
+    /* hamburger */
+    .nav-toggle {
+      display:none; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:none; padding:4px;
+    }
+    .nav-toggle span {
+      display:block; width:24px; height:1.5px;
+      background: var(--white); transition: all .3s;
+    }
+
+    /* ─── HERO SECTION ─── */
+    #hero {
+      position: relative;
+      width: 100%; height: 100vh;
+      overflow: hidden;
+      display: flex; flex-direction: column;
+    }
+
+    /* Vimeo iframe fills the whole hero */
+    #vimeo-wrap {
+      position: absolute; inset: 0;
+      /* Vimeo needs extra size to hide its controls & letterbox */
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      top: -1px; left: -1px;
+      overflow: hidden;
+    }
+    /*
+      To make Vimeo truly fullscreen we use the padding-top trick
+      but we also want it bigger than the viewport so controls stay hidden.
+      We scale an iframe that has a 16:9 ratio to cover viewport.
+    */
+    #vimeo-wrap iframe {
+      position: absolute;
+      /* cover viewport regardless of aspect */
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      /* min dimensions to always cover */
+      min-width: 100vw;
+      min-height: 56.25vw; /* 16:9 */
+      width: 177.78vh;      /* 16:9 */
+      height: 100vh;
+      border: none;
+      pointer-events: none; /* prevent clicks through to Vimeo UI */
+    }
+
+    /* Dark vignette over video */
+    .hero-overlay {
+      position: absolute; inset:0; z-index:2;
+      background: linear-gradient(
+        to bottom,
+        rgba(8,8,8,.18) 0%,
+        rgba(8,8,8,.05) 40%,
+        rgba(8,8,8,.55) 75%,
+        rgba(8,8,8,.96) 100%
+      );
+    }
+
+    /* Studio name — center of hero */
+    .hero-studio {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -60%);
+      z-index: 3;
+      text-align: center;
+      pointer-events: none;
+    }
+    .hero-studio img {
+      height: 60px; width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0;
+      animation: fadeUp .9s ease 2.2s forwards;
+    }
+    .hero-studio .tagline {
+      display: block;
+      font-family: var(--ff-condensed);
+      font-size: 11px; letter-spacing: 5px;
+      text-transform: uppercase;
+      color: rgba(240,237,232,.35);
+      margin-top: 12px;
+      opacity: 0;
+      animation: fadeUp .9s ease 2.5s forwards;
+    }
+
+    /* Mute / unmute button */
+    #mute-btn {
+      position: absolute;
+      bottom: 160px; right: 44px;
+      z-index: 10;
+      background: rgba(8,8,8,.55);
+      border: 1px solid rgba(240,237,232,.2);
+      color: var(--white);
+      cursor: none;
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items:center; justify-content:center;
+      transition: background .2s, border-color .2s;
+      opacity: 0;
+      animation: fadeUp .6s ease 3s forwards;
+    }
+    #mute-btn:hover { background: rgba(240,237,232,.15); border-color: rgba(240,237,232,.5); }
+    #mute-btn svg { width:18px; height:18px; }
+
+    /* Scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 44px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex; flex-direction: column; align-items:center; gap:8px;
+      opacity:0;
+      animation: fadeUp .8s ease 3.2s forwards;
+    }
+    .scroll-hint span {
+      font-family: var(--ff-condensed);
+      font-size: 9px; letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: rgba(240,237,232,.3);
+    }
+    .sh-line { width:1px; height:38px; background:rgba(240,237,232,.12); overflow:hidden; position:relative; }
+    .sh-line::after {
+      content:'';
+      position:absolute; top:-100%; left:0;
+      width:1px; height:100%;
+      background: rgba(240,237,232,.6);
+      animation: scrollLine 2s ease-in-out 3.6s infinite;
+    }
+    @keyframes scrollLine { 0%{top:-100%} 100%{top:100%} }
+
+    /* ─── OUR GAMES STRIP (bottom of hero) ─── */
+    .games-strip {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 5;
+      display: flex;
+    }
+
+    .game-thumb {
+      flex: 1;
+      position: relative;
+      height: 130px;
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--white);
+      border-top: 1px solid rgba(240,237,232,.12);
+      transition: height .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .game-thumb:first-child { border-right: 1px solid rgba(240,237,232,.12); }
+    .game-thumb:hover { height: 180px; }
+
+    /* thumbnail bg image */
+    .game-thumb-bg {
+      position: absolute; inset:0;
+      background-size:cover; background-position:center;
+      transform: scale(1.08);
+      transition: transform .6s cubic-bezier(.25,.46,.45,.94), filter .4s;
+      filter: saturate(.4) brightness(.55);
+    }
+    .game-thumb:hover .game-thumb-bg {
+      transform: scale(1);
+      filter: saturate(.8) brightness(.7);
+    }
+
+    /* accent bar at top of thumb */
+    .game-thumb::before {
+      content:'';
+      position:absolute; top:0; left:0;
+      height: 2px; width:0;
+      z-index:2;
+      transition: width .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .game-thumb:hover::before { width:100%; }
+    .thumb-sling::before  { background: var(--accent1); }
+    .thumb-gorilla::before { background: var(--accent2); }
+
+    .game-thumb-content {
+      position: absolute; inset:0; z-index:3;
+      padding: 18px 32px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .thumb-eyebrow {
+      font-family: var(--ff-condensed);
+      font-size: 10px; font-weight:600;
+      letter-spacing: 3px; text-transform: uppercase;
+      margin-bottom: 6px;
+      opacity: .6;
+      transition: opacity .3s;
+    }
+    .game-thumb:hover .thumb-eyebrow { opacity:1; }
+    .thumb-sling  .thumb-eyebrow { color: var(--accent1); }
+    .thumb-gorilla .thumb-eyebrow { color: var(--accent2); }
+
+    .thumb-title {
+      font-family: var(--ff-display);
+      font-size: clamp(22px, 2.8vw, 36px);
+      letter-spacing: 2px;
+      line-height:1;
+      color: var(--white);
+      opacity:.75;
+      transition: opacity .3s;
+    }
+    .game-thumb:hover .thumb-title { opacity:1; }
+
+    .thumb-arrow {
+      position: absolute;
+      right: 28px; bottom: 20px;
+      font-family: var(--ff-condensed);
+      font-size: 11px; letter-spacing:2px; text-transform: uppercase;
+      color: var(--white);
+      opacity:0;
+      transition: opacity .3s ease, transform .3s ease;
+      transform: translateX(-6px);
+      display:flex; align-items:center; gap:8px;
+    }
+    .game-thumb:hover .thumb-arrow { opacity:.7; transform: translateX(0); }
+
+    /* "OUR GAMES" label between strip and scroll area */
+    .games-label {
+      position: absolute;
+      bottom: 138px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 6;
+      font-family: var(--ff-condensed);
+      font-size: 10px; font-weight:600;
+      letter-spacing: 5px; text-transform: uppercase;
+      color: rgba(240,237,232,.3);
+      white-space: nowrap;
+      display: flex; align-items:center; gap: 14px;
+      opacity:0;
+      animation: fadeUp .8s ease 2.8s forwards;
+    }
+    .games-label::before, .games-label::after {
+      content:'';
+      display:block; width:28px; height:1px;
+      background:rgba(240,237,232,.2);
+    }
+
+    /* ─── BELOW-FOLD: Games detail section ─── */
+    #games {
+      background: #0c0c0c;
+      padding: 120px 80px;
+      border-top: 1px solid rgba(240,237,232,.07);
+    }
+    .sec-eyebrow {
+      font-family: var(--ff-condensed);
+      font-size: 11px; font-weight:500;
+      letter-spacing: 4px; text-transform:uppercase;
+      color: rgba(240,237,232,.35);
+      margin-bottom: 16px;
+      display:flex; align-items:center; gap:14px;
+    }
+    .sec-eyebrow::before { content:''; display:block; width:24px; height:1px; background:rgba(240,237,232,.25); }
+    .sec-title {
+      font-family: var(--ff-display);
+      font-size: clamp(56px, 7vw, 100px);
+      line-height:.88; letter-spacing:3px;
+      color: var(--white);
+      margin-bottom: 80px;
+    }
+
+    .games-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+
+    .game-card {
+      position:relative; overflow:hidden;
+      text-decoration:none; color:var(--white);
+      display:block; background: #111;
+    }
+    .game-card-img {
+      height: 440px; overflow:hidden;
+      position:relative;
+    }
+    .game-card-img img {
+      width:100%; height:100%; object-fit:cover;
+      transform: scale(1.06);
+      transition: transform 1s cubic-bezier(.25,.46,.45,.94), filter .5s;
+      filter: saturate(.65);
+    }
+    .game-card:hover .game-card-img img { transform:scale(1); filter:saturate(1); }
+    .game-card-img::after {
+      content:'';
+      position:absolute; inset:0;
+      background: linear-gradient(to bottom, transparent 40%, rgba(8,8,8,.85) 100%);
+    }
+    .game-card-bar {
+      position:absolute; bottom:0; left:0;
+      height:3px; width:0;
+      transition: width .5s cubic-bezier(.25,.46,.45,.94);
+      z-index:2;
+    }
+    .game-card:hover .game-card-bar { width:100%; }
+    .bar-sling   { background: var(--accent1); }
+    .bar-gorilla { background: var(--accent2); }
+
+    .game-card-body {
+      padding: 32px 40px 40px;
+      border-top: 1px solid rgba(240,237,232,.07);
+      transition: background .3s;
+    }
+    .game-card:hover .game-card-body { background:#151515; }
+
+    .game-card-platform {
+      font-family: var(--ff-condensed);
+      font-size: 11px; font-weight:600;
+      letter-spacing:3px; text-transform:uppercase;
+      margin-bottom: 14px;
+      display:inline-block;
+      padding: 4px 10px; border-radius:2px;
+    }
+    .plat-sling   { color:var(--accent1); border:1px solid rgba(74,144,226,.3); }
+    .plat-gorilla { color:var(--accent2); border:1px solid rgba(255,107,0,.3); }
+
+    .game-card-logo img {
+      max-height:46px; width:auto;
+      filter: brightness(0) invert(1);
+      opacity:.88;
+      margin-bottom:14px; display:block;
+      transition: opacity .3s;
+    }
+    .game-card:hover .game-card-logo img { opacity:1; }
+
+    .game-card-desc {
+      font-size:14px; font-weight:300;
+      color:rgba(240,237,232,.5);
+      line-height:1.75; max-width:400px;
+      margin-bottom:24px;
+    }
+    .game-card-cta {
+      font-family: var(--ff-condensed);
+      font-size:12px; font-weight:500;
+      letter-spacing:2.5px; text-transform:uppercase;
+      color:var(--white);
+      display:inline-flex; align-items:center; gap:10px;
+      opacity:.35;
+      transition: opacity .3s;
+    }
+    .game-card:hover .game-card-cta { opacity:1; }
+    .game-card-cta svg { width:16px; height:16px; transition: transform .3s; }
+    .game-card:hover .game-card-cta svg { transform:translateX(4px); }
+
+    /* ─── ABOUT ─── */
+    #about {
+      padding: 130px 80px;
+      background: var(--black);
+      border-top: 1px solid rgba(240,237,232,.07);
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:100px; align-items:center;
+    }
+    .about-title {
+      font-family: var(--ff-display);
+      font-size: clamp(52px,5.5vw,82px);
+      line-height:.9; letter-spacing:2px;
+      color:var(--white);
+      margin-bottom:28px;
+    }
+    .about-title em {
+      font-style:normal;
+      color:transparent;
+      -webkit-text-stroke: 1px rgba(240,237,232,.35);
+    }
+    .about-body {
+      font-size:16px; font-weight:300;
+      color:rgba(240,237,232,.5);
+      line-height:1.85;
+    }
+    .stats { display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+    .stat { border-top:1px solid rgba(240,237,232,.1); padding-top:22px; }
+    .stat-n {
+      font-family: var(--ff-display);
+      font-size:60px; line-height:1;
+      color:var(--white); letter-spacing:2px;
+    }
+    .stat-l {
+      font-family: var(--ff-condensed);
+      font-size:11px; letter-spacing:2.5px;
+      text-transform:uppercase;
+      color:rgba(240,237,232,.3);
+      margin-top:4px;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      padding: 110px 80px;
+      background:#0c0c0c;
+      border-top:1px solid rgba(240,237,232,.07);
+      display:flex; align-items:center;
+      justify-content:space-between; gap:60px;
+    }
+    .contact-title {
+      font-family: var(--ff-display);
+      font-size: clamp(54px,6.5vw,92px);
+      line-height:.88; letter-spacing:2px;
+      color:var(--white);
+    }
+    .contact-email {
+      display:inline-flex; align-items:center; gap:14px;
+      text-decoration:none;
+      font-family: var(--ff-condensed);
+      font-size: clamp(16px,1.8vw,24px);
+      font-weight:400; letter-spacing:1px;
+      color:rgba(240,237,232,.5);
+      margin-top:36px;
+      position:relative;
+      transition: color .3s;
+    }
+    .contact-email::after {
+      content:'';
+      position:absolute; bottom:-4px; left:0; right:0;
+      height:1px; background:var(--white);
+      transform:scaleX(0); transform-origin:left;
+      transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+    }
+    .contact-email:hover { color:var(--white); }
+    .contact-email:hover::after { transform:scaleX(1); }
+    .contact-note {
+      max-width:380px;
+      font-size:14px; font-weight:300;
+      color:rgba(240,237,232,.35);
+      line-height:1.8;
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background:var(--black);
+      border-top:1px solid rgba(240,237,232,.07);
+      padding:28px 80px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    footer img { height:26px; filter:brightness(0) invert(1); opacity:.35; }
+    footer p {
+      font-family:var(--ff-condensed);
+      font-size:11px; letter-spacing:2px;
+      text-transform:uppercase;
+      color:rgba(240,237,232,.22);
+    }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal.in { opacity:1; transform:none; }
+    .reveal.d1 { transition-delay:.1s; }
+    .reveal.d2 { transition-delay:.2s; }
+    .reveal.d3 { transition-delay:.3s; }
+
+    /* ─── MOBILE NAV ─── */
+    .mob-nav {
+      display:none; position:fixed; inset:0;
+      background:var(--black); z-index:700;
+      flex-direction:column; align-items:center; justify-content:center; gap:36px;
+    }
+    .mob-nav.open { display:flex; }
+    .mob-nav a {
+      font-family:var(--ff-display);
+      font-size:52px; letter-spacing:4px;
+      color:var(--white); text-decoration:none;
+      opacity:.7; transition:opacity .2s;
+    }
+    .mob-nav a:hover { opacity:1; }
+    .mob-close {
+      position:absolute; top:26px; right:32px;
+      background:none; border:none; cursor:none;
+      font-family:var(--ff-condensed);
+      font-size:13px; letter-spacing:3px;
+      text-transform:uppercase;
+      color:rgba(240,237,232,.4);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width:1024px) {
+      nav { padding:0 24px; }
+      .nav-links { display:none; }
+      .nav-toggle { display:flex; }
+      .hero-studio img { height:40px; }
+      .game-thumb { height:110px; }
+      .game-thumb:hover { height:150px; }
+      .games-label { display:none; }
+      #games { padding:80px 28px; }
+      .games-grid { grid-template-columns:1fr; gap:2px; }
+      #about { grid-template-columns:1fr; padding:80px 28px; gap:56px; }
+      #contact { flex-direction:column; align-items:flex-start; padding:80px 28px; }
+      footer { padding:24px 28px; }
+    }
+    @media (max-width:640px) {
+      .game-thumb-content { padding:14px 20px 16px; }
+      .stats { grid-template-columns:1fr 1fr; gap:24px; }
+      #mute-btn { bottom:150px; right:20px; }
+    }
+  </style>
 </head>
+<body>
 
-<body class="dark-mode">
-    <!-- PRELOADER -->
-    <div id="preloader">
-        <div class="loader_line"></div>
-    </div>
-    
-    <!-- WRAPPER ALL -->
-    <div class="grax_tm_all_wrap">
-        <!-- TOPBAR -->
-        <div class="grax_tm_topbar">
-            <div class="container">
-                <div class="topbar_inner">
-                    <div class="logo">
-                        <a href="index.html"><img src="img/logo/dark.png" alt="EdwyDenny Logo" loading="lazy"></a>
-                    </div>
-                    <div class="menu">
-                        <ul class="anchor_nav">
-                            <li class="current"><a href="#home">Home</a></li>
-                            <li><a href="#games">Our Games</a></li>
-                            <li><a href="#about">About Us</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- HERO SECTION -->
-        <div class="grax_tm_hero hero-section" id="home">
-            <div class="bg">
-                <div class="image" data-img-url="img/slider/Game-Shot2.png"></div>
-                <div class="overlay"></div>
-            </div>
-            <div class="content">
-                <div class="container">
-                    <h1 class="studio-title">A CREATIVE COMPANY</h1>
-                    <p class="studio-tagline">EDWYDENNY LLP</p>
-                </div>
-            </div>
-        </div>
-        
-    <!-- GAMES SECTION -->
-    <div class="grax_tm_section games-section" id="games">
-        <div class="container">
-            <h2 class="section-title">OUR GAMES</h2>
-            <p class="section-subtitle">Explore our current game portfolio</p>
-            
-            <div class="game-grid">
-                <!-- The Sling and The Stone Card - Now fully clickable -->
-                <a href="sling-and-stone.html" class="game-card sling-card" style="text-decoration: none; color: inherit;">
-                    <div class="game-card-content">
-                        <img src="logo/title_sling.png" alt="The Sling and The Stone" class="game-title-image">
-                        <span class="game-platform pc-platform">PC GAME</span>
-                        <p class="game-description">
-                            From Zero to Hero, You begin with a Stone and finish with an Army of Heaven beside you.
-                        </p>
-                    </div>
-                </a>
-                
-                <!-- Gorilla vs 100 Card - Now fully clickable -->
-                <a href="gorilla-vs-100.html" class="game-card gorilla-card" style="text-decoration: none; color: inherit;">
-                    <div class="game-card-content">
-                        <img src="logo/title-gorilla.png" alt="Gorilla vs 100" class="game-title-image">
-                        <span class="game-platform mobile-platform">MOBILE GAME</span>
-                        <p class="game-description">
-                            An Action-Arcade battle where you play as a gorilla fighting waves of 100 enemies.
-                        </p>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-        
-        <!-- ABOUT SECTION -->
-        <div class="grax_tm_section" id="about" style="padding: 100px 0; background-color: #1e1e1e;">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>ABOUT <span>EDWYDENNY</span></h3>
-                </div>
-                <div style="max-width: 800px; margin: 40px auto 0; text-align: center;"> <!-- Added margin-top -->
-                    <p style="line-height: 1.8; font-size: 18px;">
-                        EdwyDenny is an independent game studio with two brothers dedicated to create Games for the Glory of Jesus Christ. 
-                        Founded in 2024, we specialize in action-packed games with unique mechanics and compelling narratives.
-                    </p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- CONTACT SECTION -->
-        <div class="grax_tm_section" id="contact" style="padding: 100px 0; background-color: #121212;">
-            <div class="container">
-                <div class="grax_tm_title_holder">
-                    <h3>CONTACT <span>US</span></h3>
-                </div>
-                <div style="text-align: center; margin-top: 30px;">
-                    <p>For business inquiries:</p>
-                    <a href="mailto:sales@edwydenny.com" style="font-size: 22px; color: #e54b4b; text-decoration: none; font-family: 'Poppins', sans-serif;">sales@edwydenny.com</a>
-                </div>
-            </div>
-        </div>
-        
-        <!-- COPYRIGHT FOOTER -->
-        <div class="copyright-footer" style="text-align: center; padding: 30px 0; background-color: #000; color: #777;">
-            <div class="container">
-                <p>© 2026 EdwyDenny. All rights reserved.</p>
-            </div>
-        </div>
-    </div>
+<!-- CURSOR -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
 
-    <!-- Scripts -->
-    <script src="js/jquery.js"></script>
-    <script src="js/plugins.js" defer></script>
-    <script src="js/init.js" defer></script>
-    
-    <script>
-        // Preloader removal
-        document.addEventListener('DOMContentLoaded', function() {
-            var preloader = document.getElementById('preloader');
-            if (preloader) {
-                window.addEventListener('load', function() {
-                    setTimeout(function() {
-                        preloader.style.transition = 'opacity 0.5s';
-                        preloader.style.opacity = '0';
-                        setTimeout(function() {
-                            preloader.style.display = 'none';
-                        }, 500);
-                    }, 500);
-                });
-                
-                // Fallback
-                setTimeout(function() {
-                    if (preloader.style.opacity !== '0') {
-                        preloader.style.display = 'none';
-                    }
-                }, 3000);
-            }
-        });
-    </script>
+<!-- PRELOADER -->
+<div id="preloader">
+  <div class="pre-logo">EDWYDENNY</div>
+  <div class="pre-bar"><div class="pre-fill"></div></div>
+</div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <button class="mob-close" id="mobClose">CLOSE</button>
+  <a href="#hero"    onclick="closeMob()">Home</a>
+  <a href="#games"   onclick="closeMob()">Games</a>
+  <a href="#about"   onclick="closeMob()">About</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo"><a href="#hero"><img src="img/logo/dark.png" alt="EdwyDenny"></a></div>
+  <ul class="nav-links">
+    <li class="active"><a href="#hero">Home</a></li>
+    <li><a href="#games">Games</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
+
+<!-- ═══════════════════════════
+     HERO — FULLSCREEN TRAILER
+═══════════════════════════ -->
+<section id="hero">
+
+  <!-- Vimeo autoplay, muted, looped, no controls visible -->
+  <div id="vimeo-wrap">
+    <iframe id="vimeoPlayer"
+      src="https://player.vimeo.com/video/985911021?h=99cd78d59f&autoplay=1&muted=1&loop=1&controls=0&title=0&byline=0&portrait=0&background=1&quality=1080p"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <!-- Gradient overlay -->
+  <div class="hero-overlay"></div>
+
+  <!-- Studio logo centred -->
+  <div class="hero-studio">
+    <img src="img/logo/dark.png" alt="EdwyDenny">
+    <span class="tagline">A Creative Game Studio — Est. 2024</span>
+  </div>
+
+  <!-- Mute / Unmute -->
+  <button id="mute-btn" title="Toggle sound">
+    <!-- Speaker icon — will swap via JS -->
+    <svg id="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+      <line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>
+    <svg id="icon-sound" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none">
+      <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    </svg>
+  </button>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="sh-line"></div>
+  </div>
+
+  <!-- "OUR GAMES" label above strip -->
+  <div class="games-label">OUR GAMES</div>
+
+  <!-- ── GAMES THUMBNAIL STRIP at bottom ── -->
+  <div class="games-strip">
+
+    <a href="sling-and-stone.html" class="game-thumb thumb-sling">
+      <div class="game-thumb-bg" style="background-image:url('img/slider/Game-Shot2.png')"></div>
+      <div class="game-thumb-content">
+        <div class="thumb-eyebrow">PC Game</div>
+        <div class="thumb-title">The Sling &amp; The Stone</div>
+      </div>
+      <div class="thumb-arrow">
+        View
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+    <a href="gorilla-vs-100.html" class="game-thumb thumb-gorilla">
+      <div class="game-thumb-bg" style="background-image:url('img/slider/3.jpg')"></div>
+      <div class="game-thumb-content">
+        <div class="thumb-eyebrow">Mobile Game</div>
+        <div class="thumb-title">Gorilla vs 100</div>
+      </div>
+      <div class="thumb-arrow">
+        View
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     GAMES DETAIL (below fold)
+═══════════════════════════ -->
+<section id="games">
+  <div class="sec-eyebrow reveal">Our Portfolio</div>
+  <h2 class="sec-title reveal d1">OUR<br>GAMES</h2>
+
+  <div class="games-grid">
+
+    <a href="sling-and-stone.html" class="game-card reveal d1">
+      <div class="game-card-img">
+        <img src="img/slider/Game-Shot2.png" alt="The Sling and The Stone">
+      </div>
+      <div class="game-card-bar bar-sling"></div>
+      <div class="game-card-body">
+        <span class="game-card-platform plat-sling">PC Game</span>
+        <div class="game-card-logo"><img src="logo/title_sling.png" alt="The Sling and The Stone"></div>
+        <p class="game-card-desc">From Zero to Hero — you begin with a Stone and finish with an Army of Heaven beside you. A biblical action-epic.</p>
+        <div class="game-card-cta">
+          View Game
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+    <a href="gorilla-vs-100.html" class="game-card reveal d2">
+      <div class="game-card-img">
+        <img src="img/slider/3.jpg" alt="Gorilla vs 100">
+      </div>
+      <div class="game-card-bar bar-gorilla"></div>
+      <div class="game-card-body">
+        <span class="game-card-platform plat-gorilla">Mobile Game</span>
+        <div class="game-card-logo"><img src="logo/title-gorilla.png" alt="Gorilla vs 100"></div>
+        <p class="game-card-desc">An action-arcade battle where you play as a gorilla fighting relentless waves of 100 enemies. Available on mobile.</p>
+        <div class="game-card-cta">
+          View Game
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     ABOUT
+═══════════════════════════ -->
+<section id="about">
+  <div>
+    <div class="sec-eyebrow reveal">About the Studio</div>
+    <h2 class="about-title reveal d1">EDWY<br><em>DENNY</em></h2>
+    <p class="about-body reveal d2">
+      An independent game studio founded by two brothers — dedicated to crafting games for the Glory of Jesus Christ. Since 2024, we've specialised in action-packed titles with unique mechanics and compelling, faith-driven narratives.
+    </p>
+  </div>
+  <div class="stats reveal d1">
+    <div class="stat"><div class="stat-n">02</div><div class="stat-l">Games Released</div></div>
+    <div class="stat"><div class="stat-n">2024</div><div class="stat-l">Founded</div></div>
+    <div class="stat"><div class="stat-n">2</div><div class="stat-l">Brothers Building</div></div>
+    <div class="stat"><div class="stat-n">∞</div><div class="stat-l">For His Glory</div></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════
+     CONTACT
+═══════════════════════════ -->
+<section id="contact">
+  <div class="reveal">
+    <div class="sec-eyebrow">Get in Touch</div>
+    <h2 class="contact-title">LET'S<br>TALK</h2>
+    <a href="mailto:sales@edwydenny.com" class="contact-email">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+      </svg>
+      sales@edwydenny.com
+    </a>
+  </div>
+  <p class="contact-note reveal d2">
+    For business enquiries, partnerships, or press — reach out directly. We're a small studio with big ambitions and we'd love to hear from you.
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="img/logo/dark.png" alt="EdwyDenny">
+  <p>© 2026 EdwyDenny. All rights reserved.</p>
+</footer>
+
+<script>
+  // ── CURSOR ──
+  const dot  = document.getElementById('cur-dot');
+  const ring = document.getElementById('cur-ring');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX; my=e.clientY;
+    dot.style.left=mx+'px'; dot.style.top=my+'px';
+  });
+  (function animRing(){
+    rx += (mx-rx)*.13; ry += (my-ry)*.13;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+  });
+
+  // ── PRELOADER ──
+  function dismissPreloader(){
+    const p = document.getElementById('preloader');
+    if(!p) return;
+    p.classList.add('out');
+    setTimeout(()=>p.remove(), 800);
+    // unlock scroll after preloader
+    document.body.classList.add('scrollable');
+  }
+  window.addEventListener('load', ()=> setTimeout(dismissPreloader, 1800));
+  setTimeout(dismissPreloader, 4500); // hard fallback
+
+  // ── NAVBAR ──
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', ()=>{
+    navbar.classList.toggle('bg', window.scrollY > 40);
+  }, {passive:true});
+
+  // ── MOBILE NAV ──
+  document.getElementById('navToggle').addEventListener('click',()=>
+    document.getElementById('mobNav').classList.add('open'));
+  document.getElementById('mobClose').addEventListener('click',()=>
+    document.getElementById('mobNav').classList.remove('open'));
+  function closeMob(){ document.getElementById('mobNav').classList.remove('open'); }
+
+  // ── MUTE TOGGLE via Vimeo postMessage API ──
+  let muted = true;
+  const player = document.getElementById('vimeoPlayer');
+  const iconMuted = document.getElementById('icon-muted');
+  const iconSound = document.getElementById('icon-sound');
+
+  document.getElementById('mute-btn').addEventListener('click', ()=>{
+    muted = !muted;
+    // Vimeo Player API postMessage
+    const msg = muted
+      ? JSON.stringify({method:'setVolume', value:0})
+      : JSON.stringify({method:'setVolume', value:1});
+    player.contentWindow.postMessage(msg, 'https://player.vimeo.com');
+
+    iconMuted.style.display = muted ? 'block' : 'none';
+    iconSound.style.display = muted ? 'none'  : 'block';
+  });
+
+  // ── SCROLL REVEAL ──
+  const revealObs = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+  // ── NAV ACTIVE STATE ──
+  const secs  = document.querySelectorAll('section[id]');
+  const nlis  = document.querySelectorAll('.nav-links li');
+  window.addEventListener('scroll',()=>{
+    let cur='';
+    secs.forEach(s=>{ if(window.scrollY >= s.offsetTop-100) cur=s.id; });
+    nlis.forEach(li=>{
+      li.classList.toggle('active', li.querySelector('a').getAttribute('href')==='#'+cur);
+    });
+  },{passive:true});
+</script>
+
 </body>
 </html>
