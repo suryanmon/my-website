@@ -31,16 +31,45 @@ button:disabled{opacity:.5;cursor:wait}
 canvas{max-width:100%;max-height:78vh;background:#ddd;border-radius:6px;box-shadow:0 8px 40px #0008}
 #status{color:var(--mut);font-size:12px;min-height:18px;text-align:center}
 .hint{font-size:11px;color:var(--mut);margin-top:4px}
+#multi{display:none}
+.warn{color:#ffb86b}
 </style>
 </head>
 <body>
 <div class="app">
  <div class="side">
   <h1>Highlight Blur Animator</h1>
-  <div class="sub">Free • runs 100% in your browser • no watermark • max 2 seconds</div>
+  <div class="sub">Free • runs 100% in your browser • no watermark • max 15 seconds</div>
 
-  <label>Highlighted text</label>
+  <label>Word mode</label>
+  <select id="mode">
+   <option value="single">Single word / phrase</option>
+   <option value="multi">Multiple words (max 4)</option>
+  </select>
+
+  <label id="kwlabel">Highlighted text</label>
   <input type="text" id="kw" value="Lord Jesus" maxlength="40">
+
+  <div id="multi">
+   <label>Word 1</label>
+   <input type="text" id="kw1" value="Wonderful" maxlength="40">
+   <label>Word 2</label>
+   <input type="text" id="kw2" value="Creative" maxlength="40">
+   <label>Word 3 (optional)</label>
+   <input type="text" id="kw3" value="" maxlength="40">
+   <label>Word 4 (optional)</label>
+   <input type="text" id="kw4" value="" maxlength="40">
+
+   <label>Gap between words <span class="val" id="vgap"></span></label>
+   <input type="range" id="gap" min="0.1" max="3" step="0.1" value="1">
+
+   <label>When the next word appears</label>
+   <select id="stack">
+    <option value="replace">Replace previous word (same spot)</option>
+    <option value="stack">Stack (previous words stay, new one added below)</option>
+   </select>
+   <div class="hint" id="needs"></div>
+  </div>
 
   <label>Canvas size</label>
   <select id="size">
@@ -51,7 +80,7 @@ canvas{max-width:100%;max-height:78vh;background:#ddd;border-radius:6px;box-shad
   </select>
 
   <label>Duration <span class="val" id="vdur"></span></label>
-  <input type="range" id="dur" min="0.5" max="2" step="0.1" value="2">
+  <input type="range" id="dur" min="0.5" max="15" step="0.1" value="2">
   <div class="row">
    <div><label>FPS</label><select id="fps"><option>24</option><option selected>30</option><option>60</option></select></div>
    <div><label>Frame changes / sec <span class="val" id="vpps"></span></label><input type="range" id="pps" min="3" max="20" step="1" value="10"></div>
@@ -154,13 +183,20 @@ const TEMPL=[
 ];
 const CRUMBS=["Home / Blog / {k}","Home / Articles / Guides / {k}","Home / Topics / {k}","Home / Resources / {k}"];
 
-let cfg={},pages=[],N=1,U=1,token=0,playing=true,bgCanvas=null,customImg=null;
+let cfg={},pages=[],frameMap=[],N=1,U=1,token=0,playing=true,bgCanvas=null,customImg=null,capped=false;
 
 function readCfg(){
  const [W,H]=$('size').value.split('x').map(Number);
  const custom=$('custom').value.split('\n').map(s=>s.trim()).filter(Boolean);
+ const multi=$('mode').value==='multi';
+ let words=multi?['kw1','kw2','kw3','kw4'].map(id=>$(id).value.trim()).filter(Boolean).slice(0,4):[];
+ if(!words.length)words=[$('kw').value.trim()||'Your Text'];
+ $('multi').style.display=multi?'block':'none';
+ $('kw').style.display=multi?'none':'block';
+ $('kwlabel').style.display=multi?'none':'block';
  cfg={
-  kw:($('kw').value.trim()||'Your Text'),W,H,
+  words,kw:words[0],gap:+$('gap').value,stack:multi&&words.length>1&&$('stack').value==='stack',
+  W,H,
   dur:+$('dur').value,fps:+$('fps').value,pps:+$('pps').value,
   blur:+$('blur').value*(H/1280),kwSize:+$('ks').value/100,
   hl:$('hl').value,ink:$('ink').value,paper:$('paper').value,
@@ -174,6 +210,34 @@ function readCfg(){
  $('vpps').textContent=cfg.pps;
  $('vblur').textContent=$('blur').value;
  $('vks').textContent=$('ks').value+'%';
+ $('vgap').textContent=cfg.gap.toFixed(1)+'s';
+ const last=(words.length-1)*cfg.gap,hint=$('needs');
+ if(words.length>1){
+  const ok=cfg.dur>last+0.2;
+  hint.className='hint'+(ok?'':' warn');
+  hint.textContent=`Last word appears at ${last.toFixed(1)}s`+(ok?'':` — increase Duration to at least ${(last+0.5).toFixed(1)}s to show all words`);
+ }else{
+  hint.className='hint';hint.textContent='Only one word filled in — add more words above.';
+ }
+}
+
+/* which word is on screen at video frame f */
+const wordAt=f=>Math.min(cfg.words.length-1,Math.floor(f/cfg.fps/cfg.gap+1e-6));
+
+/* build the list of unique rendered pages (background step x word) and map every video frame to one */
+function plan(){
+ const maxP=Math.max(30,Math.floor(600e6/(cfg.W*cfg.H*4)));
+ let Uu=U;capped=false;
+ for(;;){
+  const keys=[],map=new Array(N),idx={};
+  for(let f=0;f<N;f++){
+   const u=Math.min(Uu-1,Math.floor(f*Uu/N)),w=wordAt(f),k=u+','+w;
+   if(!(k in idx)){idx[k]=keys.length;keys.push({u,w})}
+   map[f]=idx[k];
+  }
+  if(keys.length<=maxP||Uu<=1){U=Uu;return {keys,map}}
+  Uu=Math.max(1,Math.floor(Uu*0.8));capped=true;
+ }
 }
 
 /* ---------- paper background ---------- */
@@ -211,14 +275,14 @@ function makePaper(W,H,seed,base){
 }
 
 /* ---------- page rendering ---------- */
-function makeStream(rand){
+function makeStream(rand,kw){
  const pool=[...FILLER,...cfg.fill];
  let buf=[];
  return function(g,maxW){
   let line='';
   for(let guard=0;guard<400;guard++){
    if(!buf.length){
-    const s=pool[Math.floor(rand()*pool.length)].replaceAll('{k}',cfg.kw);
+    const s=pool[Math.floor(rand()*pool.length)].replaceAll('{k}',kw);
     buf.push(...s.split(' '));
    }
    const cand=line?line+' '+buf[0]:buf[0];
@@ -253,8 +317,10 @@ function vblur(src,W,H,radFn,fadeFn){
  const c=mk(W,H);c.getContext('2d').putImageData(img,0,0);return c;
 }
 
-function renderPage(i,total,final){
+function renderPage(i,total,final,wi){
  const W=cfg.W,H=cfg.H;
+ const kw=cfg.words[wi];
+ const shown=cfg.stack?cfg.words.slice(0,wi+1):[kw];
  const rand=mulberry32((cfg.seed+i*7919+(final?555:0))>>>0);
  const pick=a=>a[Math.floor(rand()*a.length)];
  const ky=Math.round(H*0.40),cx=W/2;
@@ -265,7 +331,7 @@ function renderPage(i,total,final){
  const ink=cfg.ink;
  const reg=(sz)=>`400 ${sz}px ${F.fam}`;
  const bold=(sz)=>`${F.bold} ${sz}px ${F.fam}`;
- const stream=makeStream(rand);
+ const stream=makeStream(rand,kw);
 
  const L=mk(W,H),g=L.getContext('2d');
  g.textBaseline='middle';g.textAlign='left';
@@ -287,46 +353,53 @@ function renderPage(i,total,final){
   block(bold(S),ink,hs,x0);
   const cy=ky-S*1.35*lines-S*0.95;
   g.font=reg(S*0.38);g.fillStyle='#4a4a4a';
-  g.fillText(pick(CRUMBS).replaceAll('{k}',cfg.kw),-rand()*W*0.15,cy);
+  g.fillText(pick(CRUMBS).replaceAll('{k}',kw),-rand()*W*0.15,cy);
   block(reg(b),'#3a3a3a',rng(cy-S*0.8,-lh,-lh*1.1),x0);
   block(reg(b),ink,rng(ky+S*1.95,H+lh,lh),x0);
  }
 
- /* variable vertical motion blur: radius grows with distance from the keyword line */
+ /* y position of each sharp keyword line (stack mode adds lines below the first) */
+ const stackStep=kwSize*1.55;
+ const lineYs=shown.map((_,k)=>ky+k*stackStep);
+ const distToLine=y=>{let m=1e9;for(const ly of lineYs)m=Math.min(m,Math.abs(y-ly));return m};
+
+ /* variable vertical motion blur: radius grows with distance from the nearest keyword line */
  const half=kwSize*0.9;
- const radFn=y=>{const d=Math.max(0,Math.abs(y-ky)-half);return blurMax*Math.pow(Math.min(1,d/(H*0.30)),0.9)};
+ const radFn=y=>{const d=Math.max(0,distToLine(y)-half);return blurMax*Math.pow(Math.min(1,d/(H*0.30)),0.9)};
  const fa=final?0.2:0.68;
- const fadeFn=y=>{const d=Math.max(0,Math.abs(y-ky)-half);const t=Math.min(1,d/(H*0.5));return 1-fa*t*t*(3-2*t)};
+ const fadeFn=y=>{const d=Math.max(0,distToLine(y)-half);const t=Math.min(1,d/(H*0.5));return 1-fa*t*t*(3-2*t)};
  const B=vblur(L,W,H,radFn,fadeFn);
 
  const out=mk(W,H),o=out.getContext('2d');
  o.drawImage(bgCanvas,0,0);
  o.globalCompositeOperation='multiply';
  o.drawImage(B,0,0);
-
- /* highlight + sharp keyword line (fixed position) */
- o.font=kwFont;
- const tw=o.measureText(cfg.kw).width,pad=kwSize*0.24,hh=kwSize*1.32;
- const hx=cx-tw/2-pad,hw=tw+pad*2,hy=ky-hh/2;
- o.globalCompositeOperation='source-over';o.globalAlpha=.94;o.fillStyle=cfg.hl;o.beginPath();
- if(o.roundRect)o.roundRect(hx,hy,hw,hh,kwSize*0.08);else o.rect(hx,hy,hw,hh);
- o.fill();
- o.globalAlpha=1;
  o.globalCompositeOperation='source-over';
- o.textBaseline='middle';o.fillStyle='#0d0d0d';o.textAlign='center';
- o.font=kwFont;o.fillText(cfg.kw,cx,ky);
 
- const tpl=(cfg.tplK.length?cfg.tplK:TEMPL)[Math.floor(rand()*(cfg.tplK.length||TEMPL.length))];
- const [pre,suf]=tpl.split('{k}');
- o.font=ctxFont;o.fillStyle=ink;
- const gap=kwSize*0.28;
- let preTxt=(pre||'').trimEnd(),sufTxt=(suf||'').trimStart();
- o.textAlign='right';
- const left=stream(o,Math.max(hx*1.25,W*0.4));
- o.fillText(left+' '+preTxt,hx-gap,ky);
- o.textAlign='left';
- const right=stream(o,W);
- o.fillText(sufTxt+' '+right,hx+hw+gap,ky);
+ /* highlight + sharp keyword line(s) (fixed positions) */
+ const pad=kwSize*0.24,hh=kwSize*1.32,gap=kwSize*0.28;
+ for(let k=0;k<shown.length;k++){
+  const wd=shown[k],y=lineYs[k];
+  o.font=kwFont;o.textBaseline='middle';o.textAlign='center';
+  const tw=o.measureText(wd).width;
+  const hx=cx-tw/2-pad,hw=tw+pad*2,hy=y-hh/2;
+  o.globalAlpha=.94;o.fillStyle=cfg.hl;o.beginPath();
+  if(o.roundRect)o.roundRect(hx,hy,hw,hh,kwSize*0.08);else o.rect(hx,hy,hw,hh);
+  o.fill();
+  o.globalAlpha=1;
+  o.fillStyle='#0d0d0d';o.font=kwFont;o.fillText(wd,cx,y);
+
+  const tpl=(cfg.tplK.length?cfg.tplK:TEMPL)[Math.floor(rand()*(cfg.tplK.length||TEMPL.length))];
+  const [pre,suf]=tpl.split('{k}');
+  o.font=ctxFont;o.fillStyle=ink;
+  const preTxt=(pre||'').trimEnd(),sufTxt=(suf||'').trimStart();
+  o.textAlign='right';
+  const left=stream(o,Math.max(hx*1.25,W*0.4));
+  o.fillText(left+' '+preTxt,hx-gap,y);
+  o.textAlign='left';
+  const right=stream(o,W);
+  o.fillText(sufTxt+' '+right,hx+hw+gap,y);
+ }
  return out;
 }
 
@@ -337,19 +410,20 @@ async function generate(){
  cv.width=cfg.W;cv.height=cfg.H;
  $('status').textContent='Generating…';
  bgCanvas=makePaper(cfg.W,cfg.H,cfg.seed,cfg.paper);
+ const pl=plan();
  const arr=[];
- for(let i=0;i<U;i++){
+ for(let i=0;i<pl.keys.length;i++){
   if(my!==token)return;
-  arr.push(renderPage(i,U,cfg.calm&&i===U-1&&U>1));
-  $('status').textContent=`Generating frames… ${i+1}/${U}`;
+  arr.push(renderPage(i,pl.keys.length,cfg.calm&&i===pl.keys.length-1&&pl.keys.length>1,pl.keys[i].w));
+  $('status').textContent=`Generating frames… ${i+1}/${pl.keys.length}`;
   await sleep(0);
  }
  if(my!==token)return;
- pages=arr;lastF=-1;t0=null;
+ pages=arr;frameMap=pl.map;lastF=-1;t0=null;
  draw(0);
- $('status').textContent=`${U} unique frames • ${N} total frames @ ${cfg.fps} fps • ${cfg.dur.toFixed(1)}s • ${cfg.W}×${cfg.H}`;
+ $('status').textContent=`${pages.length} unique frames • ${N} total frames @ ${cfg.fps} fps • ${cfg.dur.toFixed(1)}s • ${cfg.W}×${cfg.H}`+(capped?' • frame changes reduced to save memory':'');
 }
-const pageIdx=f=>Math.min(U-1,Math.floor(f*U/N));
+const pageIdx=f=>frameMap[f];
 function draw(f){if(pages.length)ctx.drawImage(pages[pageIdx(f)],0,0)}
 
 let lastF=-1,t0=null;
@@ -367,6 +441,7 @@ function download(blob,name){
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
  document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
 }
+const fname=()=>cfg.words.join('-').replace(/\W+/g,'_');
 
 /* ---------- exact-timing MP4 export (WebCodecs + tiny MP4 muxer) ---------- */
 const u32=n=>new Uint8Array([n>>>24&255,n>>>16&255,n>>>8&255,n&255]);
@@ -422,7 +497,7 @@ async function exportMP4(){
  }
  await enc.flush();enc.close();
  if(err||!desc||chunks.length!==N)return false;
- download(muxMP4(chunks,desc,W,H,cfg.fps),`highlight-${cfg.kw.replace(/\W+/g,'_')}.mp4`);
+ download(muxMP4(chunks,desc,W,H,cfg.fps),`highlight-${fname()}.mp4`);
  $('status').textContent=`Saved MP4 • ${N} frames • ${(N/cfg.fps).toFixed(2)}s exactly`;
  return true;
 }
@@ -458,7 +533,7 @@ async function exportVideo(){
   await sleep(step*2);
   rec.stop();await done;
   const ext=mime.startsWith('video/mp4')?'mp4':'webm';
-  download(new Blob(chunks,{type:mime.split(';')[0]}),`highlight-${cfg.kw.replace(/\W+/g,'_')}.${ext}`);
+  download(new Blob(chunks,{type:mime.split(';')[0]}),`highlight-${fname()}.${ext}`);
   $('status').textContent=`Saved .${ext}`;
  }catch(e){$('status').textContent=e.message;alert(e.message)}
  $('dlvid').disabled=false;playing=wasPlaying;t0=null;
@@ -491,16 +566,16 @@ async function exportZip(){
  $('dlzip').disabled=true;
  try{
   const pngs=[];
-  for(let i=0;i<U;i++){
-   $('status').textContent=`Encoding PNG ${i+1}/${U}…`;
+  for(let i=0;i<pages.length;i++){
+   $('status').textContent=`Encoding PNG ${i+1}/${pages.length}…`;
    const b=await new Promise(r=>pages[i].toBlob(r,'image/png'));
    pngs.push(new Uint8Array(await b.arrayBuffer()));
   }
   const files=[];
   if($('allfr').checked){
-   for(let f=0;f<N;f++)files.push({name:`frame_${String(f+1).padStart(3,'0')}.png`,data:pngs[pageIdx(f)]});
+   for(let f=0;f<N;f++)files.push({name:`frame_${String(f+1).padStart(4,'0')}.png`,data:pngs[pageIdx(f)]});
   }else{
-   pngs.forEach((d,i)=>files.push({name:`frame_${String(i+1).padStart(2,'0')}.png`,data:d}));
+   pngs.forEach((d,i)=>files.push({name:`frame_${String(i+1).padStart(3,'0')}.png`,data:d}));
   }
   download(zip(files),'highlight-frames.zip');
   $('status').textContent=`Saved ${files.length} PNG frames`;
@@ -510,7 +585,7 @@ async function exportZip(){
 
 /* ---------- UI wiring ---------- */
 let deb;const regen=()=>{clearTimeout(deb);deb=setTimeout(generate,350)};
-['kw','size','dur','fps','pps','blur','ks','hl','ink','paper','font','custom','seed','calm'].forEach(id=>$(id).addEventListener('input',regen));
+['mode','kw','kw1','kw2','kw3','kw4','gap','stack','size','dur','fps','pps','blur','ks','hl','ink','paper','font','custom','seed','calm'].forEach(id=>$(id).addEventListener('input',regen));
 $('regen').onclick=generate;
 $('shuffle').onclick=()=>{$('seed').value=Math.floor(Math.random()*99999);generate()};
 $('play').onclick=()=>{playing=!playing;t0=null;$('play').textContent=playing?'⏸ Pause':'▶ Play'};
