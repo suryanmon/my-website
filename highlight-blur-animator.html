@@ -370,6 +370,19 @@ function renderPage(i,total,final,wi){
  const fadeFn=y=>{const d=Math.max(0,distToLine(y)-half);const t=Math.min(1,d/(H*0.5));return 1-fa*t*t*(3-2*t)};
  const B=vblur(L,W,H,radFn,fadeFn);
 
+ /* stack mode: wipe the background text behind the stacked lines (feathered) so it can't collide with the sharp text */
+ if(shown.length>1){
+  const bg=B.getContext('2d'),fe=kwSize*1.32*0.5;
+  const top=ky-kwSize*1.32*0.62,bot=lineYs[lineYs.length-1]+kwSize*1.32*0.62;
+  const gr=bg.createLinearGradient(0,top-fe,0,bot+fe);
+  const a=fe/(bot-top+2*fe);
+  gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(a,'rgba(0,0,0,1)');
+  gr.addColorStop(1-a,'rgba(0,0,0,1)');gr.addColorStop(1,'rgba(0,0,0,0)');
+  bg.globalCompositeOperation='destination-out';
+  bg.fillStyle=gr;bg.fillRect(0,top-fe,W,bot-top+2*fe);
+  bg.globalCompositeOperation='source-over';
+ }
+
  const out=mk(W,H),o=out.getContext('2d');
  o.drawImage(bgCanvas,0,0);
  o.globalCompositeOperation='multiply';
