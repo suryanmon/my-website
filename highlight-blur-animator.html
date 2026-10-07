@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Highlight Blur Animator – free</title>
+<style>
+:root{--bg:#111214;--panel:#1b1d21;--line:#2c2f35;--tx:#e8e8ea;--mut:#9a9da5;--acc:#e6ee3c}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.4 system-ui,Segoe UI,Roboto,Arial,sans-serif}
+.app{display:grid;grid-template-columns:340px 1fr;min-height:100vh}
+@media(max-width:820px){.app{grid-template-columns:1fr}}
+.side{background:var(--panel);border-right:1px solid var(--line);padding:18px;overflow:auto}
+h1{font-size:17px;margin:0 0 4px}
+.sub{color:var(--mut);font-size:12px;margin-bottom:16px}
+label{display:block;margin:12px 0 4px;color:var(--mut);font-size:12px}
+input[type=text],textarea,select{width:100%;background:#121316;border:1px solid var(--line);color:var(--tx);border-radius:8px;padding:8px 10px;font:inherit}
+textarea{min-height:84px;resize:vertical}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.row{display:flex;gap:10px;align-items:center}
+.row>*{flex:1}
+.val{color:var(--tx);float:right}
+input[type=color]{width:100%;height:34px;border:1px solid var(--line);background:#121316;border-radius:8px;padding:2px}
+button{background:var(--acc);color:#111;border:0;border-radius:8px;padding:10px 12px;font-weight:700;cursor:pointer;font-size:14px}
+button.sec{background:#2a2d33;color:var(--tx)}
+button:disabled{opacity:.5;cursor:wait}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.btns .full{grid-column:1/-1}
+.chk{display:flex;gap:8px;align-items:center;margin-top:10px;color:var(--tx);font-size:13px}
+.main{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:12px}
+canvas{max-width:100%;max-height:78vh;background:#ddd;border-radius:6px;box-shadow:0 8px 40px #0008}
+#status{color:var(--mut);font-size:12px;min-height:18px;text-align:center}
+.hint{font-size:11px;color:var(--mut);margin-top:4px}
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="side">
+  <h1>Highlight Blur Animator</h1>
+  <div class="sub">Free • runs 100% in your browser • no watermark • max 2 seconds</div>
+
+  <label>Highlighted text</label>
+  <input type="text" id="kw" value="Lord Jesus" maxlength="40">
+
+  <label>Canvas size</label>
+  <select id="size">
+   <option value="720x1280">720 × 1280 (9:16)</option>
+   <option value="1080x1920">1080 × 1920 (9:16 HD)</option>
+   <option value="1080x1080">1080 × 1080 (1:1)</option>
+   <option value="1280x720">1280 × 720 (16:9)</option>
+  </select>
+
+  <label>Duration <span class="val" id="vdur"></span></label>
+  <input type="range" id="dur" min="0.5" max="2" step="0.1" value="2">
+  <div class="row">
+   <div><label>FPS</label><select id="fps"><option>24</option><option selected>30</option><option>60</option></select></div>
+   <div><label>Frame changes / sec <span class="val" id="vpps"></span></label><input type="range" id="pps" min="3" max="20" step="1" value="10"></div>
+  </div>
+
+  <label>Blur strength <span class="val" id="vblur"></span></label>
+  <input type="range" id="blur" min="0" max="90" step="1" value="46">
+  <label>Highlight text size <span class="val" id="vks"></span></label>
+  <input type="range" id="ks" min="4" max="12" step="0.5" value="7.5">
+
+  <div class="row">
+   <div><label>Highlight</label><input type="color" id="hl" value="#e6ee3c"></div>
+   <div><label>Text ink</label><input type="color" id="ink" value="#1b1b1b"></div>
+   <div><label>Paper</label><input type="color" id="paper" value="#e9e8e3"></div>
+  </div>
+
+  <label>Font style</label>
+  <select id="font">
+   <option value="mix">Mixed (different per frame)</option>
+   <option value="0">Serif</option>
+   <option value="1">Sans</option>
+   <option value="4">Bold condensed</option>
+  </select>
+
+  <label>Custom background (optional)</label>
+  <input type="file" id="bgfile" accept="image/*">
+
+  <label>Your own sentences (optional, one per line)</label>
+  <textarea id="custom" placeholder="Use {k} where the highlight goes, e.g.&#10;The power of {k} in daily life&#10;Why {k} matters&#10;Lines without {k} become body text."></textarea>
+
+  <div class="row">
+   <div><label>Seed</label><input type="text" id="seed" value="7"></div>
+   <div><label>&nbsp;</label><button class="sec" id="shuffle">🎲 Shuffle</button></div>
+  </div>
+  <div class="chk"><input type="checkbox" id="calm"><label for="calm" style="margin:0;color:var(--tx)">Last frame calm / low blur</label></div>
+  <div class="chk"><input type="checkbox" id="allfr"><label for="allfr" style="margin:0;color:var(--tx)">ZIP: every video frame (image sequence)</label></div>
+
+  <div class="btns">
+   <button id="play" class="sec">⏸ Pause</button>
+   <button id="regen" class="sec">↻ Regenerate</button>
+   <button id="dlvid" class="full">⬇ Download video</button>
+   <button id="dlzip" class="full sec">⬇ Download PNG frames (ZIP)</button>
+  </div>
+  <div class="hint">Video is MP4 if your browser supports it, else WebM. Convert with any free converter / CapCut / DaVinci if needed.</div>
+ </div>
+ <div class="main">
+  <canvas id="cv" width="720" height="1280"></canvas>
+  <div id="status"></div>
+ </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const cv=$('cv'),ctx=cv.getContext('2d');
+
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function hashStr(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return c};
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+const FONTS=[
+ {fam:'Georgia, "Times New Roman", serif',bold:700},
+ {fam:'"Helvetica Neue", Helvetica, Arial, sans-serif',bold:700},
+ {fam:'"Trebuchet MS", Verdana, sans-serif',bold:700},
+ {fam:'"Palatino Linotype", "Book Antiqua", Palatino, serif',bold:700},
+ {fam:'Impact, "Arial Black", "Arial Narrow", sans-serif',bold:400},
+ {fam:'Verdana, Geneva, sans-serif',bold:700}
+];
+const FILLER=[
+ "Many readers want to understand the deeper meaning behind {k} and why it continues to matter.",
+ "Throughout history, people have turned to {k} for guidance, comfort and inspiration.",
+ "This guide explains the key ideas, background and context in clear and simple language.",
+ "Experts often point out that the story of {k} has shaped culture, art and daily life.",
+ "In recent years, interest in {k} has grown rapidly across the world.",
+ "Scholars continue to study the origins and development of these traditions in detail.",
+ "Read on to discover the most important facts, common questions and helpful resources.",
+ "The influence of {k} can be seen in literature, music, architecture and community life.",
+ "Understanding the background helps readers see why these ideas remain relevant today.",
+ "Communities everywhere gather to share stories, celebrate milestones and learn together.",
+ "Whether you are new to the subject or already familiar, there is always more to explore.",
+ "Over the centuries, countless writers have reflected on the lessons and values involved.",
+ "Related topics, frequently asked questions and further reading are listed below.",
+ "Each section covers a different aspect, from early history to modern interpretation.",
+ "Together these insights give a fuller picture of how {k} is understood by people today."
+];
+const TEMPL=[
+ "The significance of {k} in modern times",
+ "Understanding {k} and its true meaning",
+ "A complete guide to {k} for beginners",
+ "Everything you need to know about {k}",
+ "Why {k} matters more than ever",
+ "The history and origins of {k}",
+ "Top questions people ask about {k}",
+ "How {k} changed the way we think",
+ "Exploring the role of {k} across cultures",
+ "Latest news and updates on {k}",
+ "{k} explained in simple words",
+ "Learn more about {k} today"
+];
+const CRUMBS=["Home / Blog / {k}","Home / Articles / Guides / {k}","Home / Topics / {k}","Home / Resources / {k}"];
+
+let cfg={},pages=[],N=1,U=1,token=0,playing=true,bgCanvas=null,customImg=null;
+
+function readCfg(){
+ const [W,H]=$('size').value.split('x').map(Number);
+ const custom=$('custom').value.split('\n').map(s=>s.trim()).filter(Boolean);
+ cfg={
+  kw:($('kw').value.trim()||'Your Text'),W,H,
+  dur:+$('dur').value,fps:+$('fps').value,pps:+$('pps').value,
+  blur:+$('blur').value*(H/1280),kwSize:+$('ks').value/100,
+  hl:$('hl').value,ink:$('ink').value,paper:$('paper').value,
+  seed:hashStr($('seed').value||'0'),font:$('font').value,calm:$('calm').checked,
+  tplK:custom.filter(s=>s.includes('{k}')),
+  fill:custom.filter(s=>!s.includes('{k}'))
+ };
+ N=Math.max(1,Math.round(cfg.dur*cfg.fps));
+ U=clamp(Math.round(cfg.dur*cfg.pps),1,N);
+ $('vdur').textContent=cfg.dur.toFixed(1)+'s';
+ $('vpps').textContent=cfg.pps;
+ $('vblur').textContent=$('blur').value;
+ $('vks').textContent=$('ks').value+'%';
+}
+
+/* ---------- paper background ---------- */
+function makePaper(W,H,seed,base){
+ if(customImg){
+  const c=mk(W,H),g=c.getContext('2d');
+  const s=Math.max(W/customImg.width,H/customImg.height);
+  const w=customImg.width*s,h=customImg.height*s;
+  g.drawImage(customImg,(W-w)/2,(H-h)/2,w,h);return c;
+ }
+ const r=mulberry32(seed^0x9e3779b9),c=mk(W,H),g=c.getContext('2d');
+ g.fillStyle=base;g.fillRect(0,0,W,H);
+ for(let i=0;i<70;i++){
+  const x=r()*W,y=r()*H,rad=(80+r()*320)*(W/720),dark=r()<.5;
+  const gr=g.createRadialGradient(x,y,0,x,y,rad);
+  gr.addColorStop(0,dark?'rgba(120,115,100,.02)':'rgba(255,255,255,.2)');
+  gr.addColorStop(1,'rgba(0,0,0,0)');
+  g.fillStyle=gr;g.fillRect(x-rad,y-rad,rad*2,rad*2);
+ }
+ g.lineCap='round';
+ for(let i=0;i<46;i++){
+  let x=r()*W,y=r()*H,a=r()*Math.PI*2;
+  const len=6+Math.floor(r()*14),step=(14+r()*26)*(W/720);
+  const pts=[[x,y]];
+  for(let k=0;k<len;k++){a+=(r()-.5)*.9;x+=Math.cos(a)*step;y+=Math.sin(a)*step;pts.push([x,y])}
+  for(const [col,off,lw] of [['rgba(255,255,255,.35)',1.2,1.6],['rgba(90,85,70,.14)',0,1]]){
+   g.strokeStyle=col;g.lineWidth=lw*(W/720);g.beginPath();
+   pts.forEach(([px,py],k)=>k?g.lineTo(px+off,py+off):g.moveTo(px+off,py+off));g.stroke();
+  }
+ }
+ const id=g.getImageData(0,0,W,H),d=id.data;
+ for(let i=0;i<d.length;i+=4){const n=(r()-.5)*8;d[i]+=n;d[i+1]+=n;d[i+2]+=n}
+ g.putImageData(id,0,0);
+ return c;
+}
+
+/* ---------- page rendering ---------- */
+function makeStream(rand){
+ const pool=[...FILLER,...cfg.fill];
+ let buf=[];
+ return function(g,maxW){
+  let line='';
+  for(let guard=0;guard<400;guard++){
+   if(!buf.length){
+    const s=pool[Math.floor(rand()*pool.length)].replaceAll('{k}',cfg.kw);
+    buf.push(...s.split(' '));
+   }
+   const cand=line?line+' '+buf[0]:buf[0];
+   if(line&&g.measureText(cand).width>maxW)break;
+   line=cand;buf.shift();
+  }
+  return line;
+ };
+}
+
+/* variable-radius vertical box blur on premultiplied pixels (prefix sums per column) */
+function vblur(src,W,H,radFn,fadeFn){
+ const sd=src.getContext('2d').getImageData(0,0,W,H).data;
+ const img=new ImageData(W,H),od=img.data;
+ const rad=new Int32Array(H),fade=new Float32Array(H);
+ for(let y=0;y<H;y++){rad[y]=Math.round(radFn(y));fade[y]=fadeFn(y)}
+ const P=new Float64Array((H+1)*4);
+ for(let x=0;x<W;x++){
+  for(let y=0;y<H;y++){
+   const i=(y*W+x)*4,a=sd[i+3]/255,q=y*4;
+   P[q+4]=P[q]+sd[i]*a;P[q+5]=P[q+1]+sd[i+1]*a;P[q+6]=P[q+2]+sd[i+2]*a;P[q+7]=P[q+3]+a;
+  }
+  for(let y=0;y<H;y++){
+   const r=rad[y],y0=Math.max(0,y-r)*4,y1=Math.min(H,y+r+1)*4,cnt=2*r+1;
+   const A=(P[y1+3]-P[y0+3])/cnt;
+   if(A<=0.0005)continue;
+   const i=(y*W+x)*4,k=1/(A*cnt);
+   od[i]=(P[y1]-P[y0])*k;od[i+1]=(P[y1+1]-P[y0+1])*k;od[i+2]=(P[y1+2]-P[y0+2])*k;
+   od[i+3]=Math.min(255,A*fade[y]*255);
+  }
+ }
+ const c=mk(W,H);c.getContext('2d').putImageData(img,0,0);return c;
+}
+
+function renderPage(i,total,final){
+ const W=cfg.W,H=cfg.H;
+ const rand=mulberry32((cfg.seed+i*7919+(final?555:0))>>>0);
+ const pick=a=>a[Math.floor(rand()*a.length)];
+ const ky=Math.round(H*0.40),cx=W/2;
+ const F=cfg.font==='mix'?pick(FONTS):FONTS[+cfg.font];
+ const S=W*cfg.kwSize*(0.85+rand()*0.4);
+ const type=final?'heading':pick(['heading','heading','para','title2']);
+ const blurMax=cfg.blur*(final?0.22:0.6+rand()*0.6);
+ const ink=cfg.ink;
+ const reg=(sz)=>`400 ${sz}px ${F.fam}`;
+ const bold=(sz)=>`${F.bold} ${sz}px ${F.fam}`;
+ const stream=makeStream(rand);
+
+ const L=mk(W,H),g=L.getContext('2d');
+ g.textBaseline='middle';g.textAlign='left';
+ const block=(font,color,ys,x0)=>{g.font=font;g.fillStyle=color;for(const y of ys)g.fillText(stream(g,W*1.35),x0,y)};
+ const rng=(a,b,step)=>{const o=[];for(let y=a;step>0?y<b:y>b;y+=step)o.push(y);return o};
+
+ let kwSize,kwFont,ctxFont;
+ if(type==='para'){
+  const P=S*0.62,lh=P*1.72,x0=-rand()*W*0.25;
+  kwSize=P;kwFont=bold(P);ctxFont=reg(P);
+  block(reg(P),ink,rng(ky-lh,-lh,-lh),x0);
+  block(reg(P),ink,rng(ky+lh,H+lh,lh),x0);
+ }else{
+  kwSize=S;kwFont=bold(S);ctxFont=bold(S);
+  const x0=-rand()*S*3.5,b=S*0.46,lh=b*1.78;
+  const tall=type==='title2';
+  const lines=tall?2:(rand()<.5?1:0);
+  const hs=[];for(let k=1;k<=lines;k++)hs.push(ky-S*1.35*k);
+  block(bold(S),ink,hs,x0);
+  const cy=ky-S*1.35*lines-S*0.95;
+  g.font=reg(S*0.38);g.fillStyle='#4a4a4a';
+  g.fillText(pick(CRUMBS).replaceAll('{k}',cfg.kw),-rand()*W*0.15,cy);
+  block(reg(b),'#3a3a3a',rng(cy-S*0.8,-lh,-lh*1.1),x0);
+  block(reg(b),ink,rng(ky+S*1.95,H+lh,lh),x0);
+ }
+
+ /* variable vertical motion blur: radius grows with distance from the keyword line */
+ const half=kwSize*0.9;
+ const radFn=y=>{const d=Math.max(0,Math.abs(y-ky)-half);return blurMax*Math.pow(Math.min(1,d/(H*0.30)),0.9)};
+ const fa=final?0.2:0.68;
+ const fadeFn=y=>{const d=Math.max(0,Math.abs(y-ky)-half);const t=Math.min(1,d/(H*0.5));return 1-fa*t*t*(3-2*t)};
+ const B=vblur(L,W,H,radFn,fadeFn);
+
+ const out=mk(W,H),o=out.getContext('2d');
+ o.drawImage(bgCanvas,0,0);
+ o.globalCompositeOperation='multiply';
+ o.drawImage(B,0,0);
+
+ /* highlight + sharp keyword line (fixed position) */
+ o.font=kwFont;
+ const tw=o.measureText(cfg.kw).width,pad=kwSize*0.24,hh=kwSize*1.32;
+ const hx=cx-tw/2-pad,hw=tw+pad*2,hy=ky-hh/2;
+ o.globalCompositeOperation='source-over';o.globalAlpha=.94;o.fillStyle=cfg.hl;o.beginPath();
+ if(o.roundRect)o.roundRect(hx,hy,hw,hh,kwSize*0.08);else o.rect(hx,hy,hw,hh);
+ o.fill();
+ o.globalAlpha=1;
+ o.globalCompositeOperation='source-over';
+ o.textBaseline='middle';o.fillStyle='#0d0d0d';o.textAlign='center';
+ o.font=kwFont;o.fillText(cfg.kw,cx,ky);
+
+ const tpl=(cfg.tplK.length?cfg.tplK:TEMPL)[Math.floor(rand()*(cfg.tplK.length||TEMPL.length))];
+ const [pre,suf]=tpl.split('{k}');
+ o.font=ctxFont;o.fillStyle=ink;
+ const gap=kwSize*0.28;
+ let preTxt=(pre||'').trimEnd(),sufTxt=(suf||'').trimStart();
+ o.textAlign='right';
+ const left=stream(o,Math.max(hx*1.25,W*0.4));
+ o.fillText(left+' '+preTxt,hx-gap,ky);
+ o.textAlign='left';
+ const right=stream(o,W);
+ o.fillText(sufTxt+' '+right,hx+hw+gap,ky);
+ return out;
+}
+
+/* ---------- generation / playback ---------- */
+async function generate(){
+ const my=++token;
+ readCfg();
+ cv.width=cfg.W;cv.height=cfg.H;
+ $('status').textContent='Generating…';
+ bgCanvas=makePaper(cfg.W,cfg.H,cfg.seed,cfg.paper);
+ const arr=[];
+ for(let i=0;i<U;i++){
+  if(my!==token)return;
+  arr.push(renderPage(i,U,cfg.calm&&i===U-1&&U>1));
+  $('status').textContent=`Generating frames… ${i+1}/${U}`;
+  await sleep(0);
+ }
+ if(my!==token)return;
+ pages=arr;lastF=-1;t0=null;
+ draw(0);
+ $('status').textContent=`${U} unique frames • ${N} total frames @ ${cfg.fps} fps • ${cfg.dur.toFixed(1)}s • ${cfg.W}×${cfg.H}`;
+}
+const pageIdx=f=>Math.min(U-1,Math.floor(f*U/N));
+function draw(f){if(pages.length)ctx.drawImage(pages[pageIdx(f)],0,0)}
+
+let lastF=-1,t0=null;
+function loop(ts){
+ requestAnimationFrame(loop);
+ if(!playing||!pages.length)return;
+ if(t0===null)t0=ts;
+ const f=Math.floor((ts-t0)/1000*cfg.fps)%N;
+ if(f!==lastF){draw(f);lastF=f}
+}
+requestAnimationFrame(loop);
+
+/* ---------- export ---------- */
+function download(blob,name){
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
+ document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+}
+
+/* ---------- exact-timing MP4 export (WebCodecs + tiny MP4 muxer) ---------- */
+const u32=n=>new Uint8Array([n>>>24&255,n>>>16&255,n>>>8&255,n&255]);
+const u16=n=>new Uint8Array([n>>>8&255,n&255]);
+const ascii=t=>new Uint8Array([...t].map(c=>c.charCodeAt(0)));
+const zeros=n=>new Uint8Array(n);
+const cat=(...a)=>{const o=new Uint8Array(a.reduce((x,y)=>x+y.length,0));let p=0;for(const y of a){o.set(y,p);p+=y.length}return o};
+const box=(t,...p)=>{const b=cat(...p);return cat(u32(b.length+8),ascii(t),b)};
+const fbox=(t,v,fl,...p)=>box(t,u32((v<<24)|fl),...p);
+const MATRIX=cat(u32(0x10000),u32(0),u32(0),u32(0),u32(0x10000),u32(0),u32(0),u32(0),u32(0x40000000));
+function muxMP4(chunks,desc,W,H,fps){
+ const TS=90000,sd=Math.round(TS/fps),n=chunks.length,dur=n*sd;
+ const ftyp=box('ftyp',ascii('isom'),u32(512),ascii('isom'),ascii('iso2'),ascii('avc1'),ascii('mp41'));
+ const data=cat(...chunks.map(c=>c.data));
+ const mdat=cat(u32(data.length+8),ascii('mdat'),data);
+ const off=ftyp.length+8;
+ const keys=[];chunks.forEach((c,i)=>c.key&&keys.push(i+1));
+ const avc1=box('avc1',zeros(6),u16(1),zeros(16),u16(W),u16(H),u32(0x480000),u32(0x480000),u32(0),u16(1),zeros(32),u16(0x18),u16(0xFFFF),box('avcC',desc));
+ const stbl=box('stbl',
+  fbox('stsd',0,0,u32(1),avc1),
+  fbox('stts',0,0,u32(1),u32(n),u32(sd)),
+  fbox('stss',0,0,u32(keys.length),...keys.map(u32)),
+  fbox('stsc',0,0,u32(1),u32(1),u32(n),u32(1)),
+  fbox('stsz',0,0,u32(0),u32(n),...chunks.map(c=>u32(c.data.length))),
+  fbox('stco',0,0,u32(1),u32(off)));
+ const minf=box('minf',fbox('vmhd',0,1,zeros(8)),box('dinf',fbox('dref',0,0,u32(1),fbox('url ',0,1))),stbl);
+ const mdia=box('mdia',fbox('mdhd',0,0,u32(0),u32(0),u32(TS),u32(dur),u16(0x55c4),u16(0)),
+  fbox('hdlr',0,0,u32(0),ascii('vide'),zeros(12),ascii('VideoHandler\0')),minf);
+ const tkhd=fbox('tkhd',0,3,u32(0),u32(0),u32(1),u32(0),u32(dur),zeros(8),u16(0),u16(0),u16(0),u16(0),MATRIX,u32(W<<16),u32(H<<16));
+ const mvhd=fbox('mvhd',0,0,u32(0),u32(0),u32(TS),u32(dur),u32(0x10000),u16(0x100),zeros(10),MATRIX,zeros(24),u32(2));
+ const moov=box('moov',mvhd,box('trak',tkhd,mdia));
+ return new Blob([ftyp,mdat,moov],{type:'video/mp4'});
+}
+async function exportMP4(){
+ if(!window.VideoEncoder||!window.VideoFrame)return false;
+ const W=cfg.W,H=cfg.H;
+ const conf={codec:'avc1.64002A',width:W,height:H,bitrate:Math.round(W*H*cfg.fps*0.25),framerate:cfg.fps,avc:{format:'avc'}};
+ let sup;try{sup=await VideoEncoder.isConfigSupported(conf)}catch(e){return false}
+ if(!sup||!sup.supported)return false;
+ const chunks=[];let desc=null,err=null;
+ const enc=new VideoEncoder({
+  output:(c,m)=>{if(m&&m.decoderConfig&&m.decoderConfig.description)desc=new Uint8Array(m.decoderConfig.description);
+   const d=new Uint8Array(c.byteLength);c.copyTo(d);chunks.push({data:d,key:c.type==='key'})},
+  error:e=>{err=e}
+ });
+ enc.configure(conf);
+ for(let f=0;f<N;f++){
+  if(err)throw err;
+  while(enc.encodeQueueSize>6)await sleep(2);
+  const fr=new VideoFrame(pages[pageIdx(f)],{timestamp:Math.round(f*1e6/cfg.fps),duration:Math.round(1e6/cfg.fps)});
+  enc.encode(fr,{keyFrame:f%cfg.fps===0});fr.close();
+  $('status').textContent=`Encoding… ${f+1}/${N}`;
+ }
+ await enc.flush();enc.close();
+ if(err||!desc||chunks.length!==N)return false;
+ download(muxMP4(chunks,desc,W,H,cfg.fps),`highlight-${cfg.kw.replace(/\W+/g,'_')}.mp4`);
+ $('status').textContent=`Saved MP4 • ${N} frames • ${(N/cfg.fps).toFixed(2)}s exactly`;
+ return true;
+}
+
+/* invisible 1px toggle so the recorder never drops "identical" frames */
+function tick(f){ctx.fillStyle=f%2?'#e9e8e3':'#eaeae4';ctx.fillRect(0,0,1,1)}
+async function exportVideo(){
+ if(!pages.length)return;
+ const wasPlaying=playing;playing=false;
+ $('dlvid').disabled=true;
+ try{
+  try{if(await exportMP4()){$('dlvid').disabled=false;playing=wasPlaying;t0=null;return}}catch(e){console.warn('WebCodecs export failed, falling back',e)}
+  $('status').textContent='Using real-time recorder (fallback)…';
+  let stream=cv.captureStream(0);
+  let track=stream.getVideoTracks()[0];
+  const manual=!!(track&&track.requestFrame);
+  if(!manual)stream=cv.captureStream(cfg.fps);
+  const mimes=['video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+  const mime=mimes.find(m=>window.MediaRecorder&&MediaRecorder.isTypeSupported(m));
+  if(!mime)throw new Error('Video recording is not supported in this browser. Use Chrome, Edge or Firefox, or download the PNG frames.');
+  const rec=new MediaRecorder(stream,{mimeType:mime,videoBitsPerSecond:10e6});
+  const chunks=[];rec.ondataavailable=e=>e.data.size&&chunks.push(e.data);
+  const done=new Promise(r=>rec.onstop=r);
+  draw(0);rec.start();
+  const start=performance.now(),step=1000/cfg.fps;
+  for(let f=0;f<N;f++){
+   const wait=start+f*step-performance.now();if(wait>0)await sleep(wait);
+   draw(f);tick(f);if(manual)track.requestFrame();
+   $('status').textContent=`Recording… ${f+1}/${N}`;
+  }
+  await sleep(step*1.5);
+  draw(N-1);tick(N);if(manual)track.requestFrame();
+  await sleep(step*2);
+  rec.stop();await done;
+  const ext=mime.startsWith('video/mp4')?'mp4':'webm';
+  download(new Blob(chunks,{type:mime.split(';')[0]}),`highlight-${cfg.kw.replace(/\W+/g,'_')}.${ext}`);
+  $('status').textContent=`Saved .${ext}`;
+ }catch(e){$('status').textContent=e.message;alert(e.message)}
+ $('dlvid').disabled=false;playing=wasPlaying;t0=null;
+}
+
+const CRC=(()=>{const t=new Uint32Array(256);for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+function crc32(d){let c=0xFFFFFFFF;for(let i=0;i<d.length;i++)c=CRC[(c^d[i])&255]^(c>>>8);return(c^0xFFFFFFFF)>>>0}
+function zip(files){
+ const enc=new TextEncoder();let off=0;const parts=[],central=[];
+ for(const f of files){
+  const name=enc.encode(f.name),crc=crc32(f.data),size=f.data.length;
+  const lh=new DataView(new ArrayBuffer(30));
+  lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(12,0x21,true);
+  lh.setUint32(14,crc,true);lh.setUint32(18,size,true);lh.setUint32(22,size,true);lh.setUint16(26,name.length,true);
+  parts.push(new Uint8Array(lh.buffer),name,f.data);
+  const ch=new DataView(new ArrayBuffer(46));
+  ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(14,0x21,true);
+  ch.setUint32(16,crc,true);ch.setUint32(20,size,true);ch.setUint32(24,size,true);ch.setUint16(28,name.length,true);ch.setUint32(42,off,true);
+  central.push(new Uint8Array(ch.buffer),name);
+  off+=30+name.length+size;
+ }
+ const cd=central.reduce((a,b)=>a+b.length,0);
+ const end=new DataView(new ArrayBuffer(22));
+ end.setUint32(0,0x06054b50,true);end.setUint16(8,files.length,true);end.setUint16(10,files.length,true);
+ end.setUint32(12,cd,true);end.setUint32(16,off,true);
+ return new Blob([...parts,...central,end.buffer],{type:'application/zip'});
+}
+async function exportZip(){
+ if(!pages.length)return;
+ $('dlzip').disabled=true;
+ try{
+  const pngs=[];
+  for(let i=0;i<U;i++){
+   $('status').textContent=`Encoding PNG ${i+1}/${U}…`;
+   const b=await new Promise(r=>pages[i].toBlob(r,'image/png'));
+   pngs.push(new Uint8Array(await b.arrayBuffer()));
+  }
+  const files=[];
+  if($('allfr').checked){
+   for(let f=0;f<N;f++)files.push({name:`frame_${String(f+1).padStart(3,'0')}.png`,data:pngs[pageIdx(f)]});
+  }else{
+   pngs.forEach((d,i)=>files.push({name:`frame_${String(i+1).padStart(2,'0')}.png`,data:d}));
+  }
+  download(zip(files),'highlight-frames.zip');
+  $('status').textContent=`Saved ${files.length} PNG frames`;
+ }catch(e){$('status').textContent=e.message}
+ $('dlzip').disabled=false;
+}
+
+/* ---------- UI wiring ---------- */
+let deb;const regen=()=>{clearTimeout(deb);deb=setTimeout(generate,350)};
+['kw','size','dur','fps','pps','blur','ks','hl','ink','paper','font','custom','seed','calm'].forEach(id=>$(id).addEventListener('input',regen));
+$('regen').onclick=generate;
+$('shuffle').onclick=()=>{$('seed').value=Math.floor(Math.random()*99999);generate()};
+$('play').onclick=()=>{playing=!playing;t0=null;$('play').textContent=playing?'⏸ Pause':'▶ Play'};
+$('dlvid').onclick=exportVideo;
+$('dlzip').onclick=exportZip;
+$('bgfile').onchange=e=>{
+ const f=e.target.files[0];
+ if(!f){customImg=null;generate();return}
+ const img=new Image();img.onload=()=>{customImg=img;generate()};img.src=URL.createObjectURL(f);
+};
+generate();
+</script>
+</body>
+</html>
