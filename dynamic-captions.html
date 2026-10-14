@@ -13,7 +13,7 @@ button,select{background:#262a35;color:#eee;border:0;border-radius:8px;padding:8
 #sty canvas{width:100%;border-radius:10px;border:2px solid transparent;cursor:pointer}#sty canvas.s{border-color:var(--a)}
 #cv{max-width:100%;max-height:68vh;border-radius:12px;background:#000;display:block;margin:0 auto}
 #list{display:grid;gap:4px;margin-top:10px}#list input{background:#0e0f13;border:1px solid #2b2f3a;color:#eee;border-radius:6px;padding:5px 8px}
-#st{color:var(--a);min-height:18px;font-size:13px}input[type=range]{flex:1}
+input[type=number]{background:#0e0f13;border:1px solid #2b2f3a;color:#eee;border-radius:6px;padding:5px}#st{color:var(--a);min-height:18px;font-size:13px}input[type=range]{flex:1}
 </style></head><body>
 <div class="c">
 <div id="drop">Drop a video here or click<br><small>Whisper runs in your browser — free, no credits</small></div>
@@ -22,7 +22,10 @@ button,select{background:#262a35;color:#eee;border:0;border-radius:8px;padding:8
 <select id="lang"><option value="">Auto language</option><option value="english">English</option><option value="hindi">Hindi</option><option value="telugu">Telugu</option><option value="urdu">Urdu</option><option value="spanish">Spanish</option><option value="french">French</option></select>
 <select id="asp"><option value="o">Original size</option><option value="9">9:16</option><option value="1">1:1</option><option value="16">16:9</option></select></div>
 <div class="row"><button class="pri" id="go">✨ Generate captions</button><button id="imp">Import SRT</button></div>
-<div id="st"></div><b>Styles</b><div id="sty" style="margin-top:8px"></div></div>
+<div id="st"></div><b>Adjust</b><div style="display:grid;grid-template-columns:70px 1fr;gap:6px 8px;align-items:center;margin:8px 0">
+<span>Position</span><div class="row" style="margin:0">X <input id="ox" type="number" value="0" style="width:64px"> Y <input id="oy" type="number" value="0" style="width:64px"> %</div><span>Size</span><div class="row" style="margin:0">W <input id="ow" type="number" value="100" min="10" max="400" style="width:64px"> H <input id="oh" type="number" value="100" min="10" max="400" style="width:64px"> % <label><input id="ol" type="checkbox" checked> link</label></div>
+<span>Opacity</span><input id="oo" type="range" min="10" max="100" value="100"><span>Text</span><input id="of" type="color" value="#ffffff"><span>Accent</span><input id="oa" type="color" value="#ffe600"></div>
+<div class="row"><button id="rs">Reset adjustments</button></div><b>Styles</b><div id="sty" style="margin-top:8px"></div></div>
 <div class="c"><canvas id="cv" width="540" height="960"></canvas><video id="v" playsinline style="display:none"></video>
 <div class="row"><button id="pp">▶</button><input id="seek" type="range" min="0" max="1000" value="0"><button class="pri" id="ex">⬇ Export video</button></div>
 <small>Export records the preview in real time (webm/mp4, with audio). Edit text below; click a line to jump.</small><div id="list"></div></div>
@@ -46,6 +49,7 @@ const ST=[
 {n:'Clean Bar',f:'Montserrat',wt:800,sz:.045,fill:'#fff',act:'#fff',bg:'box',bgc:'rgba(0,0,0,.6)',max:6,y:.85},
 {n:'Outline',f:'Anton',u:1,sz:.09,fill:'rgba(0,0,0,0)',act:'#ff3d81',st:'#fff',sw:.006,max:3,y:.7}];
 let S=ST[0],words=[],chunks=[],W=540,H=960,AC,dest,gain;
+const O={dx:0,dy:0,sx:1,sy:1,sz:1,op:1,fill:null,act:null};
 
 function rr(c,x,y,w,h,r){c.beginPath();c.roundRect(x,y,w,h,r)}
 function role(w,i){const c=w.w.toLowerCase().replace(/[.,!?;:"]/g,'');if(c.length<=3||STOP.has(c))return 0;return(i+c.length)%2?1:2}
@@ -55,24 +59,24 @@ function build(){const m=S.one?1:S.max,o=[];let c=null,p=null;
 function at(t){let r=null;for(let i=0;i<chunks.length;i++){const c=chunks[i];if(t>=c.a&&t<Math.max(c.b+.3,Math.min(chunks[i+1]?.a??1e9,c.b+.6)))r=c}return r}
 
 function mix(c,W,H,t,S,ch){
- const R=[{s:.042,f:'500 ',n:'Montserrat'},{s:.105,f:'800 ',n:'Montserrat'},{s:.135,f:'italic 700 ',n:'"Playfair Display"',rot:-.06}];
- const rs=ch.ws.map((w,i)=>R[role(w,ch.i0+i)]),hs=rs.map(r=>r.s*W*(r.s>.05?.92:1.3)),tot=hs.reduce((a,b)=>a+b,0);
+ const R=[{s:.042,f:'500 ',n:'Montserrat'},{s:.105,f:'800 ',n:'Montserrat'},{s:.135,f:'italic 700 ',n:'"Playfair Display"',sc:1}];
+ const rs=ch.ws.map((w,i)=>R[role(w,ch.i0+i)]),hs=rs.map(r=>r.s*W*O.sz*(r.s>.05?.92:1.3)),tot=hs.reduce((a,b)=>a+b,0);
  let y=H*S.y-tot/2;
- ch.ws.forEach((w,i)=>{const r=rs[i],h=hs[i];if(t>=w.s){const a=Math.min(1,(t-w.s)/.15);
-  cx.save();cx.globalAlpha=a;cx.font=r.f+r.s*W+'px '+r.n;const wd=cx.measureText(w.w).width,x=S.c?W/2:W*.07+(r.rot?0:0);
-  cx.translate(x+(S.c?0:wd/2),y+h/2+(1-a)*h*.35);if(r.rot)cx.rotate(r.rot);
+ ch.ws.forEach((w,i)=>{const r=rs[i],h=hs[i];if(t>=w.s){const a=Math.min(1,(t-w.s)/.25),e=1-Math.pow(1-a,3);
+  cx.save();cx.globalAlpha*=e;cx.font=r.f+r.s*W*O.sz+'px '+r.n;const wd=cx.measureText(w.w).width,x=S.c?W/2:W*.07;
+  cx.translate(x+(S.c?0:wd/2),y+h/2+(1-e)*h*.3);
   cx.textAlign='center';cx.textBaseline='middle';cx.shadowColor='rgba(0,0,0,.55)';cx.shadowBlur=W*.015;
-  cx.fillStyle=r.rot?S.act:S.fill;cx.fillText(w.w,0,0);cx.restore()}y+=h});}
+  cx.fillStyle=r.sc?S.act:S.fill;cx.fillText(w.w,0,0);cx.restore()}y+=h});}
 
 function draw(c,W,H,t,S,ch){if(!ch)return;if(S.mix)return mix(c,W,H,t,S,ch);
- const fs=S.sz*W,sp=fs*.28,lh=fs*1.25;c.font=`${S.it?'italic ':''}${S.wt||400} ${fs}px "${S.f}"`;
+ const fs=S.sz*W*O.sz,sp=fs*.28,lh=fs*1.25;c.font=`${S.it?'italic ':''}${S.wt||400} ${fs}px "${S.f}"`;
  const L=[[]];let cur=0;
  ch.ws.forEach((o,i)=>{const tx=S.u?o.w.toUpperCase():o.w,wd=c.measureText(tx).width;if(cur+wd>W*.88&&L.at(-1).length){L.push([]);cur=0}L.at(-1).push({tx,wd,i});cur+=wd+sp});
  let y=H*S.y-(L.length-1)*lh/2;c.textBaseline='middle';
  for(const ln of L){const tw=ln.reduce((a,o)=>a+o.wd+sp,-sp);let x=(W-tw)/2;
   if(S.bg==='box'){c.fillStyle=S.bgc;rr(c,x-fs*.4,y-lh/2,tw+fs*.8,lh,fs*.2);c.fill()}
   for(const o of ln){const w=ch.ws[o.i],on=t>=w.s,cu=on&&(o.i===ch.ws.length-1||t<ch.ws[o.i+1].s);
-   const k=cu&&S.pop?1+.18*Math.max(0,1-(t-w.s)/.15):1;
+   const k=cu&&S.pop?1+.18*Math.pow(Math.max(0,1-(t-w.s)/.2),2):1;
    c.save();c.translate(x+o.wd/2,y);c.scale(k,k);c.textAlign='center';
    if((S.bg==='word'&&cu)||S.bg==='pill'){c.fillStyle=cu?S.abg:S.bgc;rr(c,-o.wd/2-fs*.18,-lh*.42,o.wd+fs*.36,lh*.84,fs*.2);c.fill()}
    if(S.st){c.lineWidth=S.sw*W;c.lineJoin='round';c.strokeStyle=S.st;c.strokeText(o.tx,0,0)}
@@ -83,10 +87,10 @@ function draw(c,W,H,t,S,ch){if(!ch)return;if(S.mix)return mix(c,W,H,t,S,ch);
 
 function frame(){const t=v.currentTime;cx.fillStyle='#000';cx.fillRect(0,0,W,H);
  if(v.videoWidth){const s=Math.max(W/v.videoWidth,H/v.videoHeight),w=v.videoWidth*s,h=v.videoHeight*s;cx.drawImage(v,(W-w)/2,(H-h)/2,w,h)}
- draw(cx,W,H,t,S,at(t));if(v.duration&&document.activeElement!==$('#seek'))$('#seek').value=t/v.duration*1000;
+ {const ch=at(t);if(ch){const f=Math.min(1,Math.max(0,(ch.b+.3-t)/.15)),fi=S.mix?1:Math.min(1,(t-ch.a)/.1+.2);cx.globalAlpha=O.op*f*fi;cx.save();cx.translate(W/2+O.dx*W/100,0);cx.scale(O.sx/O.sy,1);cx.translate(-W/2,0);draw(cx,W,H,t,E(),ch);cx.restore();cx.globalAlpha=1}}if(v.duration&&document.activeElement!==$('#seek'))$('#seek').value=t/v.duration*1000;
  $('#pp').textContent=v.paused?'▶':'⏸';requestAnimationFrame(frame)}
 function size(){const a=$('#asp').value,vw=v.videoWidth||540,vh=v.videoHeight||960;
- if(a==='o'){const k=Math.min(1,1920/Math.max(vw,vh));W=vw*k|0;H=vh*k|0}else[W,H]=a==='9'?[1080,1920]:a==='1'?[1080,1080]:[1920,1080];cv.width=W;cv.height=H}
+ if(a==='o'){const k=1920/Math.max(vw,vh);W=vw*k|0;H=vh*k|0}else[W,H]=a==='9'?[1080,1920]:a==='1'?[1080,1080]:[1920,1080];cv.width=W;cv.height=H;cx.imageSmoothingEnabled=true;cx.imageSmoothingQuality='high'}
 $('#asp').onchange=size;
 
 function setFile(f){if(!f)return;v.src=URL.createObjectURL(f);window.F=f;v.onloadedmetadata=()=>{size();v.currentTime=.01};
@@ -113,13 +117,18 @@ $('#srt').onchange=async e=>{const T=s=>{const[a,b,c]=s.replace(',','.').split('
   const[s,en]=l[i].split('-->').map(x=>T(x.trim())),w=l.slice(i+1).join(' ').split(/\s+/).filter(Boolean),d=(en-s)/w.length;
   w.forEach((x,k)=>words.push({w:x,s:s+k*d,e:s+(k+1)*d}))});build();status('SRT imported.')};
 
+$('#ox').oninput=e=>O.dx=+e.target.value||0;$('#oy').oninput=e=>O.dy=(+e.target.value||0)/100;
+const szf=k=>e=>{const v=Math.max(10,+e.target.value||100)/100;O[k]=v;if($('#ol').checked){O.sx=O.sy=v;$('#ow').value=$('#oh').value=Math.round(v*100)}O.sz=O.sy};$('#ow').oninput=szf('sx');$('#oh').oninput=szf('sy');$('#oo').oninput=e=>O.op=e.target.value/100;
+$('#of').oninput=e=>O.fill=e.target.value;$('#oa').oninput=e=>O.act=e.target.value;
+$('#rs').onclick=()=>{Object.assign(O,{dx:0,dy:0,sx:1,sy:1,sz:1,op:1,fill:null,act:null});$('#ox').value=0;$('#oy').value=0;$('#ow').value=100;$('#oh').value=100;$('#oo').value=100;$('#of').value='#ffffff';$('#oa').value='#ffe600'};
+function E(){const e={...S};e.y=S.y+O.dy;if(O.fill){e.fill=O.fill;if(S.act===S.fill)e.act=O.fill}if(O.act)e.act=O.act;return e}
 function list(){const L=$('#list');L.innerHTML='';chunks.forEach(c=>{const i=document.createElement('input');i.value=c.ws.map(w=>w.w).join(' ');
  i.onfocus=()=>v.currentTime=c.a;i.onchange=()=>{const n=i.value.trim().split(/\s+/).filter(Boolean),d=(c.b-c.a)/n.length,x=words.indexOf(c.ws[0]);
   words.splice(x,c.ws.length,...n.map((w,k)=>({w,s:c.a+k*d,e:c.a+(k+1)*d})));build()};L.append(i)})}
 
 $('#ex').onclick=async()=>{if(!words.length)return status('Generate captions first.');await AC.resume();gain.gain.value=0;v.pause();v.currentTime=0;
  const s=cv.captureStream(30);dest.stream.getAudioTracks().forEach(t=>s.addTrack(t));
- const mt=['video/mp4;codecs=avc1','video/webm;codecs=vp9,opus','video/webm'].find(m=>MediaRecorder.isTypeSupported(m)),r=new MediaRecorder(s,{mimeType:mt,videoBitsPerSecond:8e6}),d=[];
+ const mt=['video/mp4;codecs=avc1','video/webm;codecs=vp9,opus','video/webm'].find(m=>MediaRecorder.isTypeSupported(m)),r=new MediaRecorder(s,{mimeType:mt,videoBitsPerSecond:16e6}),d=[];
  r.ondataavailable=e=>d.push(e.data);
  r.onstop=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(d,{type:mt}));a.download='captions.'+(mt.includes('mp4')?'mp4':'webm');a.click();gain.gain.value=1;status('Exported ✔')};
  v.onended=()=>{r.stop();v.onended=null};setTimeout(()=>{r.start();v.play();status('Exporting in real time… keep this tab open')},300)};
