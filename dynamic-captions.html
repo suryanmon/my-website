@@ -1,17 +1,19 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dynamic Captions by EDWYDENNY</title>
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('th')||(matchMedia('(prefers-color-scheme:light)').matches?'light':'dark')}catch(e){document.documentElement.dataset.theme='dark'}</script>
 <style>
-:root{--bg:#0a0b10;--p:#12141c;--p2:#1a1d28;--bd:#262a38;--a:#b6ff3b;--a2:#7c4dff;--t:#eceef5;--m:#8b90a3}*{box-sizing:border-box}
+:root{color-scheme:dark;--bg:#0a0b10;--p:#12141c;--p2:#1a1d28;--bd:#262a38;--a:#b6ff3b;--a2:#7c4dff;--t:#eceef5;--m:#8b90a3;--ib:#0b0d14}
+[data-theme=light]{color-scheme:light;--bg:#eef0f6;--p:#fff;--p2:#f1f3f9;--bd:#d9dde8;--a:#5fa800;--t:#14161f;--m:#667085;--ib:#fff}*{box-sizing:border-box}
 body{margin:0;height:100vh;display:grid;grid-template-columns:340px 1fr 290px;grid-template-rows:56px 1fr;background:var(--bg);color:var(--t);font:13px Inter,system-ui,sans-serif;overflow:hidden}
-header{grid-column:1/4;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--bd);background:linear-gradient(90deg,#12141c,#161a28)}
+header{grid-column:1/4;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--bd);background:linear-gradient(90deg,var(--p),var(--p2))}
 h1{font-size:18px;margin:0;font-weight:800;letter-spacing:-.02em}h1 span{background:linear-gradient(90deg,var(--a),#4dd0ff);-webkit-background-clip:text;color:transparent}
 h3{margin:14px 0 8px;font-size:12px;color:var(--m);text-transform:uppercase;letter-spacing:.08em}
 aside{background:var(--p);padding:12px;overflow:auto;border-right:1px solid var(--bd)}#R{border-left:1px solid var(--bd);border-right:0}
 main{display:grid;grid-template-rows:1fr auto 190px;min-width:0;min-height:0;padding:10px;gap:8px}
-button,select,input{font:inherit;color:var(--t)}button,select{background:var(--p2);border:1px solid var(--bd);border-radius:9px;padding:7px 11px;cursor:pointer;transition:.15s}button:hover{border-color:#444a60}
+button,select,input{font:inherit;color:var(--t)}button,select{background:var(--p2);border:1px solid var(--bd);border-radius:9px;padding:7px 11px;cursor:pointer;transition:.15s}button:hover{border-color:var(--m)}
 .pri{background:var(--a);color:#101010;font-weight:700;border:0}
-input[type=text],input[type=number],input:not([type]),input[list]{background:#0b0d14;border:1px solid var(--bd);border-radius:8px;padding:6px 8px;width:100%}
+input[type=text],input[type=number],input:not([type]),input[list]{background:var(--ib);border:1px solid var(--bd);border-radius:8px;padding:6px 8px;width:100%}
 .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0}
-#drop{border:1.5px dashed #3a3f55;border-radius:14px;padding:22px;text-align:center;cursor:pointer;color:var(--m)}#drop.on{border-color:var(--a);color:var(--t)}
+#drop{border:1.5px dashed var(--bd);border-radius:14px;padding:22px;text-align:center;cursor:pointer;color:var(--m)}#drop.on{border-color:var(--a);color:var(--t)}
 #st{color:var(--a);min-height:16px}
 #sty{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .card{position:relative;border-radius:12px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:#000}.card.s{border-color:var(--a)}
@@ -20,15 +22,15 @@ input[type=text],input[type=number],input:not([type]),input[list]{background:#0b
 #cw{position:relative;justify-self:center;min-height:0;height:100%;aspect-ratio:9/16;max-width:100%}#cv{height:100%;width:100%;border-radius:12px;background:#000;display:block}
 #box{position:absolute;border:1.5px solid #29d3ff;display:none;cursor:move;touch-action:none}#hd{position:absolute;right:-7px;bottom:-7px;width:13px;height:13px;border-radius:50%;background:#fff;cursor:nwse-resize}
 #tl{overflow:auto;background:var(--p);border:1px solid var(--bd);border-radius:12px}#tw{position:relative;height:150px;cursor:pointer}
-#rul span{position:absolute;top:4px;font-size:10px;color:var(--m);border-left:1px solid #333;padding-left:3px;height:14px}
-#tk{position:absolute;top:28px;left:0;right:0;height:50px}.b{position:absolute;top:0;height:46px;background:var(--a2);border-radius:7px;border:1px solid #a58bff;overflow:hidden;font-size:11px;padding:4px 6px;white-space:nowrap;cursor:grab}.b.s{outline:2px solid var(--a)}
+#rul span{position:absolute;top:4px;font-size:10px;color:var(--m);border-left:1px solid var(--bd);padding-left:3px;height:14px}
+#tk{position:absolute;top:28px;left:0;right:0;height:50px}.b{position:absolute;top:0;height:46px;background:var(--a2);border-radius:7px;border:1px solid #a58bff;overflow:hidden;font-size:11px;color:#fff;padding:4px 6px;white-space:nowrap;cursor:grab}.b.s{outline:2px solid var(--a)}
 #vt{position:absolute;top:90px;left:0;height:34px;background:linear-gradient(90deg,#3a3225,#5a4a30);border-radius:6px}
 #ph{position:absolute;top:0;bottom:0;width:2px;background:#fff;pointer-events:none}
 .tabs{display:flex;gap:6px}.tabs button{flex:1}.tabs .on{background:var(--a);color:#111}
 #form label{display:grid;grid-template-columns:1fr 1.2fr;gap:8px;align-items:center;margin:7px 0;color:var(--m)}#form input[type=checkbox]{justify-self:end;width:18px;height:18px}#form input[type=color]{width:100%;height:28px;padding:0;border:0;background:none}
 .g{display:grid;grid-template-columns:70px 1fr;gap:6px 8px;align-items:center}.hint{color:var(--m)}
 </style></head><body>
-<header><h1>Dynamic Captions <span>by EDWYDENNY</span></h1><div class="row" style="margin:0"><button id="x1" class="pri">⚡ Export MP4</button><button id="x2">◻ Export Alpha (subtitles only)</button></div></header>
+<header><h1>Dynamic Captions <span>by EDWYDENNY</span></h1><div class="row" style="margin:0"><button id="un" title="Undo (Ctrl+Z)">↶</button><button id="re" title="Redo (Ctrl+Y)">↷</button><button id="th" title="Light / dark">🌓</button><button id="x1" class="pri">⚡ Export MP4</button><button id="x2">◻ Export Alpha (subtitles only)</button></div></header>
 <aside id="L"><div id="drop">Drop a video or click<br><small>Whisper runs in your browser, free</small></div><input id="file" type="file" accept="video/*,audio/*" hidden><input id="srt" type="file" accept=".srt" hidden>
 <div class="row"><select id="model"><option value="Xenova/whisper-base">Whisper base (multilingual)</option><option value="Xenova/whisper-tiny.en">Tiny (English, fastest)</option><option value="Xenova/whisper-small">Small (most accurate)</option></select>
 <select id="lang"><option value="">Auto language</option><option value="english">English</option><option value="hindi">Hindi</option><option value="telugu">Telugu</option><option value="urdu">Urdu</option><option value="spanish">Spanish</option></select>
