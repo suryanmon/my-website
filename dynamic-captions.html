@@ -1,144 +1,46 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dynamic Captions</title>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@500;800&family=Playfair+Display:ital,wght@1,700&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dynamic Captions by EDWYDENNY</title>
 <style>
-:root{--bg:#0e0f13;--p:#171a21;--a:#b6ff3b}*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:#eee;font:14px system-ui,sans-serif;display:grid;grid-template-columns:380px 1fr;gap:14px;padding:14px;height:100vh}
-@media(max-width:820px){body{grid-template-columns:1fr;height:auto}}
-.c{background:var(--p);border-radius:14px;padding:12px;overflow:auto}
-#drop{border:2px dashed #444;border-radius:12px;padding:26px 10px;text-align:center;cursor:pointer;margin-bottom:10px}#drop.on{border-color:var(--a)}
-button,select{background:#262a35;color:#eee;border:0;border-radius:8px;padding:8px 10px;font:inherit;cursor:pointer}
-.pri{background:var(--a);color:#111;font-weight:700}
-.row{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0;align-items:center}
+:root{--bg:#0a0b10;--p:#12141c;--p2:#1a1d28;--bd:#262a38;--a:#b6ff3b;--a2:#7c4dff;--t:#eceef5;--m:#8b90a3}*{box-sizing:border-box}
+body{margin:0;height:100vh;display:grid;grid-template-columns:340px 1fr 290px;grid-template-rows:56px 1fr;background:var(--bg);color:var(--t);font:13px Inter,system-ui,sans-serif;overflow:hidden}
+header{grid-column:1/4;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--bd);background:linear-gradient(90deg,#12141c,#161a28)}
+h1{font-size:18px;margin:0;font-weight:800;letter-spacing:-.02em}h1 span{background:linear-gradient(90deg,var(--a),#4dd0ff);-webkit-background-clip:text;color:transparent}
+h3{margin:14px 0 8px;font-size:12px;color:var(--m);text-transform:uppercase;letter-spacing:.08em}
+aside{background:var(--p);padding:12px;overflow:auto;border-right:1px solid var(--bd)}#R{border-left:1px solid var(--bd);border-right:0}
+main{display:grid;grid-template-rows:1fr auto 190px;min-width:0;min-height:0;padding:10px;gap:8px}
+button,select,input{font:inherit;color:var(--t)}button,select{background:var(--p2);border:1px solid var(--bd);border-radius:9px;padding:7px 11px;cursor:pointer;transition:.15s}button:hover{border-color:#444a60}
+.pri{background:var(--a);color:#101010;font-weight:700;border:0}
+input[type=text],input[type=number],input:not([type]),input[list]{background:#0b0d14;border:1px solid var(--bd);border-radius:8px;padding:6px 8px;width:100%}
+.row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:8px 0}
+#drop{border:1.5px dashed #3a3f55;border-radius:14px;padding:22px;text-align:center;cursor:pointer;color:var(--m)}#drop.on{border-color:var(--a);color:var(--t)}
+#st{color:var(--a);min-height:16px}
 #sty{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-#sty canvas{width:100%;border-radius:10px;border:2px solid transparent;cursor:pointer}#sty canvas.s{border-color:var(--a)}
-#cv{max-width:100%;max-height:68vh;border-radius:12px;background:#000;display:block;margin:0 auto}
-#list{display:grid;gap:4px;margin-top:10px}#list input{background:#0e0f13;border:1px solid #2b2f3a;color:#eee;border-radius:6px;padding:5px 8px}
-input[type=number]{background:#0e0f13;border:1px solid #2b2f3a;color:#eee;border-radius:6px;padding:5px}#st{color:var(--a);min-height:18px;font-size:13px}input[type=range]{flex:1}
+.card{position:relative;border-radius:12px;overflow:hidden;border:2px solid transparent;cursor:pointer;background:#000}.card.s{border-color:var(--a)}
+.card canvas{width:100%;display:block}.card b{position:absolute;left:6px;bottom:5px;font-size:10px;text-shadow:0 1px 4px #000}
+.card button{position:absolute;right:5px;top:5px;padding:3px 8px;font-size:11px;opacity:0;background:#fffe;color:#111;border:0}.card:hover button,.card.s button{opacity:1}
+#cw{position:relative;justify-self:center;min-height:0;height:100%;aspect-ratio:9/16;max-width:100%}#cv{height:100%;width:100%;border-radius:12px;background:#000;display:block}
+#box{position:absolute;border:1.5px solid #29d3ff;display:none;cursor:move;touch-action:none}#hd{position:absolute;right:-7px;bottom:-7px;width:13px;height:13px;border-radius:50%;background:#fff;cursor:nwse-resize}
+#tl{overflow:auto;background:var(--p);border:1px solid var(--bd);border-radius:12px}#tw{position:relative;height:150px;cursor:pointer}
+#rul span{position:absolute;top:4px;font-size:10px;color:var(--m);border-left:1px solid #333;padding-left:3px;height:14px}
+#tk{position:absolute;top:28px;left:0;right:0;height:50px}.b{position:absolute;top:0;height:46px;background:var(--a2);border-radius:7px;border:1px solid #a58bff;overflow:hidden;font-size:11px;padding:4px 6px;white-space:nowrap;cursor:grab}.b.s{outline:2px solid var(--a)}
+#vt{position:absolute;top:90px;left:0;height:34px;background:linear-gradient(90deg,#3a3225,#5a4a30);border-radius:6px}
+#ph{position:absolute;top:0;bottom:0;width:2px;background:#fff;pointer-events:none}
+.tabs{display:flex;gap:6px}.tabs button{flex:1}.tabs .on{background:var(--a);color:#111}
+#form label{display:grid;grid-template-columns:1fr 1.2fr;gap:8px;align-items:center;margin:7px 0;color:var(--m)}#form input[type=checkbox]{justify-self:end;width:18px;height:18px}#form input[type=color]{width:100%;height:28px;padding:0;border:0;background:none}
+.g{display:grid;grid-template-columns:70px 1fr;gap:6px 8px;align-items:center}.hint{color:var(--m)}
 </style></head><body>
-<div class="c">
-<div id="drop">Drop a video here or click<br><small>Whisper runs in your browser — free, no credits</small></div>
-<input id="file" type="file" accept="video/*,audio/*" hidden><input id="srt" type="file" accept=".srt" hidden>
-<div class="row"><select id="model"><option value="Xenova/whisper-base">Whisper base (multilingual)</option><option value="Xenova/whisper-tiny.en">Tiny (English, fastest)</option><option value="Xenova/whisper-small">Small (best accuracy, bigger)</option></select>
-<select id="lang"><option value="">Auto language</option><option value="english">English</option><option value="hindi">Hindi</option><option value="telugu">Telugu</option><option value="urdu">Urdu</option><option value="spanish">Spanish</option><option value="french">French</option></select>
-<select id="asp"><option value="o">Original size</option><option value="9">9:16</option><option value="1">1:1</option><option value="16">16:9</option></select></div>
-<div class="row"><button class="pri" id="go">✨ Generate captions</button><button id="imp">Import SRT</button></div>
-<div id="st"></div><b>Adjust</b><div style="display:grid;grid-template-columns:70px 1fr;gap:6px 8px;align-items:center;margin:8px 0">
-<span>Position</span><div class="row" style="margin:0">X <input id="ox" type="number" value="0" style="width:64px"> Y <input id="oy" type="number" value="0" style="width:64px"> %</div><span>Size</span><div class="row" style="margin:0">W <input id="ow" type="number" value="100" min="10" max="400" style="width:64px"> H <input id="oh" type="number" value="100" min="10" max="400" style="width:64px"> % <label><input id="ol" type="checkbox" checked> link</label></div>
-<span>Opacity</span><input id="oo" type="range" min="10" max="100" value="100"><span>Text</span><input id="of" type="color" value="#ffffff"><span>Accent</span><input id="oa" type="color" value="#ffe600"></div>
-<div class="row"><button id="rs">Reset adjustments</button></div><b>Styles</b><div id="sty" style="margin-top:8px"></div></div>
-<div class="c"><canvas id="cv" width="540" height="960"></canvas><video id="v" playsinline style="display:none"></video>
-<div class="row"><button id="pp">▶</button><input id="seek" type="range" min="0" max="1000" value="0"><button class="pri" id="ex">⬇ Export video</button></div>
-<small>Export records the preview in real time (webm/mp4, with audio). Edit text below; click a line to jump.</small><div id="list"></div></div>
-<script>
-const $=q=>document.querySelector(q),cv=$('#cv'),cx=cv.getContext('2d'),v=$('#v');
-const STOP=new Set('a an the and or but of to in on at is it its for as by be was are i you we he she they that this with from not so if my me do'.split(' '));
-const D=['I','C','F'];
-const ST=[
-{n:'Dynamic Mix',mix:1,fill:'#fff',act:'#fff',y:.72,max:3},
-{n:'Mix Gold',mix:1,fill:'#fff',act:'#ffd23f',y:.72,max:3},
-{n:'Mix Center',mix:1,c:1,fill:'#fff',act:'#ff6b6b',y:.6,max:3},
-{n:'Bold Pop',f:'Anton',u:1,sz:.095,fill:'#fff',act:'#ffe600',st:'#000',sw:.012,pop:1,max:3,y:.7},
-{n:'Highlighter',f:'Montserrat',wt:800,sz:.06,fill:'#fff',act:'#111',bg:'word',abg:'#b6ff3b',max:4,y:.72},
-{n:'Serif Italic',f:'Playfair Display',it:1,wt:700,sz:.12,fill:'#fff',act:'#fff',one:1,sh:1,y:.62},
-{n:'Neon',f:'Space Mono',wt:700,sz:.06,fill:'#fff',act:'#39ff14',glow:'#39ff14',max:3,y:.75},
-{n:'Red Impact',f:'Anton',u:1,sz:.16,fill:'#ff1f1f',act:'#ff1f1f',st:'#fff',sw:.014,one:1,pop:1,y:.5},
-{n:'Yellow Label',f:'Anton',u:1,sz:.07,fill:'#111',act:'#111',bg:'box',bgc:'#ffe600',max:3,y:.78},
-{n:'Karaoke',f:'Montserrat',wt:800,sz:.06,fill:'rgba(255,255,255,.5)',act:'#fff',kar:1,st:'#000',sw:.008,sh:1,max:4,y:.74},
-{n:'Purple Pills',f:'Montserrat',wt:800,sz:.05,fill:'#222',act:'#fff',bg:'pill',bgc:'#fff',abg:'#7c4dff',max:4,y:.72},
-{n:'Big Word',f:'Anton',u:1,sz:.2,fill:'#fff',act:'#fff',one:1,sh:1,pop:1,y:.5},
-{n:'Clean Bar',f:'Montserrat',wt:800,sz:.045,fill:'#fff',act:'#fff',bg:'box',bgc:'rgba(0,0,0,.6)',max:6,y:.85},
-{n:'Outline',f:'Anton',u:1,sz:.09,fill:'rgba(0,0,0,0)',act:'#ff3d81',st:'#fff',sw:.006,max:3,y:.7}];
-let S=ST[0],words=[],chunks=[],W=540,H=960,AC,dest,gain;
-const O={dx:0,dy:0,sx:1,sy:1,sz:1,op:1,fill:null,act:null};
-
-function rr(c,x,y,w,h,r){c.beginPath();c.roundRect(x,y,w,h,r)}
-function role(w,i){const c=w.w.toLowerCase().replace(/[.,!?;:"]/g,'');if(c.length<=3||STOP.has(c))return 0;return(i+c.length)%2?1:2}
-function build(){const m=S.one?1:S.max,o=[];let c=null,p=null;
- words.forEach((w,i)=>{if(!c||c.ws.length>=m||w.s-p.e>.7||/[.?!]$/.test(p.w)){c={ws:[],i0:i};o.push(c)}c.ws.push(w);p=w});
- o.forEach(c=>{c.a=c.ws[0].s;c.b=c.ws.at(-1).e});chunks=o;list()}
-function at(t){let r=null;for(let i=0;i<chunks.length;i++){const c=chunks[i];if(t>=c.a&&t<Math.max(c.b+.3,Math.min(chunks[i+1]?.a??1e9,c.b+.6)))r=c}return r}
-
-function mix(c,W,H,t,S,ch){
- const R=[{s:.042,f:'500 ',n:'Montserrat'},{s:.105,f:'800 ',n:'Montserrat'},{s:.135,f:'italic 700 ',n:'"Playfair Display"',sc:1}];
- const rs=ch.ws.map((w,i)=>R[role(w,ch.i0+i)]),hs=rs.map(r=>r.s*W*O.sz*(r.s>.05?.92:1.3)),tot=hs.reduce((a,b)=>a+b,0);
- let y=H*S.y-tot/2;
- ch.ws.forEach((w,i)=>{const r=rs[i],h=hs[i];if(t>=w.s){const a=Math.min(1,(t-w.s)/.25),e=1-Math.pow(1-a,3);
-  cx.save();cx.globalAlpha*=e;cx.font=r.f+r.s*W*O.sz+'px '+r.n;const wd=cx.measureText(w.w).width,x=S.c?W/2:W*.07;
-  cx.translate(x+(S.c?0:wd/2),y+h/2+(1-e)*h*.3);
-  cx.textAlign='center';cx.textBaseline='middle';cx.shadowColor='rgba(0,0,0,.55)';cx.shadowBlur=W*.015;
-  cx.fillStyle=r.sc?S.act:S.fill;cx.fillText(w.w,0,0);cx.restore()}y+=h});}
-
-function draw(c,W,H,t,S,ch){if(!ch)return;if(S.mix)return mix(c,W,H,t,S,ch);
- const fs=S.sz*W*O.sz,sp=fs*.28,lh=fs*1.25;c.font=`${S.it?'italic ':''}${S.wt||400} ${fs}px "${S.f}"`;
- const L=[[]];let cur=0;
- ch.ws.forEach((o,i)=>{const tx=S.u?o.w.toUpperCase():o.w,wd=c.measureText(tx).width;if(cur+wd>W*.88&&L.at(-1).length){L.push([]);cur=0}L.at(-1).push({tx,wd,i});cur+=wd+sp});
- let y=H*S.y-(L.length-1)*lh/2;c.textBaseline='middle';
- for(const ln of L){const tw=ln.reduce((a,o)=>a+o.wd+sp,-sp);let x=(W-tw)/2;
-  if(S.bg==='box'){c.fillStyle=S.bgc;rr(c,x-fs*.4,y-lh/2,tw+fs*.8,lh,fs*.2);c.fill()}
-  for(const o of ln){const w=ch.ws[o.i],on=t>=w.s,cu=on&&(o.i===ch.ws.length-1||t<ch.ws[o.i+1].s);
-   const k=cu&&S.pop?1+.18*Math.pow(Math.max(0,1-(t-w.s)/.2),2):1;
-   c.save();c.translate(x+o.wd/2,y);c.scale(k,k);c.textAlign='center';
-   if((S.bg==='word'&&cu)||S.bg==='pill'){c.fillStyle=cu?S.abg:S.bgc;rr(c,-o.wd/2-fs*.18,-lh*.42,o.wd+fs*.36,lh*.84,fs*.2);c.fill()}
-   if(S.st){c.lineWidth=S.sw*W;c.lineJoin='round';c.strokeStyle=S.st;c.strokeText(o.tx,0,0)}
-   if(S.sh){c.shadowColor='rgba(0,0,0,.6)';c.shadowBlur=fs*.2;c.shadowOffsetY=fs*.05}
-   if(S.glow){c.shadowColor=S.glow;c.shadowBlur=fs*.4}
-   c.fillStyle=(S.kar?on:cu)?S.act:S.fill;c.fillText(o.tx,0,0);c.restore();x+=o.wd+sp}
-  y+=lh}}
-
-function frame(){const t=v.currentTime;cx.fillStyle='#000';cx.fillRect(0,0,W,H);
- if(v.videoWidth){const s=Math.max(W/v.videoWidth,H/v.videoHeight),w=v.videoWidth*s,h=v.videoHeight*s;cx.drawImage(v,(W-w)/2,(H-h)/2,w,h)}
- {const ch=at(t);if(ch){const f=Math.min(1,Math.max(0,(ch.b+.3-t)/.15)),fi=S.mix?1:Math.min(1,(t-ch.a)/.1+.2);cx.globalAlpha=O.op*f*fi;cx.save();cx.translate(W/2+O.dx*W/100,0);cx.scale(O.sx/O.sy,1);cx.translate(-W/2,0);draw(cx,W,H,t,E(),ch);cx.restore();cx.globalAlpha=1}}if(v.duration&&document.activeElement!==$('#seek'))$('#seek').value=t/v.duration*1000;
- $('#pp').textContent=v.paused?'▶':'⏸';requestAnimationFrame(frame)}
-function size(){const a=$('#asp').value,vw=v.videoWidth||540,vh=v.videoHeight||960;
- if(a==='o'){const k=1920/Math.max(vw,vh);W=vw*k|0;H=vh*k|0}else[W,H]=a==='9'?[1080,1920]:a==='1'?[1080,1080]:[1920,1080];cv.width=W;cv.height=H;cx.imageSmoothingEnabled=true;cx.imageSmoothingQuality='high'}
-$('#asp').onchange=size;
-
-function setFile(f){if(!f)return;v.src=URL.createObjectURL(f);window.F=f;v.onloadedmetadata=()=>{size();v.currentTime=.01};
- if(!AC){AC=new AudioContext();const s=AC.createMediaElementSource(v);dest=AC.createMediaStreamDestination();gain=AC.createGain();s.connect(dest);s.connect(gain);gain.connect(AC.destination)}}
-const dz=$('#drop');dz.onclick=()=>$('#file').click();$('#file').onchange=e=>setFile(e.target.files[0]);
-dz.ondragover=e=>{e.preventDefault();dz.classList.add('on')};dz.ondragleave=()=>dz.classList.remove('on');
-dz.ondrop=e=>{e.preventDefault();dz.classList.remove('on');setFile(e.dataTransfer.files[0])};
-$('#pp').onclick=()=>v.paused?v.play():v.pause();$('#seek').oninput=e=>v.currentTime=e.target.value/1000*v.duration;
-const status=s=>$('#st').textContent=s;
-
-$('#go').onclick=async()=>{if(!window.F)return status('Drop a video first.');
- try{status('Loading Whisper (first run downloads the model, then it is cached)…');
- const{pipeline}=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.0.2/+esm'),m=$('#model').value;
- const asr=await pipeline('automatic-speech-recognition',m,{progress_callback:p=>p.status==='progress'&&status('Downloading model '+(p.progress|0)+'%')});
- status('Reading audio…');const ac=new AudioContext({sampleRate:16000}),au=(await ac.decodeAudioData(await F.arrayBuffer())).getChannelData(0);
- status('Transcribing… (can take a minute)');const l=$('#lang').value,o={return_timestamps:'word',chunk_length_s:30,stride_length_s:5};
- if(!m.endsWith('.en')){o.task='transcribe';if(l)o.language=l}
- const r=await asr(au,o);words=r.chunks.map(c=>({w:c.text.trim(),s:c.timestamp[0],e:c.timestamp[1]??c.timestamp[0]+.4})).filter(w=>w.w);
- build();status('Done — '+words.length+' words. Pick a style and hit play.')}catch(e){status('Error: '+e.message)}};
-
-$('#imp').onclick=()=>$('#srt').click();
-$('#srt').onchange=async e=>{const T=s=>{const[a,b,c]=s.replace(',','.').split(':');return+a*3600+ +b*60+ +c};words=[];
- (await e.target.files[0].text()).split(/\r?\n\r?\n/).forEach(b=>{const l=b.trim().split(/\r?\n/),i=l.findIndex(x=>x.includes('-->'));if(i<0)return;
-  const[s,en]=l[i].split('-->').map(x=>T(x.trim())),w=l.slice(i+1).join(' ').split(/\s+/).filter(Boolean),d=(en-s)/w.length;
-  w.forEach((x,k)=>words.push({w:x,s:s+k*d,e:s+(k+1)*d}))});build();status('SRT imported.')};
-
-$('#ox').oninput=e=>O.dx=+e.target.value||0;$('#oy').oninput=e=>O.dy=(+e.target.value||0)/100;
-const szf=k=>e=>{const v=Math.max(10,+e.target.value||100)/100;O[k]=v;if($('#ol').checked){O.sx=O.sy=v;$('#ow').value=$('#oh').value=Math.round(v*100)}O.sz=O.sy};$('#ow').oninput=szf('sx');$('#oh').oninput=szf('sy');$('#oo').oninput=e=>O.op=e.target.value/100;
-$('#of').oninput=e=>O.fill=e.target.value;$('#oa').oninput=e=>O.act=e.target.value;
-$('#rs').onclick=()=>{Object.assign(O,{dx:0,dy:0,sx:1,sy:1,sz:1,op:1,fill:null,act:null});$('#ox').value=0;$('#oy').value=0;$('#ow').value=100;$('#oh').value=100;$('#oo').value=100;$('#of').value='#ffffff';$('#oa').value='#ffe600'};
-function E(){const e={...S};e.y=S.y+O.dy;if(O.fill){e.fill=O.fill;if(S.act===S.fill)e.act=O.fill}if(O.act)e.act=O.act;return e}
-function list(){const L=$('#list');L.innerHTML='';chunks.forEach(c=>{const i=document.createElement('input');i.value=c.ws.map(w=>w.w).join(' ');
- i.onfocus=()=>v.currentTime=c.a;i.onchange=()=>{const n=i.value.trim().split(/\s+/).filter(Boolean),d=(c.b-c.a)/n.length,x=words.indexOf(c.ws[0]);
-  words.splice(x,c.ws.length,...n.map((w,k)=>({w,s:c.a+k*d,e:c.a+(k+1)*d})));build()};L.append(i)})}
-
-$('#ex').onclick=async()=>{if(!words.length)return status('Generate captions first.');await AC.resume();gain.gain.value=0;v.pause();v.currentTime=0;
- const s=cv.captureStream(30);dest.stream.getAudioTracks().forEach(t=>s.addTrack(t));
- const mt=['video/mp4;codecs=avc1','video/webm;codecs=vp9,opus','video/webm'].find(m=>MediaRecorder.isTypeSupported(m)),r=new MediaRecorder(s,{mimeType:mt,videoBitsPerSecond:16e6}),d=[];
- r.ondataavailable=e=>d.push(e.data);
- r.onstop=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(d,{type:mt}));a.download='captions.'+(mt.includes('mp4')?'mp4':'webm');a.click();gain.gain.value=1;status('Exported ✔')};
- v.onended=()=>{r.stop();v.onended=null};setTimeout(()=>{r.start();v.play();status('Exporting in real time… keep this tab open')},300)};
-
-(async()=>{await Promise.all(['500 20px Montserrat','800 20px Montserrat','italic 700 20px "Playfair Display"','20px Anton','700 20px "Space Mono"'].map(f=>document.fonts.load(f)));
- const G=['#3a4a6b,#8aa','#6b3a4a,#caa','#2d5a4a,#9cb','#5a4a2d,#cb9'];
- ST.forEach((s,i)=>{const c=document.createElement('canvas');c.width=180;c.height=300;const x=c.getContext('2d'),g=x.createLinearGradient(0,0,180,300),[p,q]=G[i%4].split(',');
-  g.addColorStop(0,p);g.addColorStop(1,q.length<4?'#'+q.replace('#','')+'':q);x.fillStyle=g;x.fillRect(0,0,180,300);
-  const ws=(s.mix?['is','never','about']:['Dynamic','captions','style']).map((w,k)=>({w,s:k*.3,e:k*.3+.3}));
-  draw(x,180,300,s.mix?.9:.45,s,{ws:s.one?[ws[1]]:ws,i0:0});c.title=s.n;if(!i)c.className='s';
-  c.onclick=()=>{S=s;document.querySelectorAll('#sty canvas').forEach(e=>e.classList.remove('s'));c.classList.add('s');build()};$('#sty').append(c)});
- frame()})();
-</script></body></html>
+<header><h1>Dynamic Captions <span>by EDWYDENNY</span></h1><div class="row" style="margin:0"><button id="x1" class="pri">⚡ Export MP4</button><button id="x2">◻ Export Alpha (subtitles only)</button></div></header>
+<aside id="L"><div id="drop">Drop a video or click<br><small>Whisper runs in your browser, free</small></div><input id="file" type="file" accept="video/*,audio/*" hidden><input id="srt" type="file" accept=".srt" hidden>
+<div class="row"><select id="model"><option value="Xenova/whisper-base">Whisper base (multilingual)</option><option value="Xenova/whisper-tiny.en">Tiny (English, fastest)</option><option value="Xenova/whisper-small">Small (most accurate)</option></select>
+<select id="lang"><option value="">Auto language</option><option value="english">English</option><option value="hindi">Hindi</option><option value="telugu">Telugu</option><option value="urdu">Urdu</option><option value="spanish">Spanish</option></select>
+<select id="asp"><option value="o">Original</option><option value="9">9:16</option><option value="1">1:1</option><option value="16">16:9</option></select><label>Words/sub <input id="wps" type="number" value="3" min="1" max="8" style="width:56px"></label></div>
+<div class="row"><button id="go" class="pri">✨ Generate captions</button><button id="imp">Import SRT</button></div><div id="st"></div>
+<h3>Styles</h3><div id="sty"></div>
+<h3>Global Adjustment</h3><div class="g"><span>Position</span><div class="row" style="margin:0">X <input id="gx" type="number" value="0"> Y <input id="gy" type="number" value="0"></div>
+<span>Size %</span><div class="row" style="margin:0">W <input id="gw" type="number" value="100"> H <input id="gh" type="number" value="100"> <label><input id="gl" type="checkbox" checked style="width:auto"> link</label></div>
+<span>Opacity</span><input id="go2" type="range" min="10" max="100" value="100"></div><button id="gr" style="margin-top:8px">Reset global</button></aside>
+<main><div id="cw"><canvas id="cv"></canvas><div id="box"><i id="hd"></i></div></div>
+<div class="row" style="margin:0"><button id="pp">▶</button><span id="tm" style="min-width:90px"></span><input id="txt" placeholder="Select a subtitle to edit its text" style="flex:1"><button id="sp">Split</button><button id="ad">+ Subtitle</button><input id="zm" type="range" min="20" max="200" value="60" style="width:90px"></div>
+<div id="tl"><div id="tw"><div id="rul"></div><div id="tk"></div><div id="vt"></div><div id="ph"></div></div></div></main>
+<aside id="R"><div class="tabs"><button id="tp" class="on">Style preset</button><button id="ts">This subtitle</button></div><div class="row"><button id="rs">Reset subtitle overrides</button></div><div id="form"></div></aside>
+<datalist id="fl"></datalist><video id="v" playsinline style="display:none"></video>
+<script src="fonts.js"></script><script src="app.js"></script></body></html>
