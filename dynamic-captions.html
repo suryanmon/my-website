@@ -29,17 +29,22 @@ input[type=text],input[type=number],input:not([type]),input[list]{background:var
 .tabs{display:flex;gap:6px}.tabs button{flex:1}.tabs .on{background:var(--a);color:#111}
 #form label{display:grid;grid-template-columns:1fr 1.2fr;gap:8px;align-items:center;margin:7px 0;color:var(--m)}#form input[type=checkbox]{justify-self:end;width:18px;height:18px}#form input[type=color]{width:100%;height:28px;padding:0;border:0;background:none}
 .g{display:grid;grid-template-columns:70px 1fr;gap:6px 8px;align-items:center}.hint{color:var(--m)}
+details{border:1px solid var(--bd);border-radius:12px;margin:8px 0;background:var(--p2);overflow:hidden}
+summary{cursor:pointer;padding:10px 34px 10px 12px;list-style:none;display:flex;flex-direction:column;gap:2px;position:relative;user-select:none}summary::-webkit-details-marker{display:none}
+summary::after{content:'▸';position:absolute;right:12px;top:11px;color:var(--m);transition:.15s}details[open]>summary::after{transform:rotate(90deg)}
+summary b{font-size:13px}summary small{color:var(--m);font-size:11px;line-height:1.35}details[open]>summary{border-bottom:1px solid var(--bd)}
+.pad{padding:10px 12px}#form details>label{margin:8px 12px}.who{padding:10px 12px;border-radius:12px;background:linear-gradient(90deg,#7c4dff33,#b6ff3b22);display:flex;flex-direction:column;gap:2px}.who small{color:var(--m)}
 </style></head><body>
 <header><h1>Dynamic Captions <span>by EDWYDENNY</span></h1><div class="row" style="margin:0"><button id="un" title="Undo (Ctrl+Z)">↶</button><button id="re" title="Redo (Ctrl+Y)">↷</button><button id="th" title="Light / dark">🌓</button><button id="x1" class="pri">⚡ Export MP4</button><button id="x2">◻ Export Alpha (subtitles only)</button></div></header>
-<aside id="L"><div id="drop">Drop a video or click<br><small>Whisper runs in your browser, free</small></div><input id="file" type="file" accept="video/*,audio/*" hidden><input id="srt" type="file" accept=".srt" hidden>
+<aside id="L"><details open><summary><b>Video &amp; Captions</b><small>Drop a video, pick a Whisper model and language, then generate</small></summary><div class="pad"><div id="drop">Drop a video or click<br><small>Whisper runs in your browser, free</small></div><input id="file" type="file" accept="video/*,audio/*" hidden><input id="srt" type="file" accept=".srt" hidden>
 <div class="row"><select id="model"><option value="Xenova/whisper-base">Whisper base (multilingual)</option><option value="Xenova/whisper-tiny.en">Tiny (English, fastest)</option><option value="Xenova/whisper-small">Small (most accurate)</option></select>
 <select id="lang"><option value="">Auto language</option><option value="english">English</option><option value="hindi">Hindi</option><option value="telugu">Telugu</option><option value="urdu">Urdu</option><option value="spanish">Spanish</option></select>
 <select id="asp"><option value="o">Original</option><option value="9">9:16</option><option value="1">1:1</option><option value="16">16:9</option></select><label>Words/sub <input id="wps" type="number" value="3" min="1" max="8" style="width:56px"></label></div>
-<div class="row"><button id="go" class="pri">✨ Generate captions</button><button id="imp">Import SRT</button></div><div id="st"></div>
-<h3>Styles</h3><div id="sty"></div>
-<h3>Global Adjustment</h3><div class="g"><span>Position</span><div class="row" style="margin:0">X <input id="gx" type="number" value="0"> Y <input id="gy" type="number" value="0"></div>
+<div class="row"><button id="go" class="pri">✨ Generate captions</button><button id="imp">Import SRT</button></div><div id="st"></div></div></details>
+<details open><summary><b>Styles</b><small>Click to apply to all subtitles. Hover a card and press Edit to customise it</small></summary><div class="pad"><div id="sty"></div></div></details>
+<details open><summary><b>Global Adjustment</b><small>Moves, scales and fades every subtitle at once. Per-subtitle settings live in the right panel</small></summary><div class="pad"><div class="g"><span>Position</span><div class="row" style="margin:0">X <input id="gx" type="number" value="0"> Y <input id="gy" type="number" value="0"></div>
 <span>Size %</span><div class="row" style="margin:0">W <input id="gw" type="number" value="100"> H <input id="gh" type="number" value="100"> <label><input id="gl" type="checkbox" checked style="width:auto"> link</label></div>
-<span>Opacity</span><input id="go2" type="range" min="10" max="100" value="100"></div><button id="gr" style="margin-top:8px">Reset global</button></aside>
+<span>Opacity</span><input id="go2" type="range" min="10" max="100" value="100"></div><button id="gr" style="margin-top:8px">Reset global</button></div></details></aside>
 <main><div id="cw"><canvas id="cv"></canvas><div id="box"><i id="hd"></i></div></div>
 <div class="row" style="margin:0"><button id="pp">▶</button><span id="tm" style="min-width:90px"></span><input id="txt" placeholder="Select a subtitle to edit its text" style="flex:1"><button id="sp">Split</button><button id="ad">+ Subtitle</button><input id="zm" type="range" min="20" max="200" value="60" style="width:90px"></div>
 <div id="tl"><div id="tw"><div id="rul"></div><div id="tk"></div><div id="vt"></div><div id="ph"></div></div></div></main>
