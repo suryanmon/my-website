@@ -12,23 +12,30 @@ const P=[{n:'Dynamic Mix',...mixP,align:'l',hlColor:'#ffffff'},{n:'Mix Gold',...
 {n:'Karaoke',font:'Montserrat',hlEffect:'karaoke',hlColor:'#4dd0ff',anim:'fade'},{n:'Big Word',font:'Anton',case:'U',size:240,lines:1,bold:0,hlEffect:'none'},
 {n:'Clean Bar',font:'Montserrat',size:54,bg:1,shadow:0,hlEffect:'none',anim:'fade',y:.85},{n:'Typewriter',font:'Courier Prime',size:64,anim:'typing',hlEffect:'typing',hlColor:'#39ff14'},
 {n:'Flash',font:'Bangers',size:110,case:'U',outline:1,olW:10,hlEffect:'flash',hlColor:'#ff3d81',hlGlow:1,hlGlowInt:50,bold:0}].map(p=>D(p));
-const SC=[['font','Font','font'],['size','Size (px @1080)','n',20,400],['color','Color','c'],['bold','Bold','t'],['italic','Italic','t'],['align','Alignment','s',{l:'Left',c:'Center',r:'Right'}],['case','Case','s',{'':'Normal',U:'UPPER',L:'lower'}],['lines','Nº of lines','s',{1:1,2:2,3:3}],['lineH','Line spacing','n',.8,2,.05],
-['outline','Text outline','t'],['olColor','Outline color','c'],['olW','Outline width','n',0,40],['shadow','Text shadow','t'],['shColor','Shadow color','c'],['shBlur','Shadow blur','n',0,80],['bg','Background','t'],['bgColor','Background color','c'],['bgPad','Background padding','n',0,80],
-['anim','Animation','s',{none:'None',fade:'Fade',pop:'Pop',slide:'Slide',typing:'Typing'}],['hlColor','Highlight color','c'],['hlEffect','Highlight effect','s',{none:'None',pop:'Pop',flash:'Flashing',typing:'Typing',box:'Box',karaoke:'Karaoke'}],
-['hlFont','Highlight font','font'],['hlSize','Highlight size %','n',50,250],['hlGlow','Highlight glow','t'],['hlGlowInt','Glow intensity','r',0,100],['emoji','Auto emoji','t'],['rotate','Random rotate lines','t'],['mix','Dynamic mix layout','t']];
+const SC=[['#','Text','Font, size, color and alignment of the whole caption'],['font','Font','font'],['size','Size (px @1080)','n',20,400],['color','Text color','c'],['bold','Bold','t'],['italic','Italic','t'],['align','Alignment','s',{l:'Left',c:'Center',r:'Right'}],['case','Letter case','s',{'':'Normal',U:'UPPER',L:'lower'}],['lines','Nº of lines','s',{1:1,2:2,3:3}],['lineH','Line spacing','n',.8,2,.05],
+['#','Text Outline','A stroke around every letter'],['outline','Enable outline','t'],['olColor','Outline color','c'],['olW','Outline width','n',0,40],
+['#','Text Shadow','Soft drop shadow under the text'],['shadow','Enable shadow','t'],['shColor','Shadow color','c'],['shBlur','Shadow blur','n',0,80],
+['#','Background','A box behind the whole caption'],['bg','Enable background','t'],['bgColor','Background color','c'],['bgPad','Background padding','n',0,80],
+['#','Animation','How the caption appears'],['anim','Entrance animation','s',{none:'None',fade:'Fade',pop:'Pop',slide:'Slide',typing:'Typing'}],
+['#','Highlighted Word','The word being spoken right now (in Dynamic Mix: the big accent words, using the highlight font and color)'],['hlEffect','Highlight effect','s',{none:'None',pop:'Pop',flash:'Flashing',typing:'Typing',box:'Box',karaoke:'Karaoke'}],['hlColor','Highlight color','c'],['hlFont','Highlight font (optional)','font'],['hlSize','Highlight size %','n',50,250],
+['#','Highlight Glow','Glow around the highlighted word only, in the highlight color'],['hlGlow','Enable glow','t'],['hlGlowInt','Glow intensity','r',0,100],
+['#','Extras','Emoji, rotation and layout'],['emoji','Auto emoji','t'],['rotate','Random rotate lines','t'],['mix','Dynamic mix layout','t']];
 const STOP=new Set('a an the and or but of to in on at is it its for as by be was are i you we he she they that this with from not so if my me do'.split(' '));
 const role=(w,i)=>{const c=w.w.toLowerCase().replace(/[^\p{L}']/gu,'');return c.length<=3||STOP.has(c)?0:(i+c.length)%2?1:2};
 const EMO={love:'❤️',fire:'🔥',money:'💰',happy:'😊',sad:'😢',star:'⭐',win:'🏆',idea:'💡',time:'⏰',music:'🎵',smile:'😄',god:'🙏'};
-const fl=new Set(),ef=n=>{if(!n||fl.has(n))return;fl.add(n);document.fonts.load(`400 20px "${n}"`).then(()=>{dirty=1;thumbs()})};
+const fl=new Set(),fq=n=>encodeURIComponent(n).replace(/%20/g,'+');
+function ld(n,rich){const l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family='+fq(n)+(rich?':ital,wght@0,400;0,700;1,400;1,700':'')+'&display=swap';
+ l.onload=()=>Promise.all(['400','700','italic 400','italic 700'].map(x=>document.fonts.load(`${x} 20px "${n}"`))).then(()=>{dirty=1;thumbs()});l.onerror=()=>{l.remove();rich&&ld(n,0)};document.head.append(l)}
+const ef=n=>{if(!n||fl.has(n)||n==='sans-serif')return;fl.add(n);ld(n,1)};
 const rr=(c,x,y,w,h,r)=>{c.beginPath();c.roundRect(x,y,w,h,r)};
 const eff=s=>({...P[pi],...s.o});
 
 function drawSub(c,W,H,t,sub,E,g){
  const k=W/1080,fs=E.size*k,ws=sub.words,sp=fs*.28;if(!ws.length)return;ef(E.font);ef(E.hlFont);
  const FS=(px,b,i,f)=>`${i?'italic ':''}${b?'700 ':'400 '}${px}px "${f}",sans-serif`,T=s=>E.case==='U'?s.toUpperCase():E.case==='L'?s.toLowerCase():s;
- const it=ws.map((w,i)=>{let px=fs,f=E.font,b=E.bold,ital=E.italic,col=E.color;
-  if(E.mix){const r=role(w,i);px=fs*[.38,1,1.25][r];b=r==1;ital=r==2?1:0;if(r==2){f=E.hlFont||E.font;col=E.hlColor}}
-  c.font=FS(px,b,ital,f);const tx=T(w.w);return{w,i,tx,px,f,b,ital,col,wd:c.measureText(tx).width}});
+ const it=ws.map((w,i)=>{let px=fs,f=E.font,b=E.bold,ital=E.italic,col=E.color,r2=0;
+  if(E.mix){const r=role(w,i);px=fs*[.38,1,1.25][r];b=r==1;ital=r==2?1:0;if(r==2){f=E.hlFont||E.font;col=E.hlColor;r2=1}}
+  c.font=FS(px,b,ital,f);const tx=T(w.w);return{w,i,tx,px,f,b,ital,col,r2,wd:c.measureText(tx).width}});
  if(E.emoji){const m=ws.map(w=>EMO[w.w.toLowerCase().replace(/[^a-z]/g,'')]).find(Boolean);if(m){c.font=FS(fs,0,0,'sans-serif');it.push({w:{s:0,e:1e9},i:-1,tx:m,px:fs,f:'sans-serif',b:0,ital:0,col:'#fff',wd:c.measureText(m).width,em:1})}}
  const tot=it.reduce((a,o)=>a+o.wd+sp,0),mw=Math.max(...it.map(o=>o.wd),Math.min(W*.86,tot/Math.max(1,E.lines)*1.08)),L=[[]];let cu=0;
  it.forEach(o=>{if(L.at(-1).length&&(E.mix||cu+o.wd>mw)){L.push([]);cu=0}L.at(-1).push(o);cu+=o.wd+sp});
@@ -42,7 +49,7 @@ function drawSub(c,W,H,t,sub,E,g){
  L.forEach((l,li)=>{let x=E.align==='l'?-bw/2:E.align==='r'?bw/2-lw[li]:-lw[li]/2;
   l.forEach(o=>{const w=o.w,nx=ws[o.i+1],on=o.em||t>=w.s,cur=!o.em&&on&&t<(nx?nx.s:sub.e+1),past=!o.em&&on&&!cur,hl=E.hlEffect;
    if(on||!(E.anim==='typing'||E.mix)){c.save();c.translate(x+o.wd/2,y+lh[li]/2);if(E.rotate)c.rotate(Math.sin(o.i*12.9+sub.id)*.06);
-    let ks=1,col=o.col;const gl=E.hlGlow&&E.hlGlowInt>0&&hl!=='none'&&!E.mix&&(cur||(hl==='karaoke'&&past)),gb=(6+E.hlGlowInt*.5)*k;
+    let ks=1,col=o.col;const gl=E.hlGlow&&E.hlGlowInt>0&&(E.mix?o.r2:(cur||(hl==='karaoke'&&past))),gb=(6+E.hlGlowInt*.5)*k;
     if(!E.mix){if(hl==='karaoke'&&(cur||past))col=E.hlColor;else if(cur){ks=E.hlSize/100;if(hl==='pop'){col=E.hlColor;ks*=1+.15*Math.pow(Math.max(0,1-(t-w.s)/.2),2)}else if(hl==='flash')col=Math.floor(t*8)%2?E.hlColor:o.col}}
     if(cur&&hl==='box'){if(gl){c.shadowColor=E.hlColor;c.shadowBlur=gb}c.fillStyle=E.hlColor;rr(c,-o.wd/2-o.px*.18,-o.px*.6,o.wd+o.px*.36,o.px*1.2,o.px*.2);c.fill();c.shadowBlur=0;c.shadowColor='transparent';col='#111111'}
     c.scale(ks,ks);if(E.mix)c.globalAlpha*=ease((t-w.s)/.25);c.font=FS(o.px,o.b,o.ital,o.f);c.textAlign='center';c.textBaseline='middle';
@@ -72,9 +79,17 @@ $('#fl').innerHTML=FONTS.map(f=>`<option value="${f}">`).join('');
 
 /* editor form (shared by preset + subtitle) */
 function setMode(m){mode=m;$('#tp').classList.toggle('on',m==='preset');$('#ts').classList.toggle('on',m==='sub');renderForm()}
-function renderForm(){const T=mode==='preset'?P[pi]:sel&&{...P[pi],...sel.o},f=$('#form');if(!T){f.innerHTML='<p class="hint">Select a subtitle on the timeline.</p>';return}
- f.innerHTML=SC.map(([k,l,t,a,b,st])=>`<label>${l}`+(t==='t'?`<input type="checkbox" data-k="${k}" ${T[k]?'checked':''}>`:t==='c'?`<input type="color" data-k="${k}" value="${T[k]}">`:t==='n'?`<input type="number" data-k="${k}" value="${T[k]}" min="${a}" max="${b}" step="${st||1}">`:t==='r'?`<input type="range" data-k="${k}" value="${T[k]}" min="${a}" max="${b}">`:t==='font'?`<input list="fl" data-k="${k}" value="${T[k]}">`:`<select data-k="${k}">${Object.entries(a).map(([x,y])=>`<option value="${x}" ${String(T[k])===x?'selected':''}>${y}</option>`).join('')}</select>`)+'</label>').join('')}
-$('#form').oninput=e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target,val=el.type==='checkbox'?+el.checked:el.type==='number'||el.type==='range'||k==='lines'?+el.value:el.value,T=mode==='preset'?P[pi]:sel&&sel.o;if(!T)return;T[k]=val;dirty=1;thumbs(mode==='preset'?pi:null)};
+const closed=new Set();
+function renderForm(){const T=mode==='preset'?P[pi]:sel&&{...P[pi],...sel.o},f=$('#form');if(!T){f.innerHTML='<p class="hint">Select a subtitle on the timeline to edit it individually.</p>';return}
+ let h=`<div class="who">${mode==='preset'?`Editing style: <b>${P[pi].n}</b><small>Applies to all subtitles</small>`:`Editing <b>this subtitle only</b><small>“${sel.words.map(w=>w.w).join(' ').slice(0,30)}”</small>`}</div>`,op=0;
+ SC.forEach(([k,l,t,a,b,st])=>{if(k==='#'){if(op)h+='</details>';op=1;h+=`<details data-g="${l}" ${closed.has(l)?'':'open'}><summary><b>${l}</b><small>${t}</small></summary>`;return}
+  h+=`<label>${l}`+(t==='t'?`<input type="checkbox" data-k="${k}" ${T[k]?'checked':''}>`:t==='c'?`<input type="color" data-k="${k}" value="${T[k]}">`:t==='n'?`<input type="number" data-k="${k}" value="${T[k]}" min="${a}" max="${b}" step="${st||1}">`:t==='r'?`<input type="range" data-k="${k}" value="${T[k]}" min="${a}" max="${b}">`:t==='font'?`<input list="fl" data-k="${k}" value="${T[k]}">`:`<select data-k="${k}">${Object.entries(a).map(([x,y])=>`<option value="${x}" ${String(T[k])===x?'selected':''}>${y}</option>`).join('')}</select>`)+'</label>'});
+ f.innerHTML=h+(op?'</details>':'')}
+const fm=e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target,val=el.type==='checkbox'?+el.checked:el.type==='number'||el.type==='range'||k==='lines'?+el.value:el.value,T=mode==='preset'?P[pi]:sel&&sel.o;if(!T)return;T[k]=val;dirty=1;thumbs(mode==='preset'?pi:null)};
+const fe=$('#form');fe.oninput=e=>{if(!e.target.list)fm(e)};fe.onchange=e=>{if(e.target.list)fm(e)};
+fe.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g)d.open?closed.delete(d.dataset.g):closed.add(d.dataset.g)},true);
+fe.addEventListener('focusin',e=>{if(e.target.list){e.target.dataset.v=e.target.value;e.target.value=''}});
+fe.addEventListener('focusout',e=>{if(e.target.list&&!e.target.value)e.target.value=e.target.dataset.v||''});
 $('#tp').onclick=()=>setMode('preset');$('#ts').onclick=()=>setMode('sub');$('#rs').onclick=()=>{if(sel){sel.o={};sel.box={};renderForm();dirty=1}};
 
 /* subtitles + timeline */
@@ -144,4 +159,5 @@ function restore(){const st=JSON.parse(hist[hi]),id=sel&&sel.id;subs=st.subs;P.l
 function undo(){commit();if(hi>0){hi--;restore()}}function redo(){commit();if(hi<hist.length-1){hi++;restore()}}
 $('#un').onclick=undo;$('#re').onclick=redo;
 $('#th').onclick=()=>{const t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}};
+document.fonts.onloadingdone=()=>{dirty=1;thumbs()};
 renderForm();thumbs();commit();
