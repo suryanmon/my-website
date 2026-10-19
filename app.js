@@ -78,33 +78,40 @@ P.forEach((p,i)=>{const d=document.createElement('div');d.className='card'+(i?''
 $('#fl').innerHTML=FONTS.map(f=>`<option value="${f}">`).join('');
 
 /* editor form (shared by preset + subtitle) */
-function setMode(m){mode=m;$('#tp').classList.toggle('on',m==='preset');$('#ts').classList.toggle('on',m==='sub');renderForm()}
+let solo=false;function setMode(m){solo=m==='sub';renderForm()}
 const closed=new Set();
-function renderForm(){const T=mode==='preset'?P[pi]:sel&&{...P[pi],...sel.o},f=$('#form');if(!T){f.innerHTML='<p class="hint">Select a subtitle on the timeline to edit it individually.</p>';return}
- let h=`<div class="who">${mode==='preset'?`Editing style: <b>${P[pi].n}</b><small>Applies to all subtitles</small>`:`Editing <b>this subtitle only</b><small>“${sel.words.map(w=>w.w).join(' ').slice(0,30)}”</small>`}</div>`,op=0;
+function renderForm(){const T=(!solo||!sel)?P[pi]:sel&&{...P[pi],...sel.o},f=$('#form');if(!T){f.innerHTML='<p class="hint">Select a subtitle on the timeline to edit it individually.</p>';return}
+ let h=`<div class="who">${(!solo||!sel)?`Editing style: <b>${P[pi].n}</b><small>Every change applies to the whole video</small>`:`Editing <b>this subtitle only</b><small>Changes affect just this chunk</small>`}${sel?`<label class="solo"><input type="checkbox" id="solo" ${solo?'checked':''}> Only this subtitle</label>`:''}</div>`,op=0;
  SC.forEach(([k,l,t,a,b,st])=>{if(k==='#'){if(op)h+='</details>';op=1;h+=`<details data-g="${l}" ${closed.has(l)?'':'open'}><summary><b>${l}</b><small>${t}</small></summary>`;return}
   h+=`<label>${l}`+(t==='t'?`<input type="checkbox" data-k="${k}" ${T[k]?'checked':''}>`:t==='c'?`<input type="color" data-k="${k}" value="${T[k]}">`:t==='n'?`<input type="number" data-k="${k}" value="${T[k]}" min="${a}" max="${b}" step="${st||1}">`:t==='r'?`<input type="range" data-k="${k}" value="${T[k]}" min="${a}" max="${b}">`:t==='font'?`<input list="fl" data-k="${k}" value="${T[k]}">`:`<select data-k="${k}">${Object.entries(a).map(([x,y])=>`<option value="${x}" ${String(T[k])===x?'selected':''}>${y}</option>`).join('')}</select>`)+'</label>'});
  f.innerHTML=h+(op?'</details>':'')}
-const fm=e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target,val=el.type==='checkbox'?+el.checked:el.type==='number'||el.type==='range'||k==='lines'?+el.value:el.value,T=mode==='preset'?P[pi]:sel&&sel.o;if(!T)return;T[k]=val;dirty=1;thumbs(mode==='preset'?pi:null)};
-const fe=$('#form');fe.oninput=e=>{if(!e.target.list)fm(e)};fe.onchange=e=>{if(e.target.list)fm(e)};
+const fm=e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target,val=el.type==='checkbox'?+el.checked:el.type==='number'||el.type==='range'||k==='lines'?+el.value:el.value,T=(!solo||!sel)?P[pi]:sel&&sel.o;if(!T)return;T[k]=val;if(!solo||!sel)subs.forEach(x=>{delete x.o[k]});dirty=1;thumbs((!solo||!sel)?pi:null)};
+const fe=$('#form');fe.oninput=e=>{if(!e.target.list)fm(e)};fe.onchange=e=>{if(e.target.id==='solo'){solo=e.target.checked;renderForm();dirty=1}else if(e.target.list)fm(e)};
 fe.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g)d.open?closed.delete(d.dataset.g):closed.add(d.dataset.g)},true);
 fe.addEventListener('focusin',e=>{if(e.target.list){e.target.dataset.v=e.target.value;e.target.value=''}});
 fe.addEventListener('focusout',e=>{if(e.target.list&&!e.target.value)e.target.value=e.target.dataset.v||''});
-$('#tp').onclick=()=>setMode('preset');$('#ts').onclick=()=>setMode('sub');$('#rs').onclick=()=>{if(sel){sel.o={};sel.box={};renderForm();dirty=1}};
+$('#rs').onclick=()=>{if(sel){sel.o={};sel.box={};renderForm();dirty=1}};
 
 /* subtitles + timeline */
-function group(){subs=[];let c=null,p=null;const m=+$('#wps').value||3;words.forEach(w=>{if(!c||c.words.length>=m||w.s-p.e>.7||/[.?!]$/.test(p.w)){c={id:++sid,s:w.s,e:w.e,words:[],o:{},box:{}};subs.push(c)}c.words.push(w);c.e=w.e;p=w});sel=null;renderTL();dirty=1;thumbs()}
-function select(s){sel=s;setMode('sub');$('#txt').value=s.words.map(w=>w.w).join(' ');renderTL();dirty=1}
+function group(){subs=[];let c=null,p=null;const m=+$('#wps').value||3;words.forEach(w=>{if(!c||c.words.length>=m||w.s-p.e>.7||/[.?!]$/.test(p.w)){c={id:++sid,s:w.s,e:w.e,words:[],o:{},box:{}};subs.push(c)}c.words.push(w);c.e=w.e;p=w});sel=null;txtSync();renderForm();renderTL();dirty=1;thumbs()}
+function select(s){if(sel!==s)solo=false;sel=s;txtSync();renderForm();renderTL();dirty=1}
 function renderTL(){const d=v.duration||0,tw=$('#tw');tw.style.width=d*pps+80+'px';let r='';for(let i=0;i<d;i++)r+=`<span style="left:${i*pps}px">${i%5?'':i+'s'}</span>`;$('#rul').innerHTML=r;
  $('#tk').innerHTML=subs.map((s,i)=>`<div class="b${s===sel?' s':''}" data-i="${i}" style="left:${s.s*pps}px;width:${Math.max(8,(s.e-s.s)*pps)}px">${s.words.map(w=>w.w).join(' ')}</div>`).join('');$('#vt').style.width=d*pps+'px'}
 $('#tw').onpointerdown=e=>{const b=e.target.closest('.b');if(!b){v.currentTime=clamp((e.clientX-$('#tw').getBoundingClientRect().left)/pps,0,v.duration||0);return}
  const s=subs[+b.dataset.i];if(s!==sel)select(s);const r=b.getBoundingClientRect(),m=e.clientX-r.left<7?'l':r.right-e.clientX<7?'r':'m',x0=e.clientX,s0=s.s,e0=s.e,w0=s.words.map(w=>[w.s,w.e]);
  const mv=ev=>{const d=(ev.clientX-x0)/pps;if(m==='m'){const dd=Math.max(-s0,d);s.s=s0+dd;s.e=e0+dd;s.words.forEach((w,i)=>{w.s=w0[i][0]+dd;w.e=w0[i][1]+dd})}else if(m==='l')s.s=Math.min(s0+d,s.e-.1);else s.e=Math.max(e0+d,s.s+.1);renderTL();dirty=1},up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up)};addEventListener('pointermove',mv);addEventListener('pointerup',up)};
 $('#zm').oninput=e=>{pps=+e.target.value;renderTL()};
-$('#txt').onchange=e=>{if(!sel)return;const n=e.target.value.trim().split(/\s+/).filter(Boolean),d=(sel.e-sel.s)/(n.length||1);sel.words=n.map((w,k)=>({w,s:sel.s+k*d,e:sel.s+(k+1)*d}));renderTL();dirty=1};
+function txtSync(){const t=sel?sel.words.map(w=>w.w).join(' '):'';$('#txt').value=t;const x=$('#stx');x.value=t;x.disabled=!sel}
+function setText(str,from){if(!sel)return;const n=str.trim().split(/\s+/).filter(Boolean);if(!n.length)return;
+ if(n.length===sel.words.length)n.forEach((w,i)=>sel.words[i].w=w);else{const d=(sel.e-sel.s)/n.length;sel.words=n.map((w,k)=>({w,s:sel.s+k*d,e:sel.s+(k+1)*d}))}
+ if(from!=='a')$('#stx').value=str;if(from!=='b')$('#txt').value=str;renderTL();dirty=1}
+$('#txt').oninput=e=>setText(e.target.value,'b');$('#stx').oninput=e=>setText(e.target.value,'a');
+$('#tw').ondblclick=e=>{const b0=e.target.closest('.b');if(!b0)return;const s=subs[+b0.dataset.i];if(s!==sel)select(s);const b=$('#tk').children[subs.indexOf(s)];if(!b)return;
+ const i=document.createElement('input');i.value=s.words.map(w=>w.w).join(' ');i.style.cssText='width:100%;min-width:200px;padding:2px 4px';b.style.minWidth='220px';b.style.zIndex=5;b.textContent='';b.append(i);i.focus();i.select();
+ let ok=1;i.onpointerdown=ev=>ev.stopPropagation();i.ondblclick=ev=>ev.stopPropagation();i.onkeydown=ev=>{ev.stopPropagation();if(ev.key==='Enter')i.blur();if(ev.key==='Escape'){ok=0;i.blur()}};i.onblur=()=>{if(ok)setText(i.value);renderTL()}};
 $('#sp').onclick=()=>{const t=v.currentTime,s=subs.find(x=>t>x.s&&t<x.e);if(!s)return;const a=s.words.filter(w=>w.s<t),b=s.words.filter(w=>w.s>=t);if(!a.length||!b.length)return;const n={id:++sid,s:b[0].s,e:s.e,words:b,o:{...s.o},box:{...s.box}};s.words=a;s.e=a.at(-1).e;subs.splice(subs.indexOf(s)+1,0,n);renderTL();dirty=1};
 $('#ad').onclick=()=>{const t=v.currentTime,s={id:++sid,s:t,e:t+1.5,words:[{w:'New',s:t,e:t+.75},{w:'subtitle',s:t+.75,e:t+1.5}],o:{},box:{}};subs.push(s);subs.sort((a,b)=>a.s-b.s);select(s)};
-addEventListener('keydown',e=>{const m=e.ctrlKey||e.metaKey,z=e.key.toLowerCase();if(m&&z==='z'&&!e.shiftKey){e.preventDefault();return undo()}if(m&&(z==='y'||(z==='z'&&e.shiftKey))){e.preventDefault();return redo()}if(/INPUT|SELECT/.test(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();$('#pp').click()}if(e.key==='Delete'&&sel){subs=subs.filter(x=>x!==sel);sel=null;renderTL();renderForm();dirty=1}});
+addEventListener('keydown',e=>{const m=e.ctrlKey||e.metaKey,z=e.key.toLowerCase();if(m&&z==='z'&&!e.shiftKey){e.preventDefault();return undo()}if(m&&(z==='y'||(z==='z'&&e.shiftKey))){e.preventDefault();return redo()}if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();$('#pp').click()}if(e.key==='Delete'&&sel){subs=subs.filter(x=>x!==sel);sel=null;txtSync();renderTL();renderForm();dirty=1}});
 
 /* on-canvas box (drag = move, handle = resize) */
 const bx=$('#box');bx.onpointerdown=e=>{if(!sel)return;e.preventDefault();const hd=e.target.id==='hd',r=cv.getBoundingClientRect(),b0=bx.getBoundingClientRect(),x0=e.clientX,y0=e.clientY,o=sel.box,ox=o.x||0,oy=o.y||0,s0=o.s||1;
@@ -155,7 +162,7 @@ const snapS=()=>JSON.stringify({subs:subs.map(({_bb,...s})=>s),P,G,pi});
 function commit(){clearTimeout(ct);const j=snapS();if(j===hist[hi])return;hist.length=hi+1;hist.push(j);if(hist.length>150)hist.shift();hi=hist.length-1}
 function restore(){const st=JSON.parse(hist[hi]),id=sel&&sel.id;subs=st.subs;P.length=0;P.push(...st.P);Object.assign(G,st.G);pi=st.pi;sel=subs.find(s=>s.id===id)||null;
  document.querySelectorAll('.card').forEach((x,i)=>x.classList.toggle('s',i===pi));$('#gx').value=G.x;$('#gy').value=G.y;$('#gw').value=Math.round(G.sx*100);$('#gh').value=Math.round(G.sy*100);$('#go2').value=G.op*100;
- $('#txt').value=sel?sel.words.map(w=>w.w).join(' '):'';renderForm();renderTL();dirty=1;thumbs();msg('')}
+ txtSync();renderForm();renderTL();dirty=1;thumbs();msg('')}
 function undo(){commit();if(hi>0){hi--;restore()}}function redo(){commit();if(hi<hist.length-1){hi++;restore()}}
 $('#un').onclick=undo;$('#re').onclick=redo;
 $('#th').onclick=()=>{const t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}};
