@@ -1,9 +1,9 @@
 'use strict';
-const $=q=>document.querySelector(q),v=$('#v'),cv=$('#cv'),cx=cv.getContext('2d');
-let W=1080,H=1920,subs=[],words=[],sel=null,mode='preset',pi=0,F=null,dirty=1,sid=0,pps=60,tt=0,hist=[],hi=-1,ct=0;
+const GH=new Proxy(function(){},{get:(t,k)=>k===Symbol.toPrimitive?()=>0:GH,set:()=>true,apply:()=>GH}),$=q=>document.querySelector(q)||GH,v=$('#v'),cv=$('#cv'),cx=cv.getContext('2d');
+let W=1080,H=1920,subs=[],words=[],sel=null,mode='preset',pi=0,F=null,dirty=1,sid=0,pps=60,tt=0,hist=[],hi=-1,ct=0,stopAt=0,rt=0;
 const G={x:0,y:0,sx:1,sy:1,op:1},GD={x:0,y:0,sx:1,sy:1,op:1};
 const clamp=(x,a,b)=>Math.min(b,Math.max(a,x)),ease=x=>1-Math.pow(1-clamp(x,0,1),3),msg=s=>$('#st').textContent=s;
-const D=o=>({font:'Inter',size:70,color:'#ffffff',bold:1,italic:0,align:'c',case:'',lines:2,lineH:1.2,outline:0,olColor:'#000000',olW:8,shadow:1,shColor:'#000000',shBlur:12,bg:0,bgColor:'#000000',bgPad:20,anim:'pop',hlColor:'#ffe600',hlEffect:'pop',hlFont:'',hlSize:100,hlGlow:0,hlGlowInt:40,emoji:0,rotate:0,mix:0,y:.72,...o});
+const D=o=>({font:'Inter',size:70,color:'#ffffff',bold:1,italic:0,align:'c',case:'',lines:2,lineH:1.2,outline:0,olColor:'#000000',olW:8,shadow:1,shColor:'#000000',shBlur:12,bg:0,bgColor:'#000000',bgPad:20,anim:'pop',hlColor:'#ffe600',hlEffect:'pop',hlFont:'',hlSize:100,hlMode:'spoken',hlGlow:0,hlGlowInt:40,emoji:0,rotate:0,mix:0,y:.72,...o});
 const mixP={mix:1,font:'Montserrat',hlFont:'Playfair Display',size:110,hlEffect:'none',anim:'none'};
 const P=[{n:'Dynamic Mix',...mixP,align:'l',hlColor:'#ffffff'},{n:'Mix Gold',...mixP,align:'l',hlColor:'#ffd23f'},{n:'Mix Center',...mixP,y:.6,hlColor:'#ff6b6b'},
 {n:'Bold Pop',font:'Anton',case:'U',size:110,lines:1,outline:1,olW:12,bold:0},{n:'Highlighter',font:'Montserrat',hlEffect:'box',hlColor:'#b6ff3b',anim:'fade'},
@@ -16,8 +16,8 @@ const SC=[['#','Text','Font, size, color and alignment of the whole caption'],['
 ['#','Text Outline','A stroke around every letter'],['outline','Enable outline','t'],['olColor','Outline color','c'],['olW','Outline width','n',0,40],
 ['#','Text Shadow','Soft drop shadow under the text'],['shadow','Enable shadow','t'],['shColor','Shadow color','c'],['shBlur','Shadow blur','n',0,80],
 ['#','Background','A box behind the whole caption'],['bg','Enable background','t'],['bgColor','Background color','c'],['bgPad','Background padding','n',0,80],
-['#','Animation','How the caption appears'],['anim','Entrance animation','s',{none:'None',fade:'Fade',pop:'Pop',slide:'Slide',typing:'Typing'}],
-['#','Highlighted Word','The word being spoken right now (in Dynamic Mix: the big accent words, using the highlight font and color)'],['hlEffect','Highlight effect','s',{none:'None',pop:'Pop',flash:'Flashing',typing:'Typing',box:'Box',karaoke:'Karaoke'}],['hlColor','Highlight color','c'],['hlFont','Highlight font (optional)','font'],['hlSize','Highlight size %','n',50,250],
+['#','Animation','How the caption appears. It replays automatically when you change it, or press ▶ Preview effect'],['anim','Entrance animation','s',{none:'None',fade:'Fade',pop:'Pop',slide:'Slide',typing:'Typing'}],
+['#','Highlighted Word','Choose which words are highlighted (click words under Subtitle Text to mark them) and how they look. Effects replay automatically'],['hlMode','Which words','s',{spoken:'The word being spoken',marked:'Only words I mark'}],['hlEffect','Highlight effect','s',{none:'None',pop:'Pop',flash:'Flashing',typing:'Typing',box:'Box',karaoke:'Karaoke'}],['hlColor','Highlight color','c'],['hlFont','Highlight font (optional)','font'],['hlSize','Highlight size %','n',50,250],
 ['#','Highlight Glow','Glow around the highlighted word only, in the highlight color'],['hlGlow','Enable glow','t'],['hlGlowInt','Glow intensity','r',0,100],
 ['#','Extras','Emoji, rotation and layout'],['emoji','Auto emoji','t'],['rotate','Random rotate lines','t'],['mix','Dynamic mix layout','t']];
 const STOP=new Set('a an the and or but of to in on at is it its for as by be was are i you we he she they that this with from not so if my me do'.split(' '));
@@ -34,7 +34,7 @@ function drawSub(c,W,H,t,sub,E,g){
  const k=W/1080,fs=E.size*k,ws=sub.words,sp=fs*.28;if(!ws.length)return;ef(E.font);ef(E.hlFont);
  const FS=(px,b,i,f)=>`${i?'italic ':''}${b?'700 ':'400 '}${px}px "${f}",sans-serif`,T=s=>E.case==='U'?s.toUpperCase():E.case==='L'?s.toLowerCase():s;
  const it=ws.map((w,i)=>{let px=fs,f=E.font,b=E.bold,ital=E.italic,col=E.color,r2=0;
-  if(E.mix){const r=role(w,i);px=fs*[.38,1,1.25][r];b=r==1;ital=r==2?1:0;if(r==2){f=E.hlFont||E.font;col=E.hlColor;r2=1}}
+  if(E.mix){let r=role(w,i);if(E.hlMode==='marked')r=w.h?2:Math.min(r,1);px=fs*[.38,1,1.25][r];b=r==1;ital=r==2?1:0;if(r==2){f=E.hlFont||E.font;col=E.hlColor;r2=1}}else if(E.hlMode==='marked'&&w.h&&E.hlFont)f=E.hlFont;
   c.font=FS(px,b,ital,f);const tx=T(w.w);return{w,i,tx,px,f,b,ital,col,r2,wd:c.measureText(tx).width}});
  if(E.emoji){const m=ws.map(w=>EMO[w.w.toLowerCase().replace(/[^a-z]/g,'')]).find(Boolean);if(m){c.font=FS(fs,0,0,'sans-serif');it.push({w:{s:0,e:1e9},i:-1,tx:m,px:fs,f:'sans-serif',b:0,ital:0,col:'#fff',wd:c.measureText(m).width,em:1})}}
  const tot=it.reduce((a,o)=>a+o.wd+sp,0),mw=Math.max(...it.map(o=>o.wd),Math.min(W*.86,tot/Math.max(1,E.lines)*1.08)),L=[[]];let cu=0;
@@ -49,15 +49,15 @@ function drawSub(c,W,H,t,sub,E,g){
  L.forEach((l,li)=>{let x=E.align==='l'?-bw/2:E.align==='r'?bw/2-lw[li]:-lw[li]/2;
   l.forEach(o=>{const w=o.w,nx=ws[o.i+1],on=o.em||t>=w.s,cur=!o.em&&on&&t<(nx?nx.s:sub.e+1),past=!o.em&&on&&!cur,hl=E.hlEffect;
    if(on||!(E.anim==='typing'||E.mix)){c.save();c.translate(x+o.wd/2,y+lh[li]/2);if(E.rotate)c.rotate(Math.sin(o.i*12.9+sub.id)*.06);
-    let ks=1,col=o.col;const gl=E.hlGlow&&E.hlGlowInt>0&&(E.mix?o.r2:(cur||(hl==='karaoke'&&past))),gb=(6+E.hlGlowInt*.5)*k;
-    if(!E.mix){if(hl==='karaoke'&&(cur||past))col=E.hlColor;else if(cur){ks=E.hlSize/100;if(hl==='pop'){col=E.hlColor;ks*=1+.15*Math.pow(Math.max(0,1-(t-w.s)/.2),2)}else if(hl==='flash')col=Math.floor(t*8)%2?E.hlColor:o.col}}
-    if(cur&&hl==='box'){if(gl){c.shadowColor=E.hlColor;c.shadowBlur=gb}c.fillStyle=E.hlColor;rr(c,-o.wd/2-o.px*.18,-o.px*.6,o.wd+o.px*.36,o.px*1.2,o.px*.2);c.fill();c.shadowBlur=0;c.shadowColor='transparent';col='#111111'}
+    let ks=1,col=o.col;const mk=E.hlMode==='marked',hot=!o.em&&(mk?!!w.h:cur),kar=hl==='karaoke'&&(mk?!!w.h&&on:(cur||past)),age=t-w.s,dec=age<0?0:Math.pow(Math.max(0,1-age/.2),2),gl=E.hlGlow&&E.hlGlowInt>0&&(E.mix?o.r2:(hot||kar)),gb=(6+E.hlGlowInt*.5)*k;
+    if(!E.mix){if(kar)col=E.hlColor;else if(hot){ks=E.hlSize/100;if(hl==='pop'){col=E.hlColor;ks*=1+.15*dec}else if(hl==='flash')col=Math.floor(t*8)%2?E.hlColor:o.col;else if(mk&&hl==='none')col=E.hlColor}}
+    if(hot&&hl==='box'){if(gl){c.shadowColor=E.hlColor;c.shadowBlur=gb}c.fillStyle=E.hlColor;rr(c,-o.wd/2-o.px*.18,-o.px*.6,o.wd+o.px*.36,o.px*1.2,o.px*.2);c.fill();c.shadowBlur=0;c.shadowColor='transparent';col='#111111'}
     c.scale(ks,ks);if(E.mix)c.globalAlpha*=ease((t-w.s)/.25);c.font=FS(o.px,o.b,o.ital,o.f);c.textAlign='center';c.textBaseline='middle';
     if(gl){c.shadowColor=E.hlColor;c.shadowBlur=gb;c.shadowOffsetY=0;c.fillStyle=col;for(let q=0,np=1+(E.hlGlowInt/40|0);q<np;q++)c.fillText(o.tx,0,0);c.shadowColor='transparent';c.shadowBlur=0}
     if(E.shadow){c.shadowColor=E.shColor;c.shadowBlur=E.shBlur*k;c.shadowOffsetY=3*k}
     if(E.outline){c.lineWidth=E.olW*k;c.lineJoin='round';c.strokeStyle=E.olColor;c.strokeText(o.tx,0,0)}
     c.fillStyle=col;c.fillText(o.tx,0,0);
-    if(cur&&hl==='typing'){const n=Math.ceil(o.tx.length*clamp((t-w.s)/Math.max(.1,w.e-w.s),0,1)),sw=c.measureText(o.tx.slice(0,n)).width;c.save();c.beginPath();c.rect(-o.wd/2,-o.px,sw,o.px*2);c.clip();c.fillStyle=E.hlColor;c.fillText(o.tx,0,0);c.restore()}
+    if(hot&&hl==='typing'){const n=Math.ceil(o.tx.length*clamp((t-w.s)/Math.max(.1,w.e-w.s),0,1)),sw=c.measureText(o.tx.slice(0,n)).width;c.save();c.beginPath();c.rect(-o.wd/2,-o.px,sw,o.px*2);c.clip();c.fillStyle=E.hlColor;c.fillText(o.tx,0,0);c.restore()}
     c.restore()}
    x+=o.wd+sp});y+=lh[li]});
  sub._bb={x:cxp-bw*sx*an/2-pd,y:cyp-bh*sy*an/2,w:bw*sx*an+2*pd,h:bh*sy*an};c.restore()}
@@ -81,15 +81,16 @@ $('#fl').innerHTML=FONTS.map(f=>`<option value="${f}">`).join('');
 let solo=false;function setMode(m){solo=m==='sub';renderForm()}
 const closed=new Set();
 function renderForm(){const T=(!solo||!sel)?P[pi]:sel&&{...P[pi],...sel.o},f=$('#form');if(!T){f.innerHTML='<p class="hint">Select a subtitle on the timeline to edit it individually.</p>';return}
- let h=`<div class="who">${(!solo||!sel)?`Editing style: <b>${P[pi].n}</b><small>Every change applies to the whole video</small>`:`Editing <b>this subtitle only</b><small>Changes affect just this chunk</small>`}${sel?`<label class="solo"><input type="checkbox" id="solo" ${solo?'checked':''}> Only this subtitle</label>`:''}</div>`,op=0;
+ let h=`<div class="who">${(!solo||!sel)?`Editing style: <b>${P[pi].n}</b><small>Every change applies to the whole video</small>`:`Editing <b>this subtitle only</b><small>Changes affect just this chunk</small>`}${sel?`<label class="solo"><input type="checkbox" id="solo" ${solo?'checked':''}> Only this subtitle</label>`:''}<button id="pv" style="margin-top:8px">▶ Preview effect</button></div>`,op=0;
  SC.forEach(([k,l,t,a,b,st])=>{if(k==='#'){if(op)h+='</details>';op=1;h+=`<details data-g="${l}" ${closed.has(l)?'':'open'}><summary><b>${l}</b><small>${t}</small></summary>`;return}
   h+=`<label>${l}`+(t==='t'?`<input type="checkbox" data-k="${k}" ${T[k]?'checked':''}>`:t==='c'?`<input type="color" data-k="${k}" value="${T[k]}">`:t==='n'?`<input type="number" data-k="${k}" value="${T[k]}" min="${a}" max="${b}" step="${st||1}">`:t==='r'?`<input type="range" data-k="${k}" value="${T[k]}" min="${a}" max="${b}">`:t==='font'?`<input list="fl" data-k="${k}" value="${T[k]}">`:`<select data-k="${k}">${Object.entries(a).map(([x,y])=>`<option value="${x}" ${String(T[k])===x?'selected':''}>${y}</option>`).join('')}</select>`)+'</label>'});
  f.innerHTML=h+(op?'</details>':'')}
-const fm=e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target,val=el.type==='checkbox'?+el.checked:el.type==='number'||el.type==='range'||k==='lines'?+el.value:el.value,T=(!solo||!sel)?P[pi]:sel&&sel.o;if(!T)return;T[k]=val;if(!solo||!sel)subs.forEach(x=>{delete x.o[k]});dirty=1;thumbs((!solo||!sel)?pi:null)};
+const fm=e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target,val=el.type==='checkbox'?+el.checked:el.type==='number'||el.type==='range'||k==='lines'?+el.value:el.value,T=(!solo||!sel)?P[pi]:sel&&sel.o;if(!T)return;T[k]=val;if(!solo||!sel)subs.forEach(x=>{delete x.o[k]});dirty=1;thumbs((!solo||!sel)?pi:null);if(AUTO.includes(k))schedReplay()};
 const fe=$('#form');fe.oninput=e=>{if(!e.target.list)fm(e)};fe.onchange=e=>{if(e.target.id==='solo'){solo=e.target.checked;renderForm();dirty=1}else if(e.target.list)fm(e)};
 fe.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g)d.open?closed.delete(d.dataset.g):closed.add(d.dataset.g)},true);
 fe.addEventListener('focusin',e=>{if(e.target.list){e.target.dataset.v=e.target.value;e.target.value=''}});
 fe.addEventListener('focusout',e=>{if(e.target.list&&!e.target.value)e.target.value=e.target.dataset.v||''});
+fe.addEventListener('click',e=>{if(e.target.id==='pv')replay()});
 $('#rs').onclick=()=>{if(sel){sel.o={};sel.box={};renderForm();dirty=1}};
 
 /* subtitles + timeline */
@@ -101,10 +102,10 @@ $('#tw').onpointerdown=e=>{const b=e.target.closest('.b');if(!b){v.currentTime=c
  const s=subs[+b.dataset.i];if(s!==sel)select(s);const r=b.getBoundingClientRect(),m=e.clientX-r.left<7?'l':r.right-e.clientX<7?'r':'m',x0=e.clientX,s0=s.s,e0=s.e,w0=s.words.map(w=>[w.s,w.e]);
  const mv=ev=>{const d=(ev.clientX-x0)/pps;if(m==='m'){const dd=Math.max(-s0,d);s.s=s0+dd;s.e=e0+dd;s.words.forEach((w,i)=>{w.s=w0[i][0]+dd;w.e=w0[i][1]+dd})}else if(m==='l')s.s=Math.min(s0+d,s.e-.1);else s.e=Math.max(e0+d,s.s+.1);renderTL();dirty=1},up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up)};addEventListener('pointermove',mv);addEventListener('pointerup',up)};
 $('#zm').oninput=e=>{pps=+e.target.value;renderTL()};
-function txtSync(){const t=sel?sel.words.map(w=>w.w).join(' '):'';$('#txt').value=t;const x=$('#stx');x.value=t;x.disabled=!sel}
+function txtSync(){const t=sel?sel.words.map(w=>w.w).join(' '):'';$('#txt').value=t;const x=$('#stx');x.value=t;x.disabled=!sel;chips()}
 function setText(str,from){if(!sel)return;const n=str.trim().split(/\s+/).filter(Boolean);if(!n.length)return;
  if(n.length===sel.words.length)n.forEach((w,i)=>sel.words[i].w=w);else{const d=(sel.e-sel.s)/n.length;sel.words=n.map((w,k)=>({w,s:sel.s+k*d,e:sel.s+(k+1)*d}))}
- if(from!=='a')$('#stx').value=str;if(from!=='b')$('#txt').value=str;renderTL();dirty=1}
+ if(from!=='a')$('#stx').value=str;if(from!=='b')$('#txt').value=str;chips();renderTL();dirty=1}
 $('#txt').oninput=e=>setText(e.target.value,'b');$('#stx').oninput=e=>setText(e.target.value,'a');
 $('#tw').ondblclick=e=>{const b0=e.target.closest('.b');if(!b0)return;const s=subs[+b0.dataset.i];if(s!==sel)select(s);const b=$('#tk').children[subs.indexOf(s)];if(!b)return;
  const i=document.createElement('input');i.value=s.words.map(w=>w.w).join(' ');i.style.cssText='width:100%;min-width:200px;padding:2px 4px';b.style.minWidth='220px';b.style.zIndex=5;b.textContent='';b.append(i);i.focus();i.select();
@@ -127,8 +128,18 @@ $('#gr').onclick=()=>{Object.assign(G,GD);['gx','gy'].forEach(i=>$('#'+i).value=
 function setFile(f){if(!f)return;F=f;v.src=URL.createObjectURL(f);v.onloadedmetadata=()=>{size();renderTL();v.currentTime=.05};v.onseeked=()=>{dirty=1;thumbs()}}
 const dz=$('#drop');dz.onclick=()=>$('#file').click();$('#file').onchange=e=>setFile(e.target.files[0]);dz.ondragover=e=>{e.preventDefault();dz.classList.add('on')};dz.ondragleave=()=>dz.classList.remove('on');dz.ondrop=e=>{e.preventDefault();dz.classList.remove('on');setFile(e.dataTransfer.files[0])};
 $('#pp').onclick=()=>v.paused?v.play():v.pause();
+const AUTO=['anim','hlEffect','hlColor','hlGlow','hlGlowInt','hlSize','hlFont','hlMode'];
+function replay(){const t=v.currentTime,s=sel||subs.find(x=>t>=x.s&&t<=x.e+.2)||subs.find(x=>x.s>t)||subs[0];if(!s||!v.duration)return;stopAt=s.e+.35;v.currentTime=Math.max(0,s.s-.1);v.play()}
+function schedReplay(){clearTimeout(rt);rt=setTimeout(replay,450)}
+v.onpause=()=>{if(v.currentTime<stopAt-.05)stopAt=0};$('#rp').onclick=replay;
+function chips(){const c=$('#chips');if(!sel){c.innerHTML='<small class="hint">Select a chunk on the timeline to choose its highlighted words.</small>';return}c.innerHTML=sel.words.map((w,i)=>`<button class="chip${w.h?' on':''}" data-i="${i}">${w.w.replace(/[<>&]/g,'')}</button>`).join('')}
+$('#chips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b||!sel)return;const w=sel.words[+b.dataset.i],on=w.h?0:1,key=x=>x.w.toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
+ if(e.shiftKey){const k=key(w);subs.forEach(s=>s.words.forEach(x=>{if(key(x)===k)x.h=on}))}else w.h=on;
+ if(P[pi].hlMode!=='marked'){P[pi].hlMode='marked';subs.forEach(x=>delete x.o.hlMode);renderForm();msg('Highlight mode is now "Only words I mark".')}
+ chips();dirty=1;schedReplay()});
+$('#clrm').onclick=()=>{subs.forEach(s=>s.words.forEach(x=>x.h=0));chips();dirty=1};
 const fmt=s=>(s/60|0)+':'+('0'+(s%60|0)).slice(-2);
-(function frame(){const t=v.currentTime;if(dirty){clearTimeout(ct);ct=setTimeout(commit,400)}if(!v.paused||dirty){paint(cx,W,H,t,false);dirty=0;boxUI()}$('#ph').style.left=t*pps+'px';$('#tm').textContent=fmt(t)+' / '+fmt(v.duration||0);$('#pp').textContent=v.paused?'▶':'⏸';requestAnimationFrame(frame)})();
+(function frame(){const t=v.currentTime;if(stopAt&&!v.paused&&t>=stopAt){v.pause();stopAt=0}if(dirty){clearTimeout(ct);ct=setTimeout(commit,400)}if(!v.paused||dirty){paint(cx,W,H,t,false);dirty=0;boxUI()}$('#ph').style.left=t*pps+'px';$('#tm').textContent=fmt(t)+' / '+fmt(v.duration||0);$('#pp').textContent=v.paused?'▶':'⏸';requestAnimationFrame(frame)})();
 
 /* whisper + srt */
 $('#go').onclick=async()=>{if(!F)return msg('Drop a video first.');try{msg('Loading Whisper (first run downloads the model, then cached)…');
@@ -167,4 +178,5 @@ function undo(){commit();if(hi>0){hi--;restore()}}function redo(){commit();if(hi
 $('#un').onclick=undo;$('#re').onclick=redo;
 $('#th').onclick=()=>{const t=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=t;try{localStorage.setItem('th',t)}catch(e){}};
 document.fonts.onloadingdone=()=>{dirty=1;thumbs()};
-renderForm();thumbs();commit();
+txtSync();renderForm();thumbs();commit();
+if(!document.querySelector('#stx'))msg('⚠ Your HTML page is older than app.js. Re-upload the new index.html (as dynamic-captions.html) and hard-refresh with Ctrl+F5.');
