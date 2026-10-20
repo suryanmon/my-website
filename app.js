@@ -151,22 +151,43 @@ $('#wps').onchange=()=>words.length&&group();$('#imp').onclick=()=>$('#srt').cli
 $('#srt').onchange=async e=>{const T=s=>{const[a,b,c]=s.replace(',','.').split(':');return+a*3600+ +b*60+ +c};words=[];(await e.target.files[0].text()).split(/\r?\n\r?\n/).forEach(b=>{const l=b.trim().split(/\r?\n/),i=l.findIndex(x=>x.includes('-->'));if(i<0)return;
  const[s,en]=l[i].split('-->').map(x=>T(x.trim())),w=l.slice(i+1).join(' ').split(/\s+/).filter(Boolean),d=(en-s)/w.length;w.forEach((x,k)=>words.push({w:x,s:s+k*d,e:s+(k+1)*d}))});group();msg('SRT imported.')};
 
-/* fast export: WebCodecs (MP4 H.264+AAC, or VP9 WebM with alpha) */
-async function exp(alpha){if(!window.VideoEncoder)return msg('Fast export needs Chrome or Edge.');if(!subs.length||!v.duration)return msg('Load a video and generate captions first.');
- try{v.pause();const fps=30,n=Math.floor(v.duration*fps),ec=document.createElement('canvas');ec.width=W;ec.height=H;const c=ec.getContext('2d');
+/* fast export: WebCodecs. Encoder settings are probed first, with automatic fallbacks */
+const crcT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
+const crc32=u=>{let c=-1;for(let i=0;i<u.length;i++)c=crcT[(c^u[i])&255]^(c>>>8);return(~c)>>>0};
+function zipFiles(files){const parts=[],cd=[],enc=new TextEncoder();let off=0;
+ for(const[name,data]of files){const nb=enc.encode(name),c=crc32(data),h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint32(14,c,true);h.setUint32(18,data.length,true);h.setUint32(22,data.length,true);h.setUint16(26,nb.length,true);parts.push(h.buffer,nb,data);
+  const d=new DataView(new ArrayBuffer(46));d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint32(16,c,true);d.setUint32(20,data.length,true);d.setUint32(24,data.length,true);d.setUint16(28,nb.length,true);d.setUint32(42,off,true);cd.push(d.buffer,nb);off+=30+nb.length+data.length}
+ const cs=cd.reduce((a,b)=>a+b.byteLength,0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
+ return new Blob([...parts,...cd,e.buffer],{type:'application/zip'})}
+const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()};
+const tick=()=>new Promise(r=>setTimeout(r));
+async function encodeAll(cfg,alpha,fps){const w=cfg.width,h=cfg.height,n=Math.floor(v.duration*fps),ec=document.createElement('canvas');ec.width=w;ec.height=h;const c=ec.getContext('2d');
+ const A0={codec:'mp4a.40.2',sampleRate:48000,numberOfChannels:2,bitrate:128000},hasA=!alpha&&!!window.AudioEncoder&&!!(await AudioEncoder.isConfigSupported(A0).catch(()=>0)).supported;
  const M=await import(alpha?'https://cdn.jsdelivr.net/npm/webm-muxer@5/+esm':'https://cdn.jsdelivr.net/npm/mp4-muxer@5/+esm'),tg=new M.ArrayBufferTarget();
- const mx=new M.Muxer(alpha?{target:tg,video:{codec:'V_VP9',width:W,height:H,alpha:true}}:{target:tg,video:{codec:'avc',width:W,height:H},audio:{codec:'aac',numberOfChannels:2,sampleRate:48000},fastStart:'in-memory'});
- const ve=new VideoEncoder({output:(k,m)=>mx.addVideoChunk(k,m),error:e=>msg(e.message)});
- ve.configure(alpha?{codec:'vp09.00.10.08',width:W,height:H,bitrate:6e6,alpha:'keep'}:{codec:'avc1.640033',width:W,height:H,bitrate:14e6,framerate:fps});
- for(let i=0;i<n;i++){const t=i/fps;if(!alpha){v.currentTime=t;await new Promise(r=>v.addEventListener('seeked',r,{once:true}))}
-  paint(c,W,H,t,alpha);const fr=new VideoFrame(ec,{timestamp:Math.round(i*1e6/fps),alpha:alpha?'keep':'discard'});ve.encode(fr,{keyFrame:i%60==0});fr.close();
-  if(i%10==0){msg('Exporting '+Math.round(i/n*100)+'%');await new Promise(r=>setTimeout(r))}while(ve.encodeQueueSize>10)await new Promise(r=>setTimeout(r,5))}
- await ve.flush();ve.close();
- if(!alpha){msg('Encoding audio…');const ab=await new AudioContext({sampleRate:48000}).decodeAudioData(await F.arrayBuffer()),ae=new AudioEncoder({output:(k,m)=>mx.addAudioChunk(k,m),error:e=>msg(e.message)});
-  ae.configure({codec:'mp4a.40.2',sampleRate:48000,numberOfChannels:2,bitrate:128000});const c0=ab.getChannelData(0),c1=ab.numberOfChannels>1?ab.getChannelData(1):c0;
+ const mx=new M.Muxer(alpha?{target:tg,video:{codec:cfg.codec.startsWith('vp09')?'V_VP9':'V_VP8',width:w,height:h,alpha:true}}:{target:tg,video:{codec:'avc',width:w,height:h},...(hasA?{audio:{codec:'aac',numberOfChannels:2,sampleRate:48000}}:{}),fastStart:'in-memory'});
+ let verr=null;const ve=new VideoEncoder({output:(k,m)=>mx.addVideoChunk(k,m),error:e=>{verr=e}}),bad=()=>{if(verr||ve.state==='closed')throw verr||new Error('video encoder closed')};
+ try{ve.configure(cfg);
+  for(let i=0;i<n;i++){bad();const t=i/fps;if(!alpha){v.currentTime=t;await Promise.race([new Promise(r=>v.addEventListener('seeked',r,{once:true})),new Promise(r=>setTimeout(r,600))])}
+   paint(c,w,h,t,alpha);const fr=new VideoFrame(ec,{timestamp:Math.round(i*1e6/fps),alpha:alpha?'keep':'discard'});ve.encode(fr,{keyFrame:i%60==0});fr.close();
+   if(i%10==0){msg('Exporting '+Math.round(i/n*100)+'%'+(w!==W?` (${w}×${h})`:''));await tick()}while(ve.encodeQueueSize>10&&!verr)await new Promise(r=>setTimeout(r,5))}
+  bad();await ve.flush();bad();ve.close()}catch(e){try{ve.close()}catch(_){}throw e}
+ if(hasA){msg('Encoding audio…');const ab=await new AudioContext({sampleRate:48000}).decodeAudioData(await F.arrayBuffer()),ae=new AudioEncoder({output:(k,m)=>mx.addAudioChunk(k,m),error:e=>msg(e.message)});
+  ae.configure(A0);const c0=ab.getChannelData(0),c1=ab.numberOfChannels>1?ab.getChannelData(1):c0;
   for(let o=0;o<c0.length;o+=48000){const len=Math.min(48000,c0.length-o),d=new Float32Array(len*2);d.set(c0.subarray(o,o+len));d.set(c1.subarray(o,o+len),len);
    const ad=new AudioData({format:'f32-planar',sampleRate:48000,numberOfFrames:len,numberOfChannels:2,timestamp:Math.round(o/48000*1e6),data:d});ae.encode(ad);ad.close()}await ae.flush();ae.close()}
- mx.finalize();const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([tg.buffer],{type:alpha?'video/webm':'video/mp4'}));a.download=alpha?'captions-alpha.webm':'captions.mp4';a.click();msg('Exported ✔');dirty=1}catch(e){msg('Export error: '+e.message)}}
+ mx.finalize();dl(new Blob([tg.buffer],{type:alpha?'video/webm':'video/mp4'}),alpha?'captions-alpha.webm':'captions.mp4');return hasA||alpha}
+async function pngZip(fps){const n=Math.floor(v.duration*fps),ec=document.createElement('canvas');ec.width=W;ec.height=H;const c=ec.getContext('2d'),files=[];
+ for(let i=0;i<n;i++){paint(c,W,H,i/fps,true);const b=await new Promise(r=>ec.toBlob(r,'image/png'));files.push(['frame_'+String(i).padStart(5,'0')+'.png',new Uint8Array(await b.arrayBuffer())]);if(i%10==0){msg('Rendering transparent frames '+Math.round(i/n*100)+'%');await tick()}}
+ dl(zipFiles(files),'captions-alpha-png-sequence.zip')}
+async function exp(alpha){if(!window.VideoEncoder&&!alpha)return msg('Fast MP4 export needs Chrome or Edge.');if(!subs.length||!v.duration)return msg('Load a video and generate captions first.');
+ v.pause();const fps=30,cands=[];
+ if(window.VideoEncoder)for(const sc of [1,.75,.5])for(const hw of['no-preference','prefer-software']){const w=(W*sc|0)&~1,h=(H*sc|0)&~1;
+  for(const x of alpha?[{codec:'vp09.00.10.08',alpha:'keep'},{codec:'vp8',alpha:'keep'}]:['avc1.640034','avc1.64002a','avc1.4d002a','avc1.42002a'].map(codec=>({codec}))){
+   try{const r=await VideoEncoder.isConfigSupported({...x,width:w,height:h,bitrate:Math.round(w*h*fps*(alpha?.1:.2)),framerate:fps,hardwareAcceleration:hw});if(r.supported)cands.push(r.config)}catch(e){}}}
+ let last=null;msg('Starting export…');
+ for(const cfg of cands){try{const ok=await encodeAll(cfg,alpha,fps);msg(ok?'Exported ✔':'Exported without audio (this browser cannot encode AAC) ✔');dirty=1;return}catch(e){last=e;msg('Encoder failed ('+e.message+'). Trying another setting…');await tick()}}
+ try{if(alpha){msg('No transparent video encoder here. Making a transparent PNG sequence instead…');await pngZip(fps);msg('Exported PNG sequence ✔ (import it as an image sequence in your editor)')}
+  else msg('Export error: '+(last?last.message:'this browser has no supported H.264 encoder. Update Chrome/Edge.'))}catch(e){msg('Export error: '+e.message)}dirty=1}
 $('#x1').onclick=()=>exp(0);$('#x2').onclick=()=>exp(1);
 /* undo / redo + theme */
 const snapS=()=>JSON.stringify({subs:subs.map(({_bb,...s})=>s),P,G,pi});
