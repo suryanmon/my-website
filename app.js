@@ -68,7 +68,7 @@ function size(){const a=$('#asp').value,vw=v.videoWidth||1080,vh=v.videoHeight||
  cv.width=W;cv.height=H;cx.imageSmoothingQuality='high';$('#cw').style.aspectRatio=W+'/'+H;dirty=1}
 $('#asp').onchange=size;
 
-/* thumbnails: your own frame + subtitle */
+/* thumbnails */
 const SS={id:0,s:0,e:3,words:['Dynamic','captions','like','this'].map((w,k)=>({w,s:k*.3,e:k*.3+.3})),o:{},box:{}},tcv=[];
 function thumb(i){const c=tcv[i].getContext('2d'),w=135,h=240,t0=v.currentTime,s=subs.find(x=>t0<x.e)||subs[0]||SS,t=s===SS?.8:clamp(t0,s.s+.05,s.e-.01);
  c.fillStyle='#2a2d3d';c.fillRect(0,0,w,h);cover(c,w,h);drawSub(c,w,h,t,s,{...P[i],...(s===SS?{}:{})},GD)}
@@ -77,7 +77,7 @@ P.forEach((p,i)=>{const d=document.createElement('div');d.className='card'+(i?''
  d.onclick=e=>{pi=i;if(e.target.tagName==='BUTTON')setMode('preset');document.querySelectorAll('.card').forEach(x=>x.classList.remove('s'));d.classList.add('s');renderForm();dirty=1};$('#sty').append(d)});
 $('#fl').innerHTML=FONTS.map(f=>`<option value="${f}">`).join('');
 
-/* editor form (shared by preset + subtitle) */
+/* editor form */
 let solo=false;function setMode(m){solo=m==='sub';renderForm()}
 const closed=new Set();
 function renderForm(){const T=(!solo||!sel)?P[pi]:sel&&{...P[pi],...sel.o},f=$('#form');if(!T){f.innerHTML='<p class="hint">Select a subtitle on the timeline to edit it individually.</p>';return}
@@ -86,11 +86,11 @@ function renderForm(){const T=(!solo||!sel)?P[pi]:sel&&{...P[pi],...sel.o},f=$('
   h+=`<label>${l}`+(t==='t'?`<input type="checkbox" data-k="${k}" ${T[k]?'checked':''}>`:t==='c'?`<input type="color" data-k="${k}" value="${T[k]}">`:t==='n'?`<input type="number" data-k="${k}" value="${T[k]}" min="${a}" max="${b}" step="${st||1}">`:t==='r'?`<input type="range" data-k="${k}" value="${T[k]}" min="${a}" max="${b}">`:t==='font'?`<input list="fl" data-k="${k}" value="${T[k]}">`:`<select data-k="${k}">${Object.entries(a).map(([x,y])=>`<option value="${x}" ${String(T[k])===x?'selected':''}>${y}</option>`).join('')}</select>`)+'</label>'});
  f.innerHTML=h+(op?'</details>':'')}
 const fm=e=>{const k=e.target.dataset.k;if(!k)return;const el=e.target,val=el.type==='checkbox'?+el.checked:el.type==='number'||el.type==='range'||k==='lines'?+el.value:el.value,T=(!solo||!sel)?P[pi]:sel&&sel.o;if(!T)return;T[k]=val;if(!solo||!sel)subs.forEach(x=>{delete x.o[k]});dirty=1;thumbs((!solo||!sel)?pi:null);if(AUTO.includes(k))schedReplay()};
-const fe=$('#form');fe.oninput=e=>{if(!e.target.list)fm(e)};fe.onchange=e=>{if(e.target.id==='solo'){solo=e.target.checked;renderForm();dirty=1}else if(e.target.list)fm(e)};
-fe.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g)d.open?closed.delete(d.dataset.g):closed.add(d.dataset.g)},true);
-fe.addEventListener('focusin',e=>{if(e.target.list){e.target.dataset.v=e.target.value;e.target.value=''}});
-fe.addEventListener('focusout',e=>{if(e.target.list&&!e.target.value)e.target.value=e.target.dataset.v||''});
-fe.addEventListener('click',e=>{if(e.target.id==='pv')replay()});
+const fm_el=$('#form');fm_el.oninput=e=>{if(!e.target.list)fm(e)};fm_el.onchange=e=>{if(e.target.id==='solo'){solo=e.target.checked;renderForm();dirty=1}else if(e.target.list)fm(e)};
+fm_el.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.g)d.open?closed.delete(d.dataset.g):closed.add(d.dataset.g)},true);
+fm_el.addEventListener('focusin',e=>{if(e.target.list){e.target.dataset.v=e.target.value;e.target.value=''}});
+fm_el.addEventListener('focusout',e=>{if(e.target.list&&!e.target.value)e.target.value=e.target.dataset.v||''});
+fm_el.addEventListener('click',e=>{if(e.target.id==='pv')replay()});
 $('#rs').onclick=()=>{if(sel){sel.o={};sel.box={};renderForm();dirty=1}};
 
 /* subtitles + timeline */
@@ -114,7 +114,7 @@ $('#sp').onclick=()=>{const t=v.currentTime,s=subs.find(x=>t>x.s&&t<x.e);if(!s)r
 $('#ad').onclick=()=>{const t=v.currentTime,s={id:++sid,s:t,e:t+1.5,words:[{w:'New',s:t,e:t+.75},{w:'subtitle',s:t+.75,e:t+1.5}],o:{},box:{}};subs.push(s);subs.sort((a,b)=>a.s-b.s);select(s)};
 addEventListener('keydown',e=>{const m=e.ctrlKey||e.metaKey,z=e.key.toLowerCase();if(m&&z==='z'&&!e.shiftKey){e.preventDefault();return undo()}if(m&&(z==='y'||(z==='z'&&e.shiftKey))){e.preventDefault();return redo()}if(/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;if(e.code==='Space'){e.preventDefault();$('#pp').click()}if(e.key==='Delete'&&sel){subs=subs.filter(x=>x!==sel);sel=null;txtSync();renderTL();renderForm();dirty=1}});
 
-/* on-canvas box (drag = move, handle = resize) */
+/* box manipulation */
 const bx=$('#box');bx.onpointerdown=e=>{if(!sel)return;e.preventDefault();const hd=e.target.id==='hd',r=cv.getBoundingClientRect(),b0=bx.getBoundingClientRect(),x0=e.clientX,y0=e.clientY,o=sel.box,ox=o.x||0,oy=o.y||0,s0=o.s||1;
  const mv=ev=>{if(hd)o.s=clamp(s0*(ev.clientX-b0.left)/b0.width,.2,5);else{o.x=ox+(ev.clientX-x0)/r.width;o.y=oy+(ev.clientY-y0)/r.height}dirty=1},up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up)};addEventListener('pointermove',mv);addEventListener('pointerup',up)};
 function boxUI(){const s=sel,t=v.currentTime;if(!s||!s._bb||t<s.s||t>s.e+.15){bx.style.display='none';return}const q=s._bb;bx.style.cssText=`display:block;left:${q.x/W*100}%;top:${q.y/H*100}%;width:${q.w/W*100}%;height:${q.h/H*100}%`}
@@ -151,44 +151,117 @@ $('#wps').onchange=()=>words.length&&group();$('#imp').onclick=()=>$('#srt').cli
 $('#srt').onchange=async e=>{const T=s=>{const[a,b,c]=s.replace(',','.').split(':');return+a*3600+ +b*60+ +c};words=[];(await e.target.files[0].text()).split(/\r?\n\r?\n/).forEach(b=>{const l=b.trim().split(/\r?\n/),i=l.findIndex(x=>x.includes('-->'));if(i<0)return;
  const[s,en]=l[i].split('-->').map(x=>T(x.trim())),w=l.slice(i+1).join(' ').split(/\s+/).filter(Boolean),d=(en-s)/w.length;w.forEach((x,k)=>words.push({w:x,s:s+k*d,e:s+(k+1)*d}))});group();msg('SRT imported.')};
 
-/* fast export: WebCodecs. Encoder settings are probed first, with automatic fallbacks */
-const crcT=(()=>{const t=[];for(let n=0;n<256;n++){let c=n;for(let k=0;k<8;k++)c=c&1?0xEDB88320^(c>>>1):c>>>1;t[n]=c>>>0}return t})();
-const crc32=u=>{let c=-1;for(let i=0;i<u.length;i++)c=crcT[(c^u[i])&255]^(c>>>8);return(~c)>>>0};
-function zipFiles(files){const parts=[],cd=[],enc=new TextEncoder();let off=0;
- for(const[name,data]of files){const nb=enc.encode(name),c=crc32(data),h=new DataView(new ArrayBuffer(30));h.setUint32(0,0x04034b50,true);h.setUint16(4,20,true);h.setUint32(14,c,true);h.setUint32(18,data.length,true);h.setUint32(22,data.length,true);h.setUint16(26,nb.length,true);parts.push(h.buffer,nb,data);
-  const d=new DataView(new ArrayBuffer(46));d.setUint32(0,0x02014b50,true);d.setUint16(4,20,true);d.setUint16(6,20,true);d.setUint32(16,c,true);d.setUint32(20,data.length,true);d.setUint32(24,data.length,true);d.setUint16(28,nb.length,true);d.setUint32(42,off,true);cd.push(d.buffer,nb);off+=30+nb.length+data.length}
- const cs=cd.reduce((a,b)=>a+b.byteLength,0),e=new DataView(new ArrayBuffer(22));e.setUint32(0,0x06054b50,true);e.setUint16(8,files.length,true);e.setUint16(10,files.length,true);e.setUint32(12,cs,true);e.setUint32(16,off,true);
- return new Blob([...parts,...cd,e.buffer],{type:'application/zip'})}
-const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()};
+/* robust fast export (WebCodecs) without freezing */
 const tick=()=>new Promise(r=>setTimeout(r));
-async function encodeAll(cfg,alpha,fps){const w=cfg.width,h=cfg.height,n=Math.floor(v.duration*fps),ec=document.createElement('canvas');ec.width=w;ec.height=h;const c=ec.getContext('2d');
- const A0={codec:'mp4a.40.2',sampleRate:48000,numberOfChannels:2,bitrate:128000},hasA=!alpha&&!!window.AudioEncoder&&!!(await AudioEncoder.isConfigSupported(A0).catch(()=>0)).supported;
- const M=await import(alpha?'https://cdn.jsdelivr.net/npm/webm-muxer@5/+esm':'https://cdn.jsdelivr.net/npm/mp4-muxer@5/+esm'),tg=new M.ArrayBufferTarget();
- const mx=new M.Muxer(alpha?{target:tg,video:{codec:cfg.codec.startsWith('vp09')?'V_VP9':'V_VP8',width:w,height:h,alpha:true}}:{target:tg,video:{codec:'avc',width:w,height:h},...(hasA?{audio:{codec:'aac',numberOfChannels:2,sampleRate:48000}}:{}),fastStart:'in-memory'});
- let verr=null;const ve=new VideoEncoder({output:(k,m)=>mx.addVideoChunk(k,m),error:e=>{verr=e}}),bad=()=>{if(verr||ve.state==='closed')throw verr||new Error('video encoder closed')};
- try{ve.configure(cfg);
-  for(let i=0;i<n;i++){bad();const t=i/fps;if(!alpha){v.currentTime=t;await Promise.race([new Promise(r=>v.addEventListener('seeked',r,{once:true})),new Promise(r=>setTimeout(r,600))])}
-   paint(c,w,h,t,alpha);const fr=new VideoFrame(ec,{timestamp:Math.round(i*1e6/fps),alpha:alpha?'keep':'discard'});ve.encode(fr,{keyFrame:i%60==0});fr.close();
-   if(i%10==0){msg('Exporting '+Math.round(i/n*100)+'%'+(w!==W?` (${w}×${h})`:''));await tick()}while(ve.encodeQueueSize>10&&!verr)await new Promise(r=>setTimeout(r,5))}
-  bad();await ve.flush();bad();ve.close()}catch(e){try{ve.close()}catch(_){}throw e}
- if(hasA){msg('Encoding audio…');const ab=await new AudioContext({sampleRate:48000}).decodeAudioData(await F.arrayBuffer()),ae=new AudioEncoder({output:(k,m)=>mx.addAudioChunk(k,m),error:e=>msg(e.message)});
-  ae.configure(A0);const c0=ab.getChannelData(0),c1=ab.numberOfChannels>1?ab.getChannelData(1):c0;
-  for(let o=0;o<c0.length;o+=48000){const len=Math.min(48000,c0.length-o),d=new Float32Array(len*2);d.set(c0.subarray(o,o+len));d.set(c1.subarray(o,o+len),len);
-   const ad=new AudioData({format:'f32-planar',sampleRate:48000,numberOfFrames:len,numberOfChannels:2,timestamp:Math.round(o/48000*1e6),data:d});ae.encode(ad);ad.close()}await ae.flush();ae.close()}
- mx.finalize();dl(new Blob([tg.buffer],{type:alpha?'video/webm':'video/mp4'}),alpha?'captions-alpha.webm':'captions.mp4');return hasA||alpha}
-async function pngZip(fps){const n=Math.floor(v.duration*fps),ec=document.createElement('canvas');ec.width=W;ec.height=H;const c=ec.getContext('2d'),files=[];
- for(let i=0;i<n;i++){paint(c,W,H,i/fps,true);const b=await new Promise(r=>ec.toBlob(r,'image/png'));files.push(['frame_'+String(i).padStart(5,'0')+'.png',new Uint8Array(await b.arrayBuffer())]);if(i%10==0){msg('Rendering transparent frames '+Math.round(i/n*100)+'%');await tick()}}
- dl(zipFiles(files),'captions-alpha-png-sequence.zip')}
-async function exp(alpha){if(!window.VideoEncoder&&!alpha)return msg('Fast MP4 export needs Chrome or Edge.');if(!subs.length||!v.duration)return msg('Load a video and generate captions first.');
+const dl=(blob,name)=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click()};
+
+async function encodeAll(cfg,alpha,fps){
+ const w=cfg.width,h=cfg.height,n=Math.floor(v.duration*fps),ec=document.createElement('canvas');
+ ec.width=w;ec.height=h;const c=ec.getContext('2d');
+ const A0={codec:'mp4a.40.2',sampleRate:48000,numberOfChannels:2,bitrate:128000};
+ const hasA=!alpha&&!!window.AudioEncoder&&!!(await AudioEncoder.isConfigSupported(A0).catch(()=>0)).supported;
+ 
+ const M=await import(alpha?'https://cdn.jsdelivr.net/npm/webm-muxer@5/+esm':'https://cdn.jsdelivr.net/npm/mp4-muxer@5/+esm');
+ const tg=new M.ArrayBufferTarget();
+ const mx=new M.Muxer(alpha?{
+  target:tg,
+  video:{codec:cfg.codec.startsWith('vp09')?'V_VP9':'V_VP8',width:w,height:h,alpha:true}
+ }:{
+  target:tg,
+  video:{codec:'avc',width:w,height:h},
+  ...(hasA?{audio:{codec:'aac',numberOfChannels:2,sampleRate:48000}}:{}),
+  fastStart:'in-memory'
+ });
+
+ let verr=null;
+ const ve=new VideoEncoder({output:(k,m)=>mx.addVideoChunk(k,m),error:e=>{verr=e}});
+ const bad=()=>{if(verr||ve.state==='closed')throw verr||new Error('Video encoder closed')};
+
+ try{
+  ve.configure(cfg);
+  for(let i=0;i<n;i++){
+   bad();
+   const t=i/fps;
+   if(!alpha){
+    v.currentTime=t;
+    let tries=0;
+    while(Math.abs(v.currentTime-t)>0.08&&tries<12&&!v.paused){
+     await new Promise(r=>setTimeout(r,15));
+     tries++;
+    }
+   }
+   paint(c,w,h,t,alpha);
+   const fr=new VideoFrame(ec,{timestamp:Math.round(i*1e6/fps),alpha:alpha?'keep':'discard'});
+   ve.encode(fr,{keyFrame:i%30===0});
+   fr.close();
+
+   if(i%10===0){
+    msg('Exporting '+Math.round(i/n*100)+'%'+(w!==W?` (${w}×${h})`:''));
+    await tick();
+   }
+   while(ve.encodeQueueSize>5&&!verr) await new Promise(r=>setTimeout(r,10));
+  }
+  bad();await ve.flush();bad();ve.close();
+ }catch(e){
+  try{ve.close()}catch(_){}
+  throw e;
+ }
+
+ if(hasA&&!alpha){
+  msg('Encoding audio…');
+  try{
+   const ab=await new AudioContext({sampleRate:48000}).decodeAudioData(await F.arrayBuffer()),ae=new AudioEncoder({output:(k,m)=>mx.addAudioChunk(k,m),error:e=>msg(e.message)});
+   ae.configure(A0);const c0=ab.getChannelData(0),c1=ab.numberOfChannels>1?ab.getChannelData(1):c0;
+   for(let o=0;o<c0.length;o+=48000){
+    const len=Math.min(48000,c0.length-o),d=new Float32Array(len*2);
+    d.set(c0.subarray(o,o+len));d.set(c1.subarray(o,o+len),len);
+    const ad=new AudioData({format:'f32-planar',sampleRate:48000,numberOfFrames:len,numberOfChannels:2,timestamp:Math.round(o/48000*1e6),data:d});
+    ae.encode(ad);ad.close();
+   }
+   await ae.flush();ae.close();
+  }catch(err){console.warn('Audio encode note:',err)}
+ }
+
+ mx.finalize();
+ dl(new Blob([tg.buffer],{type:alpha?'video/webm':'video/mp4'}),alpha?'captions-alpha.webm':'captions.mp4');
+ return hasA||alpha;
+}
+
+async function exp(alpha){
+ if(!window.VideoEncoder)return msg('Fast export needs Chrome or Edge.');
+ if(!subs.length||!v.duration)return msg('Load a video and generate captions first.');
  v.pause();const fps=30,cands=[];
- if(window.VideoEncoder)for(const sc of [1,.75,.5])for(const hw of['no-preference','prefer-software']){const w=(W*sc|0)&~1,h=(H*sc|0)&~1;
-  for(const x of alpha?[{codec:'vp09.00.10.08',alpha:'keep'},{codec:'vp8',alpha:'keep'}]:['avc1.640034','avc1.64002a','avc1.4d002a','avc1.42002a'].map(codec=>({codec}))){
-   try{const r=await VideoEncoder.isConfigSupported({...x,width:w,height:h,bitrate:Math.round(w*h*fps*(alpha?.1:.2)),framerate:fps,hardwareAcceleration:hw});if(r.supported)cands.push(r.config)}catch(e){}}}
+ 
+ if(window.VideoEncoder)for(const sc of [1,.75,.5])for(const hw of['no-preference','prefer-software']){
+  const w=(W*sc|0)&~1,h=(H*sc|0)&~1;
+  const list=alpha?[{codec:'vp09.00.10.08',alpha:'keep'},{codec:'vp8',alpha:'keep'}]:['avc1.640034','avc1.64002a','avc1.4d002a','avc1.42002a'].map(codec=>({codec}));
+  for(const x of list){
+   try{
+    const r=await VideoEncoder.isConfigSupported({...x,width:w,height:h,bitrate:Math.round(w*h*fps*(alpha?.15:.2)),framerate:fps,hardwareAcceleration:hw});
+    if(r.supported)cands.push(r.config);
+   }catch(e){}
+  }
+ }
+
  let last=null;msg('Starting export…');
- for(const cfg of cands){try{const ok=await encodeAll(cfg,alpha,fps);msg(ok?'Exported ✔':'Exported without audio (this browser cannot encode AAC) ✔');dirty=1;return}catch(e){last=e;msg('Encoder failed ('+e.message+'). Trying another setting…');await tick()}}
- try{if(alpha){msg('No transparent video encoder here. Making a transparent PNG sequence instead…');await pngZip(fps);msg('Exported PNG sequence ✔ (import it as an image sequence in your editor)')}
-  else msg('Export error: '+(last?last.message:'this browser has no supported H.264 encoder. Update Chrome/Edge.'))}catch(e){msg('Export error: '+e.message)}dirty=1}
+ for(const cfg of cands){
+  try{
+   const ok=await encodeAll(cfg,alpha,fps);
+   msg(ok?'Exported Successfully ✔':'Exported without audio ✔');
+   dirty=1;
+   return;
+  }catch(e){
+   last=e;
+   msg('Trying alternative encoder setting ('+e.message+')…');
+   await tick();
+  }
+ }
+ msg('Export error: '+(last?last.message:'Browser encoder not supported.'));
+ dirty=1;
+}
+
 $('#x1').onclick=()=>exp(0);$('#x2').onclick=()=>exp(1);
+
 /* undo / redo + theme */
 const snapS=()=>JSON.stringify({subs:subs.map(({_bb,...s})=>s),P,G,pi});
 function commit(){clearTimeout(ct);const j=snapS();if(j===hist[hi])return;hist.length=hi+1;hist.push(j);if(hist.length>150)hist.shift();hi=hist.length-1}
