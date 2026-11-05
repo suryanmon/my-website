@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glass Block Maker</title>
+<style>
+:root{--bg:#f3f3f5;--panel:#fff;--ink:#1c1c1e;--mute:#6e6e73;--line:#d9d9de;--acc:#0a84ff;--chk1:#e8e8ec;--chk2:#fff}
+@media (prefers-color-scheme:dark){:root{--bg:#141416;--panel:#1e1e21;--ink:#f2f2f4;--mute:#9a9aa2;--line:#33333a;--chk1:#2a2a2f;--chk2:#3a3a40}}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font:13px/1.35 -apple-system,BlinkMacSystemFont,"SF Pro Text","Inter","Segoe UI",system-ui,sans-serif}
+.app{display:grid;grid-template-columns:1fr 340px;height:100%}
+.stage{display:flex;flex-direction:column;min-width:0;padding:14px;gap:10px}
+.bar,.acts{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#view{flex:1;min-height:260px;border-radius:14px;border:1px solid var(--line);overflow:auto;display:grid;place-items:center;padding:24px;
+ background-color:var(--chk2);background-image:linear-gradient(45deg,var(--chk1) 25%,transparent 25%,transparent 75%,var(--chk1) 75%),linear-gradient(45deg,var(--chk1) 25%,transparent 25%,transparent 75%,var(--chk1) 75%);background-size:20px 20px;background-position:0 0,10px 10px}
+#c{max-width:none;display:block}
+aside{background:var(--panel);border-left:1px solid var(--line);overflow:auto;padding:10px 12px 40px}
+details{border-bottom:1px solid var(--line);padding:6px 0}
+summary{cursor:pointer;font-weight:600;padding:6px 0;font-size:14px}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 8px;align-items:center;margin:7px 0}
+.row>span{color:var(--mute)}
+.row input[type=range]{grid-column:1/3;width:100%;accent-color:var(--acc)}
+.row input[type=number]{width:64px;justify-self:end}
+.row.inl input[type=range]{grid-column:auto}
+.full{grid-template-columns:1fr}
+input,select,textarea,button{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:5px 8px}
+textarea{width:100%;resize:vertical;min-height:54px}
+input[type=color]{padding:0;width:44px;height:26px}
+input[type=checkbox]{width:auto}
+button{cursor:pointer}
+button:hover{border-color:var(--acc)}
+button.pri{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+@media (max-width:820px){.app{grid-template-columns:1fr;height:auto}aside{border-left:0;border-top:1px solid var(--line)}}
+</style>
+</head>
+<body>
+<div class="app">
+<main class="stage">
+ <div class="bar">
+  <span>Preview background</span>
+  <select id="pvbg"><option value="checker">Transparent checker</option><option value="dark">Dark</option><option value="light">Light</option><option value="color">Color</option><option value="image">Image</option></select>
+  <input type="color" id="pvcolor" value="#8a5a44">
+  <input type="file" id="pvimg" accept="image/*">
+ </div>
+ <div id="view"><canvas id="c"></canvas></div>
+ <div class="acts">
+  <button class="pri" id="dl">Download PNG</button>
+  <button id="cp">Copy PNG</button>
+  <span id="info" style="color:var(--mute)"></span>
+ </div>
+</main>
+<aside>
+ <div class="chips" id="presets"></div>
+ <div id="groups"></div>
+ <button id="reset" style="margin-top:12px">Reset all</button>
+</aside>
+</div>
+<script>
+const FONTS={
+ 'SF Pro / Apple system':'"SF Pro Display","SF Pro Text",-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",system-ui,sans-serif',
+ 'Helvetica Neue':'"Helvetica Neue",Helvetica,Arial,sans-serif','Arial':'Arial,sans-serif','Verdana':'Verdana,sans-serif',
+ 'Trebuchet MS':'"Trebuchet MS",sans-serif','Georgia':'Georgia,serif','Times New Roman':'"Times New Roman",serif',
+ 'Courier New':'"Courier New",monospace','Impact':'Impact,"Arial Black",sans-serif','Pretendard / Noto Sans KR':'Pretendard,"Noto Sans KR","Malgun Gothic",sans-serif'};
+// [key,label,type,a,b,c,d]  rng: min,max,step,default | sel: options,default | others: default
+const G=[
+['Text',1,[
+ ['text','Text','area','Friday'],
+ ['font','Font','sel',Object.keys(FONTS),'SF Pro / Apple system'],
+ ['cfont','Or type an installed font name','txt',''],
+ ['size','Size','rng',8,400,1,56],
+ ['weight','Weight','rng',100,900,100,500],
+ ['italic','Italic','chk',false],['upper','Uppercase','chk',false],
+ ['ls','Letter spacing','rng',-5,40,.5,.5],
+ ['lh','Line height (multi-line)','rng',.8,2.5,.05,1.2],
+ ['tcolor','Text color','col','#ffffff'],
+ ['topac','Text opacity','rng',0,100,1,100],
+ ['tx','Offset X','rng',-300,300,1,0],['ty','Offset Y','rng',-300,300,1,0],
+ ['tsh','Text shadow blur','rng',0,60,1,6],['tshy','Text shadow Y','rng',-30,30,1,1],['tsha','Text shadow opacity','rng',0,100,1,25],
+ ['tsw','Outline width','rng',0,20,.5,0],['tsc','Outline color','col','#000000']]],
+['Shape & transform',1,[
+ ['auto','Auto-size to text','chk',true],
+ ['padx','Padding X','rng',0,300,1,56],['pady','Padding Y','rng',0,200,1,22],
+ ['w','Width','rng',40,1600,1,360],['h','Height','rng',20,800,1,100],
+ ['r','Corner radius','rng',0,400,1,50],
+ ['rot','Rotation °','rng',-180,180,.5,0],['skew','Skew X °','rng',-60,60,.5,0],['scale','Scale %','rng',10,300,1,100],
+ ['flipH','Flip horizontal','chk',false],['flipV','Flip vertical','chk',false],
+ ['opacity','Overall opacity','rng',0,100,1,100]]],
+['Glass',1,[
+ ['fill','Tint color','col','#ffffff'],
+ ['fa1','Fill opacity (start)','rng',0,100,1,34],['fa2','Fill opacity (end)','rng',0,100,1,10],['fang','Gradient angle','rng',0,360,1,135],
+ ['gloss','Top gloss','rng',0,100,1,35],['rim','Bottom rim light','rng',0,100,1,25],
+ ['inglow','Inner edge glow','rng',0,100,1,30],['ingsz','Inner glow size','rng',2,80,1,14],
+ ['grain','Frost grain','rng',0,100,1,8],
+ ['bw','Border width','rng',0,12,.25,1.25],['bcolor','Border color','col','#ffffff'],['bop','Border opacity','rng',0,100,1,45]]],
+['Drop shadow',0,[
+ ['sha','Opacity','rng',0,100,1,28],['sh','Blur','rng',0,120,1,34],['shx','Offset X','rng',-80,80,1,0],['shy','Offset Y','rng',-80,80,1,14],['shc','Color','col','#000000']]],
+['Export',0,[
+ ['out','Resolution ×','sel',['1','2','3','4'],'2'],['margin','Extra margin (px)','rng',0,200,1,0],
+ ['name','File name','txt','friday-glass'],['bgexp','Bake preview background into PNG','chk',false]]]
+];
+const PRESETS={
+ 'Glass pill':{},
+ 'Dark smoke':{fill:'#16161a',fa1:60,fa2:38,gloss:22,bop:28,rim:14},
+ 'Pink tint':{fill:'#ffb3cf',fa1:48,fa2:20,gloss:40},
+ 'Ice blue':{fill:'#b9e3ff',fa1:36,fa2:10,gloss:55,inglow:45},
+ 'Square block':{auto:false,w:180,h:180,r:28,size:44}
+};
+const D={},s={},E={},sec={};
+G.forEach(g=>g[2].forEach(it=>{const[k,,t,a,b,c,d]=it;D[k]=t=='rng'?d:t=='sel'?b:a}));
+Object.assign(s,D);
+try{Object.assign(s,JSON.parse(localStorage.getItem('glassMaker')||'{}'))}catch(e){}
+
+function put(k,v){s[k]=v;(E[k]||[]).forEach(e=>e.type=='checkbox'?e.checked=v:e.value=v)}
+function mk(tag,p){return Object.assign(document.createElement(tag),p||{})}
+function build(){
+ const root=document.getElementById('groups');
+ G.forEach(([name,open,items])=>{
+  const d=mk('details',{open:!!open});d.appendChild(mk('summary',{textContent:name}));sec[name]=d;
+  items.forEach(([k,l,t,a,b,c])=>{
+   const row=mk('label',{className:'row'+(t=='area'?' full':'')});row.appendChild(mk('span',{textContent:l}));E[k]=[];
+   const on=(e,f)=>{e.addEventListener('input',()=>{f(e);render()})};
+   if(t=='rng'){const r=mk('input',{type:'range',min:a,max:b,step:c}),n=mk('input',{type:'number',min:a,max:b,step:c});
+    [r,n].forEach(e=>{E[k].push(e);on(e,x=>put(k,+x.value))});row.append(n,r)}
+   else if(t=='sel'){const e=mk('select');a.forEach(o=>e.appendChild(mk('option',{value:o,textContent:o})));E[k].push(e);on(e,x=>put(k,x.value));row.appendChild(e)}
+   else if(t=='area'){const e=mk('textarea');E[k].push(e);on(e,x=>put(k,x.value));row.appendChild(e)}
+   else{const e=mk('input',{type:t=='chk'?'checkbox':t=='col'?'color':'text'});E[k].push(e);on(e,x=>put(k,t=='chk'?x.checked:x.value));row.appendChild(e)}
+   d.appendChild(row)});
+  root.appendChild(d)});
+ // extras
+ const ff=mk('label',{className:'row'});ff.appendChild(mk('span',{textContent:'Upload font file (.ttf .otf .woff)'}));
+ const fi=mk('input',{type:'file',accept:'.ttf,.otf,.woff,.woff2'});
+ fi.onchange=async()=>{const f=fi.files[0];if(!f)return;const face=new FontFace('UserFont',await f.arrayBuffer());await face.load();document.fonts.add(face);
+  FONTS['Uploaded: '+f.name]='"UserFont",sans-serif';const o=mk('option',{value:'Uploaded: '+f.name,textContent:'Uploaded: '+f.name});E.font[0].appendChild(o);put('font',o.value);render()};
+ ff.appendChild(fi);sec['Text'].appendChild(ff);
+ const pill=mk('button',{textContent:'Full pill (max rounding)'});pill.onclick=()=>{put('r',Math.round(Math.min(s.w,s.h)/2));render()};
+ sec['Shape & transform'].appendChild(pill);
+ const pr=document.getElementById('presets');
+ Object.keys(PRESETS).forEach(n=>pr.appendChild(mk('button',{textContent:n,onclick:()=>{Object.assign(s,D,PRESETS[n]);for(const k in s)put(k,s[k]);render()}})));
+}
+build();for(const k in s)put(k,s[k]);
+
+const fam=()=>(s.cfont.trim()?`"${s.cfont.trim()}",`:'')+(FONTS[s.font]||s.font);
+const fnt=()=>`${s.italic?'italic ':''}${s.weight} ${s.size}px ${fam()}`;
+const lines=()=>(s.upper?s.text.toUpperCase():s.text).split('\n');
+const M=mk('canvas').getContext('2d'),OS=mk('canvas'),NZ=mk('canvas');
+NZ.width=NZ.height=128;{const x=NZ.getContext('2d'),im=x.createImageData(128,128);for(let i=0;i<im.data.length;i+=4){const v=Math.random()*255;im.data[i]=im.data[i+1]=im.data[i+2]=v;im.data[i+3]=255}x.putImageData(im,0,0)}
+const rgba=(h,a)=>{const n=parseInt(h.slice(1),16);return`rgba(${n>>16},${n>>8&255},${n&255},${a})`};
+function path(c,w,h,r,i=0){const x=-w/2+i,y=-h/2+i,ww=w-2*i,hh=h-2*i;r=Math.max(0,Math.min(r-i,ww/2,hh/2));
+ c.beginPath();c.moveTo(x+r,y);c.arcTo(x+ww,y,x+ww,y+hh,r);c.arcTo(x+ww,y+hh,x,y+hh,r);c.arcTo(x,y+hh,x,y,r);c.arcTo(x,y,x+ww,y,r);c.closePath()}
+
+let Wd=100,Hd=100,bgImg=null;
+function layout(){
+ M.font=fnt();try{M.letterSpacing=s.ls+'px'}catch(e){}
+ const L=lines();
+ if(s.auto){const tw=Math.max(0,...L.map(t=>M.measureText(t).width));put('w',Math.round(tw+s.padx*2));put('h',Math.round((L.length-1)*s.lh*s.size+s.size*1.05+s.pady*2))}
+ E.w.concat(E.h).forEach(e=>e.disabled=s.auto);
+ const a=s.rot*Math.PI/180,sk=Math.tan(s.skew*Math.PI/180),sc=s.scale/100;let mx=0,my=0;
+ for(const sx of[-1,1])for(const sy of[-1,1]){const x=(sx*s.w/2+sk*sy*s.h/2)*sc,y=sy*s.h/2*sc;
+  mx=Math.max(mx,Math.abs(x*Math.cos(a)-y*Math.sin(a)));my=Math.max(my,Math.abs(x*Math.sin(a)+y*Math.cos(a)))}
+ const sm=s.sha>0?s.sh*1.2+Math.max(Math.abs(s.shx),Math.abs(s.shy)):0;
+ Wd=Math.max(20,Math.ceil(2*(mx+sm+s.bw)+2*s.margin));Hd=Math.max(20,Math.ceil(2*(my+sm+s.bw)+2*s.margin));
+}
+function paintBg(c,W,H){const m=pvbg.value;
+ if(m=='image'&&bgImg){const r=Math.max(W/bgImg.width,H/bgImg.height);c.drawImage(bgImg,(W-bgImg.width*r)/2,(H-bgImg.height*r)/2,bgImg.width*r,bgImg.height*r)}
+ else if(m!='checker'){c.fillStyle=m=='dark'?'#1b1b1f':m=='light'?'#f2f2f2':pvcolor.value;c.fillRect(0,0,W,H)}}
+function draw(cv,k,bg){
+ const W=Wd,H=Hd;cv.width=Math.round(W*k);cv.height=Math.round(H*k);
+ const c=cv.getContext('2d'),a=s.rot*Math.PI/180,sk=Math.tan(s.skew*Math.PI/180),sc=s.scale/100,w=s.w,h=s.h,r=s.r;
+ if(bg)paintBg(c,cv.width,cv.height);
+ const T=x=>{x.setTransform(k,0,0,k,0,0);x.translate(W/2,H/2);x.rotate(a);x.transform(1,0,sk,1,0,0);x.scale(sc*(s.flipH?-1:1),sc*(s.flipV?-1:1))};
+ c.globalAlpha=s.opacity/100;
+ // drop shadow (outside the glass only)
+ if(s.sha>0){OS.width=cv.width;OS.height=cv.height;const o=OS.getContext('2d');T(o);path(o,w,h,r);
+  o.shadowColor=rgba(s.shc,s.sha/100);o.shadowBlur=s.sh*k;o.shadowOffsetX=s.shx*k;o.shadowOffsetY=s.shy*k;o.fillStyle='#000';o.fill();
+  o.shadowColor='transparent';o.globalCompositeOperation='destination-out';o.fill();o.lineWidth=1.5;o.stroke();c.drawImage(OS,0,0)}
+ // glass body
+ c.save();T(c);path(c,w,h,r);c.clip();
+ const an=s.fang*Math.PI/180,dx=Math.cos(an)*w/2,dy=Math.sin(an)*h/2;
+ let g=c.createLinearGradient(-dx,-dy,dx,dy);g.addColorStop(0,rgba(s.fill,s.fa1/100));g.addColorStop(1,rgba(s.fill,s.fa2/100));
+ c.fillStyle=g;c.fillRect(-w/2,-h/2,w,h);
+ if(s.gloss>0){g=c.createLinearGradient(0,-h/2,0,h/2);g.addColorStop(0,`rgba(255,255,255,${s.gloss/100*.6})`);g.addColorStop(.5,'rgba(255,255,255,0)');c.fillStyle=g;c.fillRect(-w/2,-h/2,w,h)}
+ if(s.rim>0){g=c.createLinearGradient(0,-h/2,0,h/2);g.addColorStop(.5,'rgba(255,255,255,0)');g.addColorStop(1,`rgba(255,255,255,${s.rim/100*.5})`);c.fillStyle=g;c.fillRect(-w/2,-h/2,w,h)}
+ if(s.inglow>0){c.filter=`blur(${s.ingsz*k/2}px)`;path(c,w,h,r);c.lineWidth=s.ingsz;c.strokeStyle=`rgba(255,255,255,${s.inglow/100*.7})`;c.stroke();c.filter='none'}
+ if(s.grain>0){const p=c.createPattern(NZ,'repeat');try{p.setTransform(new DOMMatrix().scale(.5))}catch(e){}
+  c.globalAlpha=s.opacity/100*s.grain/100*.5;c.fillStyle=p;c.fillRect(-w/2,-h/2,w,h)}
+ c.restore();
+ // border
+ if(s.bw>0){c.save();T(c);path(c,w,h,r,s.bw/2);g=c.createLinearGradient(0,-h/2,0,h/2);const o=s.bop/100;
+  g.addColorStop(0,rgba(s.bcolor,o));g.addColorStop(.5,rgba(s.bcolor,o*.35));g.addColorStop(1,rgba(s.bcolor,o*.7));
+  c.strokeStyle=g;c.lineWidth=s.bw;c.stroke();c.restore()}
+ // text
+ c.save();T(c);c.font=fnt();c.textAlign='center';c.textBaseline='middle';try{c.letterSpacing=s.ls+'px'}catch(e){}
+ const L=lines(),lh=s.lh*s.size,y0=s.ty-(L.length-1)*lh/2;
+ c.shadowColor=rgba('#000000',s.tsha/100);c.shadowBlur=s.tsh*k;c.shadowOffsetY=s.tshy*k;
+ L.forEach((t,i)=>{const x=s.tx+s.ls/2,y=y0+i*lh;
+  if(s.tsw>0){c.lineWidth=s.tsw;c.lineJoin='round';c.strokeStyle=s.tsc;c.strokeText(t,x,y)}
+  c.fillStyle=rgba(s.tcolor,s.topac/100);c.fillText(t,x,y)});
+ c.restore();
+}
+const cv=document.getElementById('c'),view=document.getElementById('view');let raf=0;
+function render(){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{
+ layout();draw(cv,2,false);cv.style.width=Wd+'px';cv.style.height=Hd+'px';
+ info.textContent=`PNG size: ${Math.round(Wd*s.out)} × ${Math.round(Hd*s.out)} px`;
+ view.style.background=pvbg.value=='checker'?'':pvbg.value=='dark'?'#1b1b1f':pvbg.value=='light'?'#f2f2f2':pvbg.value=='color'?pvcolor.value:'';
+ if(pvbg.value=='image'&&bgImg)view.style.background=`center/cover url(${bgImg.src})`;
+ try{localStorage.setItem('glassMaker',JSON.stringify(s))}catch(e){}})}
+function exportCanvas(){const ex=mk('canvas');layout();draw(ex,+s.out,s.bgexp);return ex}
+dl.onclick=()=>exportCanvas().toBlob(b=>{const a=mk('a',{href:URL.createObjectURL(b),download:(s.name||'glass')+'.png'});a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)});
+cp.onclick=()=>exportCanvas().toBlob(async b=>{try{await navigator.clipboard.write([new ClipboardItem({'image/png':b})]);info.textContent='Copied to clipboard'}catch(e){info.textContent='Copy not allowed here, use Download'}});
+reset.onclick=()=>{Object.assign(s,D);for(const k in s)put(k,s[k]);render()};
+[pvbg,pvcolor].forEach(e=>e.oninput=render);
+pvimg.onchange=()=>{const f=pvimg.files[0];if(!f)return;const i=new Image();i.onload=()=>{bgImg=i;pvbg.value='image';render()};i.src=URL.createObjectURL(f)};
+document.fonts.ready.then(render);render();
+</script>
+</body>
+</html>
