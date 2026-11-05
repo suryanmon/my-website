@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glass Block Maker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">
 <style>
 :root{--bg:#f3f3f5;--panel:#fff;--ink:#1c1c1e;--mute:#6e6e73;--line:#d9d9de;--acc:#0a84ff;--chk1:#e8e8ec;--chk2:#fff}
 @media (prefers-color-scheme:dark){:root{--bg:#141416;--panel:#1e1e21;--ink:#f2f2f4;--mute:#9a9aa2;--line:#33333a;--chk1:#2a2a2f;--chk2:#3a3a40}}
@@ -60,6 +62,7 @@ button.pri{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:
 </div>
 <script>
 const FONTS={
+ 'Inter':'Inter,"SF Pro Display",-apple-system,"Segoe UI",system-ui,sans-serif',
  'SF Pro / Apple system':'"SF Pro Display","SF Pro Text",-apple-system,BlinkMacSystemFont,"Inter","Segoe UI",system-ui,sans-serif',
  'Helvetica Neue':'"Helvetica Neue",Helvetica,Arial,sans-serif','Arial':'Arial,sans-serif','Verdana':'Verdana,sans-serif',
  'Trebuchet MS':'"Trebuchet MS",sans-serif','Georgia':'Georgia,serif','Times New Roman':'"Times New Roman",serif',
@@ -68,7 +71,7 @@ const FONTS={
 const G=[
 ['Text',1,[
  ['text','Text','area','Friday'],
- ['font','Font','sel',Object.keys(FONTS),'SF Pro / Apple system'],
+ ['font','Font','sel',Object.keys(FONTS),'Inter'],
  ['cfont','Or type an installed font name','txt',''],
  ['size','Size','rng',8,400,1,56],
  ['weight','Weight','rng',100,900,100,500],
@@ -201,7 +204,8 @@ function draw(cv,k,bg){
  c.restore();
 }
 const cv=document.getElementById('c'),view=document.getElementById('view');let raf=0;
-function render(){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{
+function render(){document.fonts.load(fnt()).catch(()=>{}).then(paint)}
+function paint(){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{
  layout();draw(cv,2,false);cv.style.width=Wd+'px';cv.style.height=Hd+'px';
  info.textContent=`PNG size: ${Math.round(Wd*s.out)} × ${Math.round(Hd*s.out)} px`;
  view.style.background=pvbg.value=='checker'?'':pvbg.value=='dark'?'#1b1b1f':pvbg.value=='light'?'#f2f2f2':pvbg.value=='color'?pvcolor.value:'';
